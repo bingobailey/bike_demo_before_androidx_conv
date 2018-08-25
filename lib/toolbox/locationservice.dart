@@ -25,7 +25,7 @@ class LocationService {
     Location location = new Location();
 
     try {
-     currentLocation = await location.getLocation; // Make a call to get the location
+     currentLocation = await location.getLocation(); // Make a call to get the location
      print("Latitude: ${currentLocation['latitude']}  Longitude: ${currentLocation['longitude']}");
 
     } on PlatformException {

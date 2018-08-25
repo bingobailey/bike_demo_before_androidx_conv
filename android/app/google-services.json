@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "201270685106",
+    "firebase_url": "https://bikedemo-9bae2.firebaseio.com",
+    "project_id": "bikedemo-9bae2",
+    "storage_bucket": "bikedemo-9bae2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201270685106:android:ae416f7afc19746b",
+        "android_client_info": {
+          "package_name": "com.example.bikedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201270685106-19vji4arj2b31tdn8svpp6lmfpavcrld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCAWTyTQeBSF7i1DaB1l_Y9O98YA1-_Wo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

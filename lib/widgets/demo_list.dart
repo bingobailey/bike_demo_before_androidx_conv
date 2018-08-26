@@ -6,28 +6,15 @@ import '../memberprofilepage.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
-void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'WebService Example',
-      theme: ThemeData.light(),
-      home: new MyHomePage(),
-    ); 
-  }
-}
-
-class MyHomePage extends StatefulWidget {
+class DemoListWidget extends StatefulWidget {
  
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  DemoListWidgetState createState() => new DemoListWidgetState();
 }
 
 
-class _MyHomePageState extends State<MyHomePage> {
+class DemoListWidgetState extends State<DemoListWidget> {
   
   // Webservice attributes
   String wsLocation;

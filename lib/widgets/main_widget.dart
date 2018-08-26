@@ -6,13 +6,13 @@ import '../widgets/ThirdPage.dart';
 
 
 
-class HomePage extends StatefulWidget {
+class MainWidget extends StatefulWidget {
   @override
-  HomePageState createState() => new HomePageState();
+  MainWidgetState createState() => new MainWidgetState();
 }
 
 // SingleTickerProviderStateMixin provides animation
-class HomePageState extends State<HomePage>  with SingleTickerProviderStateMixin {
+class MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateMixin {
 
   // Need this to handle the tabs
   TabController _controller;
@@ -36,16 +36,10 @@ class HomePageState extends State<HomePage>  with SingleTickerProviderStateMixin
       return new Scaffold( 
 
         appBar: new AppBar( 
-          title: new Text("Pages Tab Bar"),
+          title: new Text("Bike Demo"),
           backgroundColor: Colors.lime,
 
-           bottom: new TabBar(  // this creates a tab bar at the bottom of the AppBar
-             controller: _controller,
-             tabs: <Tab>[
-              new Tab( icon: new Icon(Icons.people)),
-              new Tab( icon: new Icon(Icons.pause_circle_filled)),
-              new Tab( icon: new Icon(Icons.perm_device_information)),
-           ])) ,
+          ) ,
 
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,

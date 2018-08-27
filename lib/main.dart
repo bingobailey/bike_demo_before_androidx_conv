@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './widgets/main_widget.dart';
+import './widgets/tabbarwidget.dart';
 
 void main() {
   runApp(new MaterialApp(
-     home: new MainWidget()
+     home: new TabBarWidget()
   ));
 }

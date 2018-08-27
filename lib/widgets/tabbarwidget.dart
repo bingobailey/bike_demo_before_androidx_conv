@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/demo_list_widget.dart';
+import '../widgets/demolistwidget.dart';
 import '../chat/chatwidget.dart';
 import '../widgets/loginwidget.dart';
 
 
 
-class MainWidget extends StatefulWidget {
+class TabBarWidget extends StatefulWidget {
   @override
-  _MainWidgetState createState() => new _MainWidgetState();
+  _TabBarWidgetState createState() => new _TabBarWidgetState();
 }
 
 // SingleTickerProviderStateMixin provides animation
-class _MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateMixin {
+class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderStateMixin {
 
   // Need this to handle the tabs
   TabController _controller;

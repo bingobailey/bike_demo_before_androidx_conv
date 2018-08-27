@@ -10,11 +10,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 class DemoListWidget extends StatefulWidget {
  
   @override
-  DemoListWidgetState createState() => new DemoListWidgetState();
+  _DemoListWidgetState createState() => new _DemoListWidgetState();
 }
 
 
-class DemoListWidgetState extends State<DemoListWidget> {
+class _DemoListWidgetState extends State<DemoListWidget> {
   
   // Webservice attributes
   String wsLocation;

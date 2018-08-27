@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/FirstPage.dart';
+import '../widgets/demo_list.dart';
 import '../widgets/SecondPage.dart';
 import '../widgets/ThirdPage.dart';
 
@@ -44,7 +45,7 @@ class MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateM
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[
-              new FirstPage(),
+              new DemoListWidget(),
               new SecondPage(),
               new ThirdPage()
             ]

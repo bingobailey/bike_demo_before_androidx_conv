@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/FirstPage.dart';
-import '../widgets/demo_list.dart';
+import '../widgets/demo_list_widget.dart';
 import '../widgets/SecondPage.dart';
 import '../widgets/ThirdPage.dart';
 

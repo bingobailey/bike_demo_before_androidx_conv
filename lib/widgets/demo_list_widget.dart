@@ -13,7 +13,8 @@ class DemoListWidget extends StatefulWidget {
   _DemoListWidgetState createState() => new _DemoListWidgetState();
 }
 
-
+// We make the DemoListWidgetState private so it doesnt' pop up as a code suggestion
+// When using the IDE.  You would use DemoListWidget, not DemoListWidgetState in other programs.
 class _DemoListWidgetState extends State<DemoListWidget> {
   
   // Webservice attributes

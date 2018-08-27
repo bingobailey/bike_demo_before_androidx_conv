@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/demo_list_widget.dart';
+import '../chat/chatwidget.dart';
 import '../widgets/SecondPage.dart';
 import '../widgets/ThirdPage.dart';
 
@@ -45,7 +46,7 @@ class MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateM
             controller: _controller,
             children: <Widget>[
               new DemoListWidget(),
-              new SecondPage(),
+              new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
               new ThirdPage()
             ]
           ),  

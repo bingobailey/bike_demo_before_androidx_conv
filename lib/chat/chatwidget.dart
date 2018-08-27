@@ -10,7 +10,7 @@ import '../toolbox/notify.dart';
 
 
 /// Chat Screen CLASS
-class ChatScreen extends StatefulWidget {
+class ChatWidget extends StatefulWidget {
 
   final String channelID;
   final String senderName;  
@@ -18,18 +18,18 @@ class ChatScreen extends StatefulWidget {
 
   // Constructor - set the fields with the unquie channel id, sender name
   // and email, since this will be the same for all communication
-  ChatScreen({this.channelID,this.senderName,this.senderEmail});
+  ChatWidget({this.channelID,this.senderName,this.senderEmail});
 
   @override
   State<StatefulWidget> createState() {
-    return new ChatScreenState();
+    return new _ChatWidgetState();
   }
 } // Class 
 
 
 
 /// Chat Screen State CLASS
-class ChatScreenState extends State<ChatScreen>  with TickerProviderStateMixin implements Notify {
+class _ChatWidgetState extends State<ChatWidget>  with TickerProviderStateMixin implements Notify {
 
 // ATTRIBUTES
 final TextEditingController _textController = new TextEditingController();
@@ -55,7 +55,7 @@ Channel channel;
       });
 
     }).catchError((e) {
-      print("Exception in chatScreen initState: $e");
+      print("Exception in ChatWidget initState: $e");
     });
      
   }
@@ -69,14 +69,14 @@ Channel channel;
         title: new Text("DemoMe!!"),
         elevation:  isIOS ? 0.0 : 4.0,
       ),
-      body: buildChatScreen(context)
+      body: buildChatWidget(context)
       
     );
  }
 
 
 // this builds the screen with the message list and the textfield for entering messages
-Widget buildChatScreen(BuildContext context) {
+Widget buildChatWidget(BuildContext context) {
 
 return new Column(                            
       children: <Widget>[                  

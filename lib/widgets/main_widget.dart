@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../widgets/demo_list_widget.dart';
 import '../chat/chatwidget.dart';
-import '../widgets/SecondPage.dart';
-import '../widgets/ThirdPage.dart';
+import '../widgets/loginwidget.dart';
 
 
 
 class MainWidget extends StatefulWidget {
   @override
-  MainWidgetState createState() => new MainWidgetState();
+  _MainWidgetState createState() => new _MainWidgetState();
 }
 
 // SingleTickerProviderStateMixin provides animation
-class MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateMixin {
+class _MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateMixin {
 
   // Need this to handle the tabs
   TabController _controller;
@@ -47,7 +46,7 @@ class MainWidgetState extends State<MainWidget>  with SingleTickerProviderStateM
             children: <Widget>[
               new DemoListWidget(),
               new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
-              new ThirdPage()
+              new LoginWidget(),
             ]
           ),  
 

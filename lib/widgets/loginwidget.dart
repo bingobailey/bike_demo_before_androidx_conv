@@ -17,10 +17,19 @@ class _LoginWidgetState extends State<LoginWidget> {
 @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Center( child: 
-      new IconButton( icon: 
-          new Icon(Icons.face), onPressed: 
-          _onPressed,),);
+    return new Container( child: new Center( child: new Column( children: <Widget>[
+                new IconButton( icon: 
+                          new Icon(Icons.face), onPressed: 
+                          _onPressed,),
+                          ],
+                          ),
+                          ),
+                           padding: EdgeInsets.all(32.0),
+                          );
+
+                    
+    
+  
   }
 
 

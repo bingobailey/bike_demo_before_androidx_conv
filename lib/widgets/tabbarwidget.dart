@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/demolistwidget.dart';
 import '../chat/chatwidget.dart';
+
 import '../widgets/loginwidget.dart';
+import '../widgets/textformfielddemo.dart';
+import '../widgets/loginfirebase.dart';
 
 
 
@@ -46,7 +49,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             children: <Widget>[
               new DemoListWidget(),
               new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
-              new LoginWidget(),
+             
+              new LoginFirebaseWidget(),
+              //new TextFormFieldDemo(),
+              //new LoginWidget(),
             ]
           ),  
 

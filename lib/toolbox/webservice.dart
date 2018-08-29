@@ -66,8 +66,8 @@ class WebService {
 
     // Lets set the headers
     var headers = {
-       HttpHeaders.CONTENT_TYPE: 'application/json',
-       HttpHeaders.ACCEPT : 'application/json',
+       HttpHeaders.contentTypeHeader: 'application/json',
+       HttpHeaders.acceptHeader : 'application/json',
       };  
 
     // Since we are inside a func marked with async we can use await here...

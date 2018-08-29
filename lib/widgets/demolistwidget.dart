@@ -4,8 +4,8 @@ import '../toolbox/webservice.dart';
 import '../toolbox/uitools.dart';
 import '../memberprofilepage.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
 
+//package:flutter_image/network.dart';
 
 class DemoListWidget extends StatefulWidget {
  
@@ -143,21 +143,11 @@ class _DemoListWidgetState extends State<DemoListWidget> {
           image;
 
 
-      return new Container(
-
-          child: new CachedNetworkImage(
-            imageUrl:imageURL,
-            placeholder: new CircularProgressIndicator(),
-            errorWidget: new Icon(Icons.error),
-            fit: BoxFit.contain,
-            // width: 60.0,
-            // height:60.0,
-            httpHeaders: null,
-          ) ,
+      return new SizedBox( 
+        child: Image.network(imageURL),
+         height: 60.0,
           width: 60.0,
-          height: 60.0,
-
-      );
+        );
 
   }
 

@@ -39,8 +39,8 @@ class ImageService {
     // Lets set the headers.  NOTE that application/w-www-form-urlencoded works
     // when sending base64 string.  Json and multi-part do not. 
     var headers = {
-       HttpHeaders.CONTENT_TYPE: "application/x-www-form-urlencoded",
-       HttpHeaders.ACCEPT : "application/json",
+       HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
+       HttpHeaders.acceptHeader : "application/json",
       };  
 
 

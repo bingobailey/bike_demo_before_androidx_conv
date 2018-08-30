@@ -13,11 +13,10 @@ class LoginFirebaseWidget extends StatefulWidget {
 
 class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
+
 @override 
   Widget build(BuildContext context) {
-    // TODO: implement build
-   // return new Scaffold(
-
+  
        return new Container(
 
               margin: EdgeInsets.all(50.0),
@@ -38,11 +37,13 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                     child: new Column(
                       children: <Widget>[
 
-                          new SizedBox( height: 50.0,),
+                          new FlutterLogo( size: 60.0,),
+
+                          new SizedBox( height: 20.0,),
                           buildEmailField(),
-                          new SizedBox( height: 50.0,),
+                          new SizedBox( height: 20.0,),
                           buildPasswordField() ,
-                          new SizedBox( height: 50.0,),
+                          new SizedBox( height: 30.0,),
                           buildLoginButton(),
 
                        ],
@@ -59,20 +60,42 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   // Email Address Field
   Widget buildEmailField() {
-    return new TextFormField(
+
+
+  return new TextFormField(
+        decoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+          filled: true,
+          icon: Icon(Icons.email),
+         // hintText: 'Your email address',
+          labelText: 'E-mail',
+        ),
         keyboardType: TextInputType.emailAddress,
+        onSaved: (String value) { print(value); },
         style: new TextStyle( fontSize: 30.0, color: Colors.black),
-    );
+      );
+
+
 
   }
 
   // Password Field
   Widget buildPasswordField() {
-    return new TextFormField(
+
+  return new TextFormField(
+        decoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+          filled: true,
+          icon: Icon(Icons.lock ),
+          //hintText: 'Password should be at least 8 chars',
+          labelText: 'Password',
+        ),
         keyboardType: TextInputType.text,
-        style: new TextStyle( fontSize: 30.0, color: Colors.black),
         obscureText: true,
-    ); 
+        onSaved: (String value) { print(value); },
+        style: new TextStyle( fontSize: 30.0, color: Colors.black),
+      );
+
   }
 
   // Login Button
@@ -82,8 +105,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     return new IconButton( 
       icon: new Icon(Icons.input),
       onPressed: ()=>{}, 
-      color: Colors.green,
-      iconSize: 60.0,
+      color: Colors.blue,
+      iconSize: 80.0,
     );
 
   }

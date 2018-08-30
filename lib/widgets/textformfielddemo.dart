@@ -180,8 +180,6 @@ class TextFormFieldDemoState extends State<TextFormFieldDemo> {
               children: <Widget>[
                 const SizedBox(height: 24.0),
                 new TextFormField(
-                   
-                 
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
@@ -208,7 +206,7 @@ class TextFormFieldDemoState extends State<TextFormFieldDemo> {
                   // TextInputFormatters are applied in sequence.
                   inputFormatters: <TextInputFormatter> [
                     WhitelistingTextInputFormatter.digitsOnly,
-                    // Fit the validating format.
+                    // Fit the validating format. 
                     _phoneNumberFormatter,
                   ],
                 ),

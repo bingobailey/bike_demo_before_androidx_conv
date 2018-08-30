@@ -18,7 +18,6 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     // TODO: implement build
    // return new Scaffold(
 
-
        return new Container(
 
               margin: EdgeInsets.all(50.0),
@@ -30,42 +29,22 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage('assets/lake.jpg'),
-                       colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstATop),
+                       colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
                     ),
               ),
 
               child: new Form(
                 child: new SingleChildScrollView(
-                  // reverse: true,
                     child: new Column(
                       children: <Widget>[
 
                           new SizedBox( height: 50.0,),
+                          buildEmailField(),
+                          new SizedBox( height: 50.0,),
+                          buildPasswordField() ,
+                          new SizedBox( height: 50.0,),
+                          buildLoginButton(),
 
-                            // email address
-                            new TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                style: new TextStyle( fontSize: 20.0, color: Colors.blue),
-                                   
-                            ),
-
-                            new SizedBox( height: 50.0,),
-
-                            // password
-                            new TextFormField(
-                                keyboardType: TextInputType.text,
-                                style: new TextStyle( fontSize: 20.0, color: Colors.blue),
-                                obscureText: true,
-                            ),
-
-                            new SizedBox( height: 50.0,),
-
-                            new IconButton( 
-                              icon: new Icon(Icons.input),
-                              onPressed: ()=>{}, 
-                              color: Colors.green,
-                              iconSize: 40.0,
-                            )
                        ],
                     ),        
                 ),
@@ -78,7 +57,36 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   } // build function
 
 
+  // Email Address Field
+  Widget buildEmailField() {
+    return new TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        style: new TextStyle( fontSize: 30.0, color: Colors.black),
+    );
 
+  }
 
+  // Password Field
+  Widget buildPasswordField() {
+    return new TextFormField(
+        keyboardType: TextInputType.text,
+        style: new TextStyle( fontSize: 30.0, color: Colors.black),
+        obscureText: true,
+    ); 
+  }
+
+  // Login Button
+
+  Widget buildLoginButton() {
+
+    return new IconButton( 
+      icon: new Icon(Icons.input),
+      onPressed: ()=>{}, 
+      color: Colors.green,
+      iconSize: 60.0,
+    );
+
+  }
+            
 
 } // class

@@ -1,5 +1,13 @@
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+
+
+
+class _LoginData {
+  String email = '';
+  String password = '';
+}
+
 
 
 class LoginFirebaseWidget extends StatefulWidget {
@@ -16,7 +24,11 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  // Methods:
+  _LoginData _data = new _LoginData();
+
+
+
+  // build the main widget
 
    @override
      Widget build(BuildContext context) {
@@ -37,7 +49,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                                 borderRadius: BorderRadius.circular(5.0),
                             ) ,
                            child: new Form(
-                              key: this._formKey,
+                              key: _formKey,
                               child: new SingleChildScrollView(
                                  child: new Column(
                                     children: <Widget>[
@@ -63,7 +75,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
      } // build method
 
 
-  // Email Address Field
+  // Build Email Address Field
   Widget buildEmailField() {
     return new Container(
           margin: EdgeInsets.only( left: 25.0, right: 25.0),
@@ -76,15 +88,17 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   labelText: 'email',
                 ),
                 keyboardType: TextInputType.emailAddress,
-                onSaved: (String value) { print(value); },
+                onSaved: (String value) { _data.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                validator: _validateEmail,
+                
               ),
     );
     
-  } // build email
+  } 
 
 
-  // Password Field
+  // Build Password Field
   Widget buildPasswordField() {
     return new Container(
             margin: EdgeInsets.only( left: 25.0, right: 25.0),
@@ -97,21 +111,19 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   ),
                   keyboardType: TextInputType.text,
                   obscureText: true,
-                  onSaved: (String value) { print(value); },
+                  onSaved: (String value) { _data.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                  validator: _validatePassword,
                 ),
 
      );
 
   }
 
-  // Login Button
 
+  // Build login button
   Widget buildLoginButton() {
-
-    return 
-    
-      new Container(
+    return new Container(
           width: 200.0,
          child:  new RaisedButton(
           color: Colors.blue,
@@ -120,16 +132,46 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
         ),
          
       );
-
-
   }
             
+
+  // Login button
   void _onLoginPressed() {
 
-    print("hit");
+    // First validate form, then save if OK
+    if (this._formKey.currentState.validate()) {
+      _formKey.currentState.save(); // This executes the onSave: methods on each field
+
+      print('Printing the login data.');
+      print('Email: ${_data.email}');
+      print('Password: ${_data.password}');
+
+      // ==> This is where we would call the actual login
+
+    }
+  }
+  
+
+// Validate email
+String _validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Not a valid email';
+    else
+      return null;  // returning null indicates the validation has passed
+  }
+
+  // Validate password
+  String _validatePassword(String value) {
+    if (value.length < 8) {
+      return 'The Password must be at least 8 characters.';
+    } else
+      return null;  // returning null indicates the validation passed
   }
 
 
 
 
-} // class
+} // end class

@@ -18,6 +18,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 */
 
 
+class LoginResult {
+  FirebaseUser user;
+  String tokenID; 
+  Exception e;
+}
+
 
 
 class Credentials  {
@@ -56,29 +62,52 @@ FirebaseAuth _auth = FirebaseAuth.instance;
  
 
 // Sign in with Email and Password
-void signInWithEmailAndPassword() {
+Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
 
-    _auth.signInWithEmailAndPassword(email: "psimoj@gmail.com", 
-    password: "dinkeydoo9").then((user) {
-      assert(user != null);  // If true, will throw an exception caught below
-      assert(user.getIdToken() != null);
+    LoginResult loginResult = new LoginResult(); 
+    FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
+    
+    try { 
+    
+     assert( user !=null );
+     loginResult.user = user;
+     loginResult.tokenID = await user.getIdToken();
 
-      // this info can be set with  auth.updateProfile( userprofile);  See create account. 
-      print("user displayName: ${user.displayName}");
-      print("user PhotoURL: ${user.photoUrl}");
-
-
-       print("Login: $user");
-       print("token: ${user.getIdToken()}");
-
-    }).catchError((e) {  // See the List below which will throw an exception
+     return loginResult;
+     
+    } catch( e ){
         /* 
         "Password is Invalid" - The user has a valid account (ie email address), but password is wrong
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
       print("Login Exception: $e "); 
-    });
+      loginResult.e = e;
+      return loginResult;
+
+    }
+
+    // _auth.signInWithEmailAndPassword(email: email, 
+    // password: password ).then((user) {
+    //   assert(user != null);  // If true, will throw an exception caught below
+    //   assert(user.getIdToken() != null);
+
+    //   // this info can be set with  auth.updateProfile( userprofile);  See create account. 
+    //   print("user displayName: ${user.displayName}");
+    //   print("user PhotoURL: ${user.photoUrl}");
+
+
+    //    print("Login: $user");
+    //    print("token: ${user.getIdToken()}");
+
+    // }).catchError((e) {  // See the List below which will throw an exception
+    //     /* 
+    //     "Password is Invalid" - The user has a valid account (ie email address), but password is wrong
+    //     "There is no user record corresponding to this Identifier" - The email entered does not exist.
+    //     "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
+    //     */
+    //   print("Login Exception: $e "); 
+    // });
 
 }
 
@@ -253,7 +282,7 @@ Future<String> testSignInWithGoogle() async {
   void signOut() {
 
     _auth.signOut().then((user) {
-      print("User Signed Out: $user");  // user will be null
+      print("User Signed Out"); 
 
     }).catchError((e) {
       print("Exception in signOut:$e");

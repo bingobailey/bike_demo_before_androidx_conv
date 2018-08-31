@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart'; 
+import '../toolbox/credentials.dart';
 
 
 
@@ -147,6 +148,17 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       print('Password: ${_data.password}');
 
       // ==> This is where we would call the actual login
+
+      Credentials credentials = new Credentials();
+      //credentials.createAccount();
+      credentials.signInWithEmailAndPassword( email: _data.email, password: _data.password).then((loginResult) {
+        print("user= ${loginResult.user}");
+        print("tokenid = ${loginResult.tokenID}");
+        print("e = ${loginResult.e}");
+
+      });
+        
+    
 
     }
   }

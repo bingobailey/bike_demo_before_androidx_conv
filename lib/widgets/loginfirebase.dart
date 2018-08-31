@@ -157,6 +157,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
         print("e = ${loginResult.e}");
 
       });
+      
+      
         
     
 

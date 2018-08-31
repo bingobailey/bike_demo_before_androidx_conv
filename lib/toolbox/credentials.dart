@@ -28,6 +28,8 @@ class LoginResult {
 
 class Credentials  {
 
+  FirebaseUser user;
+
   // Attributes for Signing in with Phone No. 
   TextEditingController _smsCodeController = new TextEditingController();
   String verificationId;
@@ -36,43 +38,44 @@ class Credentials  {
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Credentials() {
-  
-
-    /*
-      Here we can get the current user in cache if they are already logged in.
-    */
-     
-
-      _auth.currentUser().then((user) {
-
-          if (user!=null) {
-            print("User is already logged in : $user");
-            print("user uid = ${user.uid}"); // We could use this to link with MySQL db.  
-
-          } else {
-            print("User is not logged in");
-          }
-      }).catchError((e) {
-          print("exception occurred in auth.CurrentUser() call: $e");
-
-      });
-
-  }
  
+Future<LoginResult> getCurrentUser() async {
+
+      LoginResult loginResult = new LoginResult();
+      FirebaseUser user = await _auth.currentUser();
+      loginResult.user = user;
+      return loginResult;
+
+      
+      //       _auth.currentUser().then((user) {
+
+      //     if (user!=null) {
+      //       print("User is already logged in : $user");
+      //       print("user uid = ${user.uid}"); // We could use this to link with MySQL db.  
+
+      //     } else {
+      //       print("User is not logged in");
+      //     }
+      // }).catchError((e) {
+      //     print("exception occurred in auth.CurrentUser() call: $e");
+
+      // });
+
+}
+
 
 // Sign in with Email and Password
 Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
 
     LoginResult loginResult = new LoginResult(); 
-    FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
-    
+
+    // We use the try catch block here so we can push the results into LoginResult,
+    // so we don't have to catch the error on the calling program
     try { 
-    
+     FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
      loginResult.user = user;
      loginResult.tokenID = await user.getIdToken();
-
      return loginResult;
      
     } catch( e ){
@@ -81,33 +84,10 @@ Future<LoginResult> signInWithEmailAndPassword({String email, String password}) 
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-      print("Login Exception: $e "); 
       loginResult.e = e;
       return loginResult;
 
     }
-
-    // _auth.signInWithEmailAndPassword(email: email, 
-    // password: password ).then((user) {
-    //   assert(user != null);  // If true, will throw an exception caught below
-    //   assert(user.getIdToken() != null);
-
-    //   // this info can be set with  auth.updateProfile( userprofile);  See create account. 
-    //   print("user displayName: ${user.displayName}");
-    //   print("user PhotoURL: ${user.photoUrl}");
-
-
-    //    print("Login: $user");
-    //    print("token: ${user.getIdToken()}");
-
-    // }).catchError((e) {  // See the List below which will throw an exception
-    //     /* 
-    //     "Password is Invalid" - The user has a valid account (ie email address), but password is wrong
-    //     "There is no user record corresponding to this Identifier" - The email entered does not exist.
-    //     "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
-    //     */
-    //   print("Login Exception: $e "); 
-    // });
 
 }
 

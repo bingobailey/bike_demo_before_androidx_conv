@@ -25,7 +25,27 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  _LoginData _data = new _LoginData();
+  _LoginData _loginData = new _LoginData();
+  Credentials _credentials = new Credentials();
+
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+
+      // See if user is already logged in 
+      _credentials.getCurrentUser().then((loginResult) {
+        if (loginResult.user!=null) {
+          print("User already logged in user: ${loginResult.user}");
+          print("token: ${loginResult.tokenID}");
+        } else {
+          print("user not logged in");
+          print("initiating login");
+        }
+      });
+
+    }
+  
 
 
 
@@ -89,7 +109,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   labelText: 'email',
                 ),
                 keyboardType: TextInputType.emailAddress,
-                onSaved: (String value) { _data.email = value; },
+                onSaved: (String value) { _loginData.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
                 validator: _validateEmail,
                 
@@ -112,7 +132,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   ),
                   keyboardType: TextInputType.text,
                   obscureText: true,
-                  onSaved: (String value) { _data.password=value; },
+                  onSaved: (String value) { _loginData.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
                   validator: _validatePassword,
                 ),
@@ -139,28 +159,31 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   // Login button
   void _onLoginPressed() {
 
+
+  _credentials.sendPasswordResetEmail( email: "psimoj@gmail.com");
+
+
+
+  return;
+
     // First validate form, then save if OK
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
 
       print('Printing the login data.');
-      print('Email: ${_data.email}');
-      print('Password: ${_data.password}');
+      print('Email: ${_loginData.email}');
+      print('Password: ${_loginData.password}');
 
       // ==> This is where we would call the actual login
 
-      Credentials credentials = new Credentials();
+  
       //credentials.createAccount();
-      credentials.signInWithEmailAndPassword( email: _data.email, password: _data.password).then((loginResult) {
+
+      _credentials.signInWithEmailAndPassword( email: _loginData.email, password: _loginData.password).then((loginResult) {
         print("user= ${loginResult.user}");
         print("tokenid = ${loginResult.tokenID}");
         print("e = ${loginResult.e}");
-
       });
-      
-      
-        
-    
 
     }
   }

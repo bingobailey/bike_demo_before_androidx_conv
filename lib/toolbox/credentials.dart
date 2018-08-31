@@ -1,10 +1,6 @@
 import 'dart:async';
-
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 
 /*
  
@@ -14,9 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
  with "Start without Debugging" so the proper exceptions are raised.  If you run any of these methods
  in debug mode, the platformexception will be thrown and you can't catch it.  It's an issue with VSC.
 
-
 */
-
 
 class LoginResult {
   FirebaseUser user;
@@ -25,50 +19,50 @@ class LoginResult {
 }
 
 
-
 class Credentials  {
 
+  // Attributes
   FirebaseUser user;
-
-  // Attributes for Signing in with Phone No. 
-  TextEditingController _smsCodeController = new TextEditingController();
-  String verificationId;
-  final String testSmsCode = '123456';
-  final String testPhoneNumber = '+1 408-555-6969';
-
-FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
  
-Future<LoginResult> getCurrentUser() async {
-
+  // Get the current user, if logged in
+  Future<LoginResult> getCurrentUser() async {
       LoginResult loginResult = new LoginResult();
       FirebaseUser user = await _auth.currentUser();
-      loginResult.user = user;
+      if(user != null ) {
+        loginResult.user = user;
+        loginResult.tokenID = await user.getIdToken();
+      }
       return loginResult;
-
-      
-      //       _auth.currentUser().then((user) {
-
-      //     if (user!=null) {
-      //       print("User is already logged in : $user");
-      //       print("user uid = ${user.uid}"); // We could use this to link with MySQL db.  
-
-      //     } else {
-      //       print("User is not logged in");
-      //     }
-      // }).catchError((e) {
-      //     print("exception occurred in auth.CurrentUser() call: $e");
-
-      // });
-
-}
+  }
 
 
-// Sign in with Email and Password
-Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
+
+
+// Send Password Reset email
+  Future<LoginResult> sendPasswordResetEmail({String email}) async {
+
+    LoginResult loginResult = new LoginResult();
+    try {
+      await _auth.sendPasswordResetEmail( email: email);
+    } catch(e){
+
+    /* Errors:
+      no email address ->  Given String is empty or null
+      wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
+    */
+      loginResult.e = e;
+    }
+
+    return loginResult;
+
+  }
+
+  // Sign in with Email and Password
+  Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
 
     LoginResult loginResult = new LoginResult(); 
-
     // We use the try catch block here so we can push the results into LoginResult,
     // so we don't have to catch the error on the calling program
     try { 
@@ -86,27 +80,22 @@ Future<LoginResult> signInWithEmailAndPassword({String email, String password}) 
         */
       loginResult.e = e;
       return loginResult;
-
     }
-
-}
+  }
 
 // Sign in anonymously
 /*
   Each time this is called, it creates an anonymous user account in Firebase. 
 */
-void signInAnonymously() {
-
+  void signInAnonymously() {
     _auth.signInAnonymously().then((user) {
-     
      assert(user !=null); 
       print("SignInAnonomously: $user");
 
     }).catchError((e) { // Not sure what would cause exceptions to be thrown
         print("SignInAnonomously Exception: $e");
     });
-
-}
+  }
 
 // Create user Account with Email and Password
   void createAccount() {
@@ -153,13 +142,10 @@ void signInAnonymously() {
   }
 
 
-// Test sign in with Google
-
-Future<String> testSignInWithGoogle() async {
+// Sign in with Google
+Future<String> signInWithGoogle() async {
 
     final GoogleSignIn _googleSignIn = new GoogleSignIn();
-
-
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final FirebaseUser user = await _auth.signInWithGoogle(accessToken: googleAuth.accessToken,idToken: googleAuth.idToken,);
@@ -167,94 +153,11 @@ Future<String> testSignInWithGoogle() async {
     assert(user.displayName != null);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
-
     print( 'signInWithGoogle succeeded: $user');
     return 'signInWithGoogle succeeded: $user';
   }
-
-
-
-
-// Begining Testing with SignInwith Phone Number
-
-/*
-
-  Testing with SignInWithPHoneNumber
-
-  NOTE:  Need a real device to test the phone number verification. It will not work on an emulator. const
-
-  Ensure; 
-  - Phone verfication is enabled on firebase
-  - latest json file is in the android project directory
-
-  It appears the way this works is;
-
-    (1) auth.verifyPhoneNumber(....) is called with the appropriate arguments. see testVerifyPhoneNumber()
-    (2) It should then send a verification code to the phone
-    (3) The user enters this code, then a another call is made...  see testSignInWithPhoneNumber(...)
-
-*/
-
-
-  Future<void> testVerifyPhoneNumber() async {
-
-    final PhoneVerificationCompleted verificationCompleted =
-        (FirebaseUser user) {
-          print("signinwithPhonenumber auto succeeded: $user");
-    };
-
-    final PhoneVerificationFailed verificationFailed =
-        (AuthException authException) {
-
-        print( 'Phone numbber verification failed. Code: ${authException.code}. Message: ${authException.message}');
-
-    };
-
-    final PhoneCodeSent codeSent =
-        (String verificationId, [int forceResendingToken]) async {
-      this.verificationId = verificationId;
-      _smsCodeController.text = testSmsCode;
-    };
-
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
-      this.verificationId = verificationId;
-      _smsCodeController.text = testSmsCode;
-    };
-
-   
-    await _auth.verifyPhoneNumber(
-        phoneNumber: testPhoneNumber,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed,
-        codeSent: codeSent,
-        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
-
-      
-  }
-
-  Future<String> testSignInWithPhoneNumber(String smsCode) async {
-
-    final FirebaseUser user = await _auth.signInWithPhoneNumber(
-      verificationId: verificationId,
-      smsCode: smsCode,
-    );
-
-    final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
-
-    _smsCodeController.text = '';
-
-    print('signInWithPhoneNumber succeeded: $user');
-
-    return 'signInWithPhoneNumber succeeded: $user';
-  }
-// End testing with sign in phone no
-
 
 
 

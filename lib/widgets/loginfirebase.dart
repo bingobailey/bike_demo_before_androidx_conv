@@ -13,6 +13,10 @@ class LoginFirebaseWidget extends StatefulWidget {
 
 class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
+  // Attributes: 
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  // Methods:
 
    @override
      Widget build(BuildContext context) {
@@ -33,6 +37,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                                 borderRadius: BorderRadius.circular(5.0),
                             ) ,
                            child: new Form(
+                              key: this._formKey,
                               child: new SingleChildScrollView(
                                  child: new Column(
                                     children: <Widget>[
@@ -104,11 +109,18 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   Widget buildLoginButton() {
 
-    return new FlatButton(
-       color: Colors.grey[400],
-        child: new Text("Sign In"),
-        onPressed: _onLoginPressed,
-    );
+    return 
+    
+      new Container(
+          width: 200.0,
+         child:  new RaisedButton(
+          color: Colors.blue,
+            child: new Text("Sign In", style: new TextStyle( fontSize: 20.0),),
+            onPressed: _onLoginPressed,
+        ),
+         
+      );
+
 
   }
             

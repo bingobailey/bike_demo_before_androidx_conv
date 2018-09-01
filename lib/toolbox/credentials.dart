@@ -119,15 +119,15 @@ class Credentials  {
 
 
 // Create user Account with Email and Password
-  void createAccount() {
+  void createAccount({String email, String username, String password}) {
 
     // An example of creating a displayname and photo url and updating in firebase
     var userUpdateInfo = new UserUpdateInfo();
-    userUpdateInfo.displayName = "Joey";
+    userUpdateInfo.displayName = username;
     userUpdateInfo.photoUrl = "photo url goes here";
 
-    _auth.createUserWithEmailAndPassword(email: "psimoj@gmail.com", 
-    password: "dinkeydoo9").then((user) {
+    _auth.createUserWithEmailAndPassword(email: email, 
+    password: password).then((user) {
       assert(user !=null);
       
        assert(user.getIdToken() != null);

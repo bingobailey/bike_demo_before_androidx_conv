@@ -15,6 +15,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginResult {
   FirebaseUser user;
   String tokenID; 
+  List<String> providers;
   Exception e;
 }
 
@@ -38,6 +39,22 @@ class Credentials  {
   }
 
 
+// Fetch the providers (ie how they logged in)
+ Future<LoginResult> fetchProvidersForEmail({String email}) async {
+   
+   // NOTE: if an email address is not found in firebase it will return a empty list
+   // a provider of "password" indicates the user signed in with email and password
+    LoginResult loginResult = new LoginResult();
+    try {
+      List<String> providers = await _auth.fetchProvidersForEmail( email: email);
+      loginResult.providers = providers;
+    } catch (e) {
+      loginResult.e = e;
+    }
+  
+    return loginResult;
+ }
+
 
 
 // Send Password Reset email
@@ -54,10 +71,10 @@ class Credentials  {
     */
       loginResult.e = e;
     }
-
-    return loginResult;
-
+    return loginResult; // if loginResult.e is null, it was successful
   }
+
+
 
   // Sign in with Email and Password
   Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
@@ -83,6 +100,8 @@ class Credentials  {
     }
   }
 
+
+
 // Sign in anonymously
 /*
   Each time this is called, it creates an anonymous user account in Firebase. 
@@ -96,6 +115,8 @@ class Credentials  {
         print("SignInAnonomously Exception: $e");
     });
   }
+
+
 
 // Create user Account with Email and Password
   void createAccount() {
@@ -140,6 +161,7 @@ class Credentials  {
     });
 
   }
+
 
 
 // Sign in with Google

@@ -12,12 +12,10 @@ class _LoginData {
 
 
 class LoginFirebaseWidget extends StatefulWidget {
-
   @override
     State<StatefulWidget> createState() {
       return new _LoginFirebaseWidgetState();
     }
-
 }
 
 class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
@@ -32,6 +30,13 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     void initState() {
       // TODO: implement initState
       super.initState();
+
+      _credentials.fetchProvidersForEmail( email: "psimoj@gmail.com").then((loginResult) {
+          print("providers = ${loginResult.providers.toString()}");
+          print("exceptin = ${loginResult.e}");
+
+      });
+
 
       // See if user is already logged in 
       _credentials.getCurrentUser().then((loginResult) {
@@ -158,13 +163,6 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   // Login button
   void _onLoginPressed() {
-
-
-  _credentials.sendPasswordResetEmail( email: "psimoj@gmail.com");
-
-
-
-  return;
 
     // First validate form, then save if OK
     if (this._formKey.currentState.validate()) {

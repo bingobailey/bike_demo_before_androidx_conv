@@ -52,7 +52,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     }
   
 
-
+//                ********** Build Methods ************
 
   // build the main widget
 
@@ -68,37 +68,43 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                )
             ),
              child: new Opacity(
-                          child: new Container(
-                            margin: EdgeInsets.only( top: 200.0, bottom: 50.0,  left: 50.0, right: 50.0),
-                            decoration: new BoxDecoration(
-                              color: Colors.white,
-                                borderRadius: BorderRadius.circular(5.0),
-                            ) ,
-                           child: new Form(
-                              key: _formKey,
-                              child: new SingleChildScrollView(
-                                 child: new Column(
-                                    children: <Widget>[
-                                      buildEmailField(),
-                                      new SizedBox( height: 10.0,),
-                                      buildPasswordField(),
-                                      new SizedBox( height: 20.0,),
-                                      buildLoginButton(),
-
-                                    ],
-                                 ),
-                              ),
-                           ),
+                        child: new Container(
+                          margin: EdgeInsets.only( top: 200.0, bottom: 50.0,  left: 50.0, right: 50.0),
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                              borderRadius: BorderRadius.circular(5.0),
+                          ) ,
+                          child: buildLoginForm(),
+                          
                         ),
                         opacity: .8,
              )
-
-          
            )
-            
          );
       
      } // build method
+
+
+  // Build the LoginForm
+  Widget buildLoginForm() {
+   return new Form(
+          key: _formKey,
+          child: new SingleChildScrollView(
+              child: new Column(
+                children: <Widget>[
+                  buildEmailField(),
+                  new SizedBox( height: 10.0,),
+                  buildPasswordField(),
+                  new SizedBox( height: 20.0,),
+                  buildLoginButton(),
+                  new Text("------ OR -------"),
+                  buildCreateButton(),
+                ],
+              ),
+          ),
+        );
+  }
+
 
 
   // Build Email Address Field
@@ -150,7 +156,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   // Build login button
   Widget buildLoginButton() {
     return new Container(
-          width: 200.0,
+          width: 250.0,
          child:  new RaisedButton(
           color: Colors.blue,
             child: new Text("Sign In", style: new TextStyle( fontSize: 20.0),),
@@ -160,6 +166,31 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       );
   }
             
+ // Build login button
+  Widget buildCreateButton() {
+    return new Container(
+          width: 250.0,
+         child:  new RaisedButton(
+          color: Colors.green,
+            child: new Text("Create New Account", style: new TextStyle( fontSize: 20.0),),
+            onPressed: _onCreateAccountPressed,
+        ),
+         
+      );
+  }
+
+
+
+
+  //                    ********  Action Methods *********
+
+
+  // Create Account button
+  void _onCreateAccountPressed() {
+
+    print("pressed it");
+  }
+
 
   // Login button
   void _onLoginPressed() {

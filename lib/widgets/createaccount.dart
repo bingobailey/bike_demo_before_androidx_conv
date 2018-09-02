@@ -1,12 +1,14 @@
 
 import 'package:flutter/material.dart'; 
 import '../toolbox/credentials.dart';
-
+import '../toolbox/validator.dart';
 
 class _AccountData {
   String email = '';
   String password = '';
   String username = '';
+  Validator validate = new Validator();
+
 }
  
 
@@ -18,13 +20,10 @@ class CreateAccountWidget extends StatefulWidget {
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
-
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   _AccountData _accountData = new _AccountData();
   Credentials _credentials = new Credentials();
-
 
 
 //                ********** Build Methods ************
@@ -42,9 +41,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     borderRadius: BorderRadius.circular(5.0),
                 ) ,
                 child: buildAccountForm(),
-                
           ),
-                  
         );
       
      } // build method
@@ -57,6 +54,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
           child: new SingleChildScrollView(
               child: new Column(
                 children: <Widget>[
+                  buildUsernameField(),
+                  new SizedBox( height: 10.0,),
                   buildEmailField(),
                   new SizedBox( height: 10.0,),
                   buildPasswordField(),
@@ -85,12 +84,38 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _accountData.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                validator: _validateEmail,
+                validator: _accountData.validate.validateEmail,
                 
               ),
     );
     
   } 
+
+
+
+  // Build Username Field
+  Widget buildUsernameField() {
+    return new Container(
+          margin: EdgeInsets.only( left: 25.0, right: 25.0),
+           
+            child: TextFormField(
+              textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                hintText: 'Your display name',
+                border: UnderlineInputBorder(),
+                  labelText: 'username',
+                ),
+                keyboardType: TextInputType.text,
+                onSaved: (String value) { _accountData.username = value; },
+                style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                validator: (String value) { if ( value.length <= 2) return 'Username >= 3 chars'; } ,
+                
+              ),
+    );
+    
+  } 
+
+
 
 
   // Build Password Field
@@ -108,7 +133,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   obscureText: true,
                   onSaved: (String value) { _accountData.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                  validator: _validatePassword,
+                  validator: _accountData.validate.validatePassword,
                 ),
 
      );
@@ -142,45 +167,23 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
 
-      print('Printing the login data.');
+      print('Printing account data.');
       print('Email: ${_accountData.email}');
       print('Password: ${_accountData.password}');
 
-      // ==> This is where we would call the actual login
+      // Create Account
 
-  
       //credentials.createAccount();
 
-      _credentials.signInWithEmailAndPassword( email: _accountData.email, password: _accountData.password).then((loginResult) {
-        print("user= ${loginResult.user}");
-        print("tokenid = ${loginResult.tokenID}");
-        print("e = ${loginResult.e}");
-      });
+      // _credentials.signInWithEmailAndPassword( email: _accountData.email, password: _accountData.password).then((loginResult) {
+      //   print("user= ${loginResult.user}");
+      //   print("tokenid = ${loginResult.tokenID}");
+      //   print("e = ${loginResult.e}");
+      // });
 
     }
   }
   
-
-// Validate email
-String _validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Not a valid email';
-    else
-      return null;  // returning null indicates the validation has passed
-  }
-
-  // Validate password
-  String _validatePassword(String value) {
-    if (value.length < 8) {
-      return 'The Password must be at least 8 characters.';
-    } else
-      return null;  // returning null indicates the validation passed
-  }
-
-
 
 
 } // end class

@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart'; 
 import '../toolbox/credentials.dart';
+import '../toolbox/validator.dart';
 
 
 class _LoginData {
   String email = '';
   String password = '';
+  Validator validate = new Validator();
 }
  
 
@@ -120,7 +122,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _loginData.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                validator: _validateEmail,
+                validator: _loginData.validate.validateEmail,
                 
               ),
     );
@@ -143,7 +145,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   obscureText: true,
                   onSaved: (String value) { _loginData.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                  validator: _validatePassword,
+                  validator: _loginData.validate.validatePassword,
                 ),
 
      );
@@ -215,27 +217,5 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     }
   }
   
-
-// Validate email
-String _validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Not a valid email';
-    else
-      return null;  // returning null indicates the validation has passed
-  }
-
-  // Validate password
-  String _validatePassword(String value) {
-    if (value.length < 8) {
-      return 'The Password must be at least 8 characters.';
-    } else
-      return null;  // returning null indicates the validation passed
-  }
-
-
-
 
 } // end class

@@ -17,6 +17,11 @@ class LoginResult {
   String tokenID; 
   List<String> providers;
   Exception e;
+
+  String toString() {
+    return("user=$user, tokenID=$tokenID, providers=${providers.toString()}, e=${e.toString()}");
+
+  }
 }
 
 
@@ -119,27 +124,26 @@ class Credentials  {
 
 
 // Create user Account with Email and Password
-  void createAccount({String email, String username, String password}) {
+  Future<LoginResult> createAccount({String email, String username, String password}) async {
 
     // An example of creating a displayname and photo url and updating in firebase
     var userUpdateInfo = new UserUpdateInfo();
     userUpdateInfo.displayName = username;
-    userUpdateInfo.photoUrl = "photo url goes here";
+   // userUpdateInfo.photoUrl = "photo url goes here";
 
-    _auth.createUserWithEmailAndPassword(email: email, 
-    password: password).then((user) {
-      assert(user !=null);
-      
-       assert(user.getIdToken() != null);
-        // If user is not null, let's update the user profile, with displayname and photoURL if we
-        // have it. 
-        _auth.updateProfile(userUpdateInfo);
+    LoginResult loginResult = new LoginResult();
 
+    try {
+      FirebaseUser user = await _auth.createUserWithEmailAndPassword( email: email, password: password);
+
+      assert( user !=null );
+      loginResult.user = user;
+      loginResult.tokenID = await user.getIdToken();
+      _auth.updateProfile(userUpdateInfo);
+
+      // NOTE: This is where we would make the call the SQL DB to create the account there as well.
       // The UID we could use in the MySQL db as a link between the user account in Firebase and
-      // the MySQL database.  
-       
-       String uid = user.uid;
-       print("uid = $uid");
+      // the MySQL database.
 
       /* NOTE:  user.sendEmailVerification() will send an email with a link. If the user clicks the 
         link, the email will be verified. This means is the property isEmailVerified in the user
@@ -150,17 +154,17 @@ class Credentials  {
 
       */
       //user.sendEmailVerification(); // Optional if u want the email verified. Does not effect logging in
-      print("Create Account: $user");
 
-    }).catchError((e) { // See below what would cause an exception to be thrown 
+     return loginResult;
+    } catch(e){
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-
-      print("Create Account Exception: $e");
-    });
-
-  }
+        loginResult.e = e; 
+        return loginResult;
+    }
+       
+  } // Create account method
 
 
 

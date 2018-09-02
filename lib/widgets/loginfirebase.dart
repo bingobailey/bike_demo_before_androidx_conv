@@ -8,6 +8,9 @@ class _LoginData {
   String email = '';
   String password = '';
   Validator validate = new Validator();
+  String toString() {
+    return ("email=$email password=$password");
+  }
 }
  
 

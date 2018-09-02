@@ -9,6 +9,10 @@ class _AccountData {
   String username = '';
   Validator validate = new Validator();
 
+  String toString() {
+    return ("email=$email password=$password username=$username");
+  }
+
 }
  
 
@@ -60,7 +64,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   new SizedBox( height: 10.0,),
                   buildPasswordField(),
                   new SizedBox( height: 20.0,),
-                  buildSubmitButton(),
+                  buildSignUpButton(),
                 ],
               ),
           ),
@@ -103,12 +107,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 decoration: const InputDecoration(
                 hintText: 'Your display name',
                 border: UnderlineInputBorder(),
-                  labelText: 'username',
+                  labelText: 'Display Name',
                 ),
                 keyboardType: TextInputType.text,
                 onSaved: (String value) { _accountData.username = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                validator: (String value) { if ( value.length <= 2) return 'Username >= 3 chars'; } ,
+                validator: (String value) { if ( value.length < 3 ) return 'Must be at least 3 characters'; } ,
                 
               ),
     );
@@ -125,9 +129,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 child: TextFormField(
                 textAlign: TextAlign.center,
                   decoration: const InputDecoration(
-                  hintText: '>= 8 chars',
+                  hintText: 'Must be at least 3 characters',
                   border: UnderlineInputBorder(),
-                    labelText: 'password',
+                    labelText: 'Password',
                   ),
                   keyboardType: TextInputType.text,
                   obscureText: true,
@@ -142,13 +146,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
             
  // Build login button
-  Widget buildSubmitButton() {
+  Widget buildSignUpButton() {
     return new Container(
           width: 250.0,
          child:  new RaisedButton(
           color: Colors.green,
-            child: new Text("Submit", style: new TextStyle( fontSize: 20.0),),
-            onPressed: _onSubmitPressed,
+            child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0),),
+            onPressed: _onSignUpPressed,
         ),
          
       );
@@ -160,8 +164,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   //                    ********  Action Methods *********
 
 
-  // Login button
-  void _onSubmitPressed() {
+  // Sign Up button
+  void _onSignUpPressed() {
 
     // First validate form, then save if OK
     if (this._formKey.currentState.validate()) {
@@ -173,7 +177,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
       // Create Account
 
-      //credentials.createAccount();
+      _credentials.createAccount( 
+        email: _accountData.email, 
+        password: _accountData.password, 
+        username: _accountData.username).then( (value) {
+            print("returned from create account: ${value.toString()}");
+
+        });
 
       // _credentials.signInWithEmailAndPassword( email: _accountData.email, password: _accountData.password).then((loginResult) {
       //   print("user= ${loginResult.user}");

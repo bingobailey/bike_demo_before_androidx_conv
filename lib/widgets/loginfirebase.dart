@@ -156,6 +156,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   }
 
 
+  // TODO:  Add circular indicator upon pressing Login button.  See create Account
+
   // Build login button
   Widget buildLoginButton() {
     return new Container(

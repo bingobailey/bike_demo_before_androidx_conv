@@ -28,6 +28,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _AccountData _accountData = new _AccountData();
   Credentials _credentials = new Credentials();
+  bool _isLoading=false;
 
 
 //                ********** Build Methods ************
@@ -64,7 +65,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   new SizedBox( height: 10.0,),
                   buildPasswordField(),
                   new SizedBox( height: 20.0,),
-                  buildSignUpButton(),
+                  buildActionButton(),
                 ],
               ),
           ),
@@ -151,21 +152,25 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
    
 */
 
+
+Widget buildActionButton() {
+  
+  return (_isLoading ? new CircularProgressIndicator():buildSignUpButton());
+
+}
             
- // Build login button
+ // Build SignUp button
   Widget buildSignUpButton() {
     return new Container(
           width: 250.0,
          child:  new RaisedButton(
           color: Colors.green,
             child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0),),
-            onPressed: null /*_onSignUpPressed*/,
-             
+            onPressed: _onSignUpPressed,
         ),
          
       );
   }
-
 
 
 
@@ -177,6 +182,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
     // First validate form, then save if OK
     if (this._formKey.currentState.validate()) {
+      
+      // Setloading to true, and refresh the screen so the progress indicator shows up
+      setState(() {
+        _isLoading=true;
+       });
+
       _formKey.currentState.save(); // This executes the onSave: methods on each field
 
       print('Printing account data.');
@@ -189,7 +200,15 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         email: _accountData.email, 
         password: _accountData.password, 
         username: _accountData.username).then( (value) {
+
+            // We've returned so set loading to false and refresh the screen
+            setState(() {
+              _isLoading=false;              
+            });
+
             print("returned from create account: ${value.toString()}");
+
+            // TODO:  We should transition to another page from here
 
         });
 

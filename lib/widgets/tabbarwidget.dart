@@ -6,6 +6,7 @@ import '../chat/chatwidget.dart';
 import '../widgets/loginwidget.dart';
 import '../widgets/textformfielddemo.dart';
 import '../widgets/loginfirebase.dart';
+import '../widgets/createaccount.dart';
 
 
 
@@ -50,7 +51,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new DemoListWidget(),
               new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
              
-              new LoginFirebaseWidget(),
+              new CreateAccountWidget(),
+             // new LoginFirebaseWidget(),
              // new TextFormFieldDemo(),
               //new LoginWidget(),
             ]

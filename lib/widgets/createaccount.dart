@@ -144,6 +144,13 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   }
 
+
+/*
+  TODO: 
+  - Show progress indicator upon pressing button AND disable button by setting onPressed: null
+   
+*/
+
             
  // Build login button
   Widget buildSignUpButton() {
@@ -152,7 +159,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
          child:  new RaisedButton(
           color: Colors.green,
             child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0),),
-            onPressed: _onSignUpPressed,
+            onPressed: null /*_onSignUpPressed*/,
+             
         ),
          
       );

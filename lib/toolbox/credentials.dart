@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
 
 /*
  
@@ -184,6 +185,55 @@ Future<String> signInWithGoogle() async {
     print( 'signInWithGoogle succeeded: $user');
     return 'signInWithGoogle succeeded: $user';
   }
+
+
+ void showAccessDialog({BuildContext context, String response}) {
+
+   showDialog( context: context, 
+    builder: (BuildContext context) {
+
+        return new AlertDialog( title: new Text("You must be logged in",), 
+         
+                                    content: new Column(  
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+
+                                          // Login button
+                                          new RaisedButton(
+                                          child: new Text("Login",),
+                                            
+                                          onPressed: () {
+                                            print("login hit");
+                                          },
+                                          ),
+
+                                          // Signup button
+                                          new RaisedButton(
+                                          child: new Text("Sign Up",),
+                                          onPressed: () {
+                                              print("Sign Up Hit");
+                                          },
+                                          ),
+
+                                          // Signup button
+                                          new RaisedButton(
+                                          child: new Text("Cancel",),
+                                          onPressed: () {
+                                              Navigator.of(context).pop(); 
+                                          }
+                                          ),
+                                       ],
+                                       
+                                      ), 
+                  
+                          
+          );
+
+   });
+
+ }
+
 
 
 

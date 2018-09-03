@@ -102,7 +102,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   new SizedBox( height: 20.0,),
                   buildActionButton(),
                   new Text("------ OR -------"),
-                  buildCreateButton(),
+                  buildTestButton( context: context),
+                //  buildCreateButton(),
                 ],
               ),
           ),
@@ -157,8 +158,6 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   }
 
 
-  // TODO:  Add circular indicator upon pressing Login button.  See create Account 
-
 
   Widget buildActionButton() {
   
@@ -195,16 +194,41 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       );
   }
 
+// Build test button button
+  Widget buildTestButton({BuildContext context}) {
+    return new Container(
+          width: 250.0,
+         child:  new RaisedButton(
+          color: Colors.amber,
+            child: new Text("Show Access Dialog", style: new TextStyle( fontSize: 15.0),),
+            onPressed: () {
+              _showAccessDialog(  context: context, message: "howdee" );
+            },
+        ),
+         
+      );
+  }
+
+
 
 
 
   //                    ********  Action Methods *********
 
 
+  // TODO:  Fort testing showAccessDialog, need to pass the BuildContext 
+
+  void _showAccessDialog({BuildContext context, String message}) {
+
+     _credentials.showAccessDialog(  context: context, response: message );
+  }
+
+
+
   // Create Account button
   void _onCreateAccountPressed() {
-
-    print("pressed it");
+    print("hit");
+   
   }
 
 

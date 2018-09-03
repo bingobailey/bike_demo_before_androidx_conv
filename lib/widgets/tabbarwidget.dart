@@ -51,8 +51,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new DemoListWidget(),
               new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
              
-              new CreateAccountWidget(),
-             // new LoginFirebaseWidget(),
+             // new CreateAccountWidget(),
+              new LoginFirebaseWidget(),
              // new TextFormFieldDemo(),
               //new LoginWidget(),
             ]

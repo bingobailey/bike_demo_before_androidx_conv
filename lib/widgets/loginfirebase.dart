@@ -25,6 +25,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  bool _isLoading=false;
 
   _LoginData _loginData = new _LoginData();
   Credentials _credentials = new Credentials();
@@ -99,7 +100,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   new SizedBox( height: 10.0,),
                   buildPasswordField(),
                   new SizedBox( height: 20.0,),
-                  buildLoginButton(),
+                  buildActionButton(),
                   new Text("------ OR -------"),
                   buildCreateButton(),
                 ],
@@ -156,7 +157,17 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   }
 
 
-  // TODO:  Add circular indicator upon pressing Login button.  See create Account
+  // TODO:  Add circular indicator upon pressing Login button.  See create Account 
+
+
+  Widget buildActionButton() {
+  
+    return (_isLoading ? new CircularProgressIndicator():buildLoginButton());
+
+  }
+ 
+
+
 
   // Build login button
   Widget buildLoginButton() {
@@ -204,6 +215,11 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
 
+     // Setloading to true, and refresh the screen so the progress indicator shows up
+      setState(() {
+        _isLoading=true;
+       });
+
       print('Printing the login data.');
       print('Email: ${_loginData.email}');
       print('Password: ${_loginData.password}');
@@ -213,7 +229,17 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   
       //credentials.createAccount();
 
-      _credentials.signInWithEmailAndPassword( email: _loginData.email, password: _loginData.password).then((loginResult) {
+      _credentials.signInWithEmailAndPassword( 
+        email: _loginData.email, 
+        password: _loginData.password).then((loginResult) {
+
+        // We've returned so set loading to false and refresh the screen
+        setState(() {
+          _isLoading=false;              
+        });
+
+        // TODO: This is where we would transition to another page
+
         print("user= ${loginResult.user}");
         print("tokenid = ${loginResult.tokenID}");
         print("e = ${loginResult.e}");

@@ -182,13 +182,12 @@ Widget buildActionButton() {
 
     // First validate form, then save if OK
     if (this._formKey.currentState.validate()) {
-      
-      // Setloading to true, and refresh the screen so the progress indicator shows up
+      _formKey.currentState.save(); // This executes the onSave: methods on each field
+
+    // Setloading to true, and refresh the screen so the progress indicator shows up
       setState(() {
         _isLoading=true;
        });
-
-      _formKey.currentState.save(); // This executes the onSave: methods on each field
 
       print('Printing account data.');
       print('Email: ${_accountData.email}');

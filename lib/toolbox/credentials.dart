@@ -224,9 +224,9 @@ Future<String> signInWithGoogle() async {
                 minWidth: 150.0,
                  child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
                  onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(
-                    //       builder: (context)=>new CreateAccountWidget(),
-                    //  ));
+                     Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=>new CreateAccountWidget(),
+                      ));
                     print("hit it");
                   },
                   color: Colors.green[200],

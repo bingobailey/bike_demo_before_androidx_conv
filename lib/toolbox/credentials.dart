@@ -186,49 +186,56 @@ Future<String> signInWithGoogle() async {
     return 'signInWithGoogle succeeded: $user';
   }
 
-
+// This dialog alerts the user they need to login, create or create an account
  void showAccessDialog({BuildContext context, String response}) {
 
    showDialog( context: context, 
     builder: (BuildContext context) {
 
-        return new AlertDialog( title: new Text("You must be logged in",), 
-         
-                                    content: new Column(  
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
+      return new SimpleDialog(
+         contentPadding: EdgeInsets.all(20.0),
+         title: new Text("You must be logged in"),
+          children: <Widget>[
 
-                                          // Login button
-                                          new RaisedButton(
-                                          child: new Text("Login",),
-                                            
-                                          onPressed: () {
-                                            print("login hit");
-                                          },
-                                          ),
-
-                                          // Signup button
-                                          new RaisedButton(
-                                          child: new Text("Sign Up",),
-                                          onPressed: () {
-                                              print("Sign Up Hit");
-                                          },
-                                          ),
-
-                                          // Signup button
-                                          new RaisedButton(
-                                          child: new Text("Cancel",),
-                                          onPressed: () {
-                                              Navigator.of(context).pop(); 
-                                          }
-                                          ),
-                                       ],
-                                       
-                                      ), 
+              // Login Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 200.0,
+                child: new Text("Login", style: new TextStyle( fontSize: 20.0) ,),
+                  onPressed: () {
+                    print("login hit");
+                  },
+                  color: Colors.blue[200],
+              ),
                   
-                          
-          );
+              new SizedBox( height: 30.0,),
+
+              // Sign Up Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 150.0,
+                child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
+                  onPressed: () {
+                    print("signup hit");
+                  },
+                  color: Colors.green[200],
+              ),
+                  
+              new SizedBox( height: 30.0,),
+
+              // Cancel Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 200.0,
+                child: new Text("Cancel", style: new TextStyle( fontSize: 20.0) ,),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  color: Colors.red[200],
+              ),
+           ],
+                       
+      );
 
    });
 

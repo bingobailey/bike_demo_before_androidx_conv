@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import '../widgets/loginfirebase.dart';
+import '../widgets/createaccountwidget.dart';
 
 /*
  
@@ -206,7 +208,10 @@ Future<String> signInWithGoogle() async {
                 minWidth: 200.0,
                 child: new Text("Login", style: new TextStyle( fontSize: 20.0) ,),
                   onPressed: () {
-                    print("login hit");
+                    Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>new LoginFirebaseWidget(),
+                     ));
+
                   },
                   color: Colors.blue[200],
               ),
@@ -217,9 +222,12 @@ Future<String> signInWithGoogle() async {
               new MaterialButton( 
                 height: 50.0,
                 minWidth: 150.0,
-                child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
-                  onPressed: () {
-                    print("signup hit");
+                 child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
+                 onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(
+                    //       builder: (context)=>new CreateAccountWidget(),
+                    //  ));
+                    print("hit it");
                   },
                   color: Colors.green[200],
               ),

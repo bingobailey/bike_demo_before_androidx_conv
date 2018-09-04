@@ -63,8 +63,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
    @override
      Widget build(BuildContext context) {
 
-      return new SafeArea(
-         child: new Container(
+      return new Scaffold(
+         body: new Container(
             decoration: new BoxDecoration(
                image: new DecorationImage(
                       fit: BoxFit.cover,

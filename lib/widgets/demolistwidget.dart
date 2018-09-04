@@ -124,7 +124,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   void _onTapItem(BuildContext context, int index) {
 
     Navigator.push(context, MaterialPageRoute(
-      builder: (context)=>new MemberProfilePage( member: _rows[index],)
+      builder: (context)=>new MemberProfilePage( member: _rows[index],),
     ));
   }
 

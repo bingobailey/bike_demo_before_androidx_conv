@@ -186,8 +186,11 @@ Future<String> signInWithGoogle() async {
     return 'signInWithGoogle succeeded: $user';
   }
 
+
+
+
 // This dialog alerts the user they need to login, create or create an account
- void showAccessDialog({BuildContext context, String response}) {
+ void showAccessDialog({BuildContext context}) {
 
    showDialog( context: context, 
     builder: (BuildContext context) {

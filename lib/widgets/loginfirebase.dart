@@ -220,7 +220,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   void _showAccessDialog({BuildContext context, String message}) {
 
-     _credentials.showAccessDialog(  context: context, response: message );
+     _credentials.showAccessDialog(  context: context );
   }
 
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../toolbox/credentials.dart';
 import '../toolbox/validator.dart';
 
-
 class _LoginData {
   String email = '';
   String password = '';
@@ -101,9 +100,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
                   buildPasswordField(),
                   new SizedBox( height: 20.0,),
                   buildActionButton(),
-                  new Text("------ OR -------"),
-                  buildTestButton( context: context),
-                //  buildCreateButton(),
+                  new Text("Forgot Password ? "),
                 ],
               ),
           ),
@@ -180,56 +177,12 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
          
       );
   }
-            
- // Build login button
-  Widget buildCreateButton() {
-    return new Container(
-          width: 250.0,
-         child:  new RaisedButton(
-          color: Colors.green,
-            child: new Text("Create New Account", style: new TextStyle( fontSize: 20.0),),
-            onPressed: _onCreateAccountPressed,
-        ),
-         
-      );
-  }
-
-// Build test button button
-  Widget buildTestButton({BuildContext context}) {
-    return new Container(
-          width: 250.0,
-         child:  new RaisedButton(
-          color: Colors.amber,
-            child: new Text("Show Access Dialog", style: new TextStyle( fontSize: 15.0),),
-            onPressed: () {
-              _showAccessDialog(  context: context, message: "howdee" );
-            },
-        ),
-         
-      );
-  }
-
-
+      
 
 
 
   //                    ********  Action Methods *********
 
-
-  // TODO:  Fort testing showAccessDialog, need to pass the BuildContext 
-
-  void _showAccessDialog({BuildContext context, String message}) {
-
-     _credentials.showAccessDialog(  context: context );
-  }
-
-
-
-  // Create Account button
-  void _onCreateAccountPressed() {
-    print("hit");
-   
-  }
 
 
   // Login button

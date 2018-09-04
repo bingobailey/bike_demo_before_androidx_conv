@@ -65,7 +65,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   new SizedBox( height: 10.0,),
                   buildPasswordField(),
                   new SizedBox( height: 20.0,),
-                  buildActionButton(),
+                  buildActionButton(), // this returns the signup button or the progress indicator
                 ],
               ),
           ),
@@ -145,14 +145,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   }
 
-
-/*
-  TODO: 
-  - Show progress indicator upon pressing button AND disable button by setting onPressed: null
-   
-*/
-
-
+// We call this the action button, it either returns the signup button or the progress indicator
 Widget buildActionButton() {
   
   return (_isLoading ? new CircularProgressIndicator():buildSignUpButton());
@@ -210,12 +203,6 @@ Widget buildActionButton() {
             // TODO:  We should transition to another page from here
 
         });
-
-      // _credentials.signInWithEmailAndPassword( email: _accountData.email, password: _accountData.password).then((loginResult) {
-      //   print("user= ${loginResult.user}");
-      //   print("tokenid = ${loginResult.tokenID}");
-      //   print("e = ${loginResult.e}");
-      // });
 
     }
   }

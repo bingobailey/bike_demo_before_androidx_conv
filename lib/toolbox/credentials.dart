@@ -227,7 +227,6 @@ Future<String> signInWithGoogle() async {
                      Navigator.push(context, MaterialPageRoute(
                            builder: (context)=>new CreateAccountWidget(),
                       ));
-                    print("hit it");
                   },
                   color: Colors.green[200],
               ),

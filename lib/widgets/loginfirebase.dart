@@ -155,7 +155,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   }
 
 
-
+  // Either returns the progress indicator (if loading) or the login button
   Widget buildActionButton() {
   
     return (_isLoading ? new CircularProgressIndicator():buildLoginButton());
@@ -201,11 +201,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       print('Email: ${_loginData.email}');
       print('Password: ${_loginData.password}');
 
-      // ==> This is where we would call the actual login
-
-  
-      //credentials.createAccount();
-
+      // Let's try to login
       _credentials.signInWithEmailAndPassword( 
         email: _loginData.email, 
         password: _loginData.password).then((loginResult) {
@@ -215,7 +211,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
           _isLoading=false;              
         });
 
-        // TODO: This is where we would transition to another page
+        // TODO: Login successful... This is where we would transition to another page
 
         print("user= ${loginResult.user}");
         print("tokenid = ${loginResult.tokenID}");

@@ -5,8 +5,6 @@ import '../toolbox/uitools.dart';
 import '../memberprofilepage.dart';
 
 
-//package:flutter_image/network.dart';
-
 class DemoListWidget extends StatefulWidget {
  
   @override
@@ -25,21 +23,18 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
 
-  UITools uitools; 
 
   @override
     void initState() {
       super.initState();
        
       // Instantiate the webservice
-     
       //wsLocation = "http://www.mtbphotoz.com/prod/PHP/";
       wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";
       ws = new WebService(wsLocation: wsLocation); 
 
       _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
       buildSQLData();
-
     }
 
 
@@ -52,10 +47,17 @@ class _DemoListWidgetState extends State<DemoListWidget> {
       body: new Center(
          child: _bodyWidget,
       ),
+      floatingActionButton: new FloatingActionButton(
+        tooltip: 'Add a bike', // used by assistive technologies
+        child: Icon(Icons.add),
+        onPressed: _onClickedAdd,
+      ), 
+
     );
   }
 
 
+  // Run the webservice and build the SQLData and set it to the bodyWidget
   void buildSQLData() {
     
     // Select all the members
@@ -68,8 +70,8 @@ class _DemoListWidgetState extends State<DemoListWidget> {
         if (sqldata.httpResponseCode == 200) {
 
           setState(() {
-             _sqlDataRows = sqldata.rows;        
-             _bodyWidget = buildListWidget();
+             _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
+             _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
           });
         
           for (var row in sqldata.rows) {
@@ -86,23 +88,21 @@ class _DemoListWidgetState extends State<DemoListWidget> {
         print(e);
      });
 
-        
-  } // end of onData clicked method
+  } 
 
   
 
-  // this populates the list widgets
-  Widget buildListWidget() {
+  // Using the SQL Data build the list widget
+  Widget buildListWidget({List<dynamic> sqlDataRows}) {
 
     return new Center(
-          //child: new ListView(children: _list,),
           child: new ListView.builder(
-            itemCount: _sqlDataRows.length,
+            itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(_sqlDataRows[index]['username']),
-                subtitle: new Text(_sqlDataRows[index]['country']),
-                leading: getImage( keystore: _sqlDataRows[index]['photo_key_store'], image: _sqlDataRows[index]['photo_profile_name']),
+                title: new Text(sqlDataRows[index]['username']),
+                subtitle: new Text(sqlDataRows[index]['country']),
+                leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -112,6 +112,39 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   }
 
 
+// Get the image associated with the user( ie their avatar )
+  Widget getImage({String keystore, String image}) {
+
+     // String imageURL = "http://www.mtbphotoz.com/prod/Photo/p/p4/p4pgquai6q/aol6b4je.jpg";
+
+    String imageURL = "http://www.mtbphotoz.com/prod/Photo/" + 
+          keystore.substring(0,1) + "/" +
+          keystore.substring(0,2) + "/" +
+          keystore + "/" +
+          image;
+
+      return new SizedBox( 
+        child: Image.network(imageURL),
+         height: 60.0,
+          width: 60.0,
+        );
+  }
+
+
+
+
+
+  // ***************  Action Methods ****************************
+
+
+  // Floating action add button
+  void _onClickedAdd() {
+
+    print("clicked add");
+  }
+
+
+  // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
 
     Navigator.push(context, MaterialPageRoute(
@@ -120,27 +153,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   }
 
 
-//final imageURL = "http://www.mtbphotoz.com/prod/Photo/p/p4/p4pgquai6q/aol6b4je.jpg";
 
-  Widget getImage({String keystore, String image}) {
-
-     // String imageURL = "http://www.mtbphotoz.com/prod/Photo/p/p4/p4pgquai6q/aol6b4je.jpg";
-
-
-    String imageURL = "http://www.mtbphotoz.com/prod/Photo/" + 
-          keystore.substring(0,1) + "/" +
-          keystore.substring(0,2) + "/" +
-          keystore + "/" +
-          image;
-
-
-      return new SizedBox( 
-        child: Image.network(imageURL),
-         height: 60.0,
-          width: 60.0,
-        );
-
-  }
 
 
 

@@ -20,26 +20,26 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   // Webservice attributes
   String wsLocation;
   WebService ws; 
-  List _rows; // this is the rows coming back from the db query
+  List _sqlDataRows; // this is the rows coming back from the db query
 
   // We use this widget to switch out the progress indicator
-  Object _guiWidget; 
+  Widget _bodyWidget; 
 
   UITools uitools; 
 
   @override
     void initState() {
       super.initState();
-
-      _guiWidget = new Text("howdee doo");
-
-      uitools = new UITools();
-
+       
       // Instantiate the webservice
      
       //wsLocation = "http://www.mtbphotoz.com/prod/PHP/";
       wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";
       ws = new WebService(wsLocation: wsLocation); 
+
+      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
+      buildSQLData();
+
     }
 
 
@@ -47,25 +47,16 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   Widget build(BuildContext context) {
    
     return new Scaffold(
-      appBar: new AppBar( title: new Text("WebService Example"),
-      actions: <Widget>[
-        new IconButton( 
-          icon: new Icon(Icons.get_app),
-           onPressed: onGetDataClicked,)
-      ],
+      appBar: new AppBar( title: new Text("Bikes Wanted For Demo"), centerTitle: true,
       ),
       body: new Center(
-         child: _guiWidget,
+         child: _bodyWidget,
       ),
     );
   }
 
 
-  void onGetDataClicked() {
-
-    setState(() {
-      _guiWidget = uitools.showProgressIndicator( title: "Loading...");
-    });
+  void buildSQLData() {
     
     // Select all the members
      var payload = {"requestor":"JoeBiker"};
@@ -77,8 +68,8 @@ class _DemoListWidgetState extends State<DemoListWidget> {
         if (sqldata.httpResponseCode == 200) {
 
           setState(() {
-             _rows = sqldata.rows;        
-             _guiWidget = getList();
+             _sqlDataRows = sqldata.rows;        
+             _bodyWidget = buildListWidget();
           });
         
           for (var row in sqldata.rows) {
@@ -101,17 +92,17 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   
 
   // this populates the list widgets
-  Widget getList() {
+  Widget buildListWidget() {
 
     return new Center(
           //child: new ListView(children: _list,),
           child: new ListView.builder(
-            itemCount: _rows.length,
+            itemCount: _sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(_rows[index]['username']),
-                subtitle: new Text(_rows[index]['country']),
-                leading: getImage( keystore: _rows[index]['photo_key_store'], image: _rows[index]['photo_profile_name']),
+                title: new Text(_sqlDataRows[index]['username']),
+                subtitle: new Text(_sqlDataRows[index]['country']),
+                leading: getImage( keystore: _sqlDataRows[index]['photo_key_store'], image: _sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -124,7 +115,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   void _onTapItem(BuildContext context, int index) {
 
     Navigator.push(context, MaterialPageRoute(
-      builder: (context)=>new MemberProfilePage( member: _rows[index],),
+      builder: (context)=>new MemberProfilePage( member: _sqlDataRows[index],),
     ));
   }
 

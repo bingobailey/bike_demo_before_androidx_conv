@@ -41,7 +41,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
         appBar: new AppBar( 
           title: new Text("Bike Demo"),
-          backgroundColor: Colors.lime,
+          backgroundColor: Colors.yellow,
 
           ) ,
 
@@ -58,6 +58,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               //new LoginWidget(),
             ]
           ),  
+
 
           bottomNavigationBar: new Material( 
             color: Colors.indigo,

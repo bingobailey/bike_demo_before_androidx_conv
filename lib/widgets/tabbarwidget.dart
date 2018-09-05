@@ -34,16 +34,12 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
     }
 
 
+
+
   @override
   Widget build(BuildContext context) {
 
       return new Scaffold( 
-
-        appBar: new AppBar( 
-          title: new Text("Bike Demo"),
-          backgroundColor: Colors.yellow,
-
-          ) ,
 
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
@@ -73,7 +69,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
           );
      
     }
-
 
 
 } // end of class

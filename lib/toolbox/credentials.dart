@@ -240,7 +240,7 @@ Future<String> signInWithGoogle() async {
                 child: new Text("Cancel", style: new TextStyle( fontSize: 20.0) ,),
                   onPressed: () {
                     Navigator.of(context).pop();
-                  },
+                  }, 
                   color: Colors.red[200],
               ),
            ],

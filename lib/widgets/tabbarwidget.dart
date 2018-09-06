@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../widgets/demolistwidget.dart';
 import '../chat/chatwidget.dart';
+import '../widgets/notificationswidget.dart';
+import '../chat/listchatwidget.dart';
 
 import '../widgets/textformfielddemo.dart';
 import '../widgets/loginfirebase.dart';
@@ -45,7 +47,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             controller: _controller,
             children: <Widget>[
               new DemoListWidget(),
-              new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
+              new NotificationsWidget(),
+              new ListChatWidget(),
+
+              //new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
              
              new TestWidget(),
              // new CreateAccountWidget(),
@@ -61,9 +66,11 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
              child: new TabBar(  // This is the same code used above
              controller: _controller,
              tabs: <Tab>[
-              new Tab( icon: new Icon(Icons.people)),
-              new Tab( icon: new Icon(Icons.pause_circle_filled)),
-              new Tab( icon: new Icon(Icons.perm_device_information)),
+              new Tab( icon: new Icon(Icons.home)),
+              new Tab( icon: new Icon(Icons.notifications)),
+              new Tab( icon: new Icon(Icons.chat)),
+
+              new Tab( icon: new Icon(Icons.person)),
            ]))
 
           );

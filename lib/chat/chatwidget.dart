@@ -13,12 +13,12 @@ import '../toolbox/notify.dart';
 class ChatWidget extends StatefulWidget {
 
   final String channelID;
-  final String senderName;  
-  final String senderEmail;
+  final String chatName;  
+  final String chatEmail;
 
   // Constructor - set the fields with the unquie channel id, sender name
   // and email, since this will be the same for all communication
-  ChatWidget({this.channelID,this.senderName,this.senderEmail});
+  ChatWidget({this.channelID,this.chatName,this.chatEmail});
 
   @override
   State<StatefulWidget> createState() {
@@ -183,7 +183,7 @@ void buildMessageWidget({Message message}) {
      });
 
     // Create the message and push it to db
-    Message message = new Message( name: widget.senderName, content: text,  email: widget.senderEmail);
+    Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
     channel.push(message); // send it to the db
 
     buildMessageWidget( message: message); // build message

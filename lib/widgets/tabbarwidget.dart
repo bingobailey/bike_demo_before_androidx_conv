@@ -23,6 +23,20 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   // Need this to handle the tabs
   TabController _controller;
 
+
+      /*  FOR TESTING CHannel
+      UIDS: 
+      chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2
+      Stevie  ZgrSJsAjeVeA8i11QPmGcse0k0h2 
+      simonthetiger   Vx2GCPPs7AbnXb8hk8UTzo22UOw1
+      */
+
+      // For TESTING
+      String _channelID = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1" + "_" + "ZgrSJsAjeVeA8i11QPmGcse0k0h2";
+      String _chatEmail = "chuppy@gmail.com";
+      String _chatName = "chuppy";
+
+
   @override
   void initState() {
       super.initState();
@@ -47,12 +61,12 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             controller: _controller,
             children: <Widget>[
               new DemoListWidget(),
-              new NotificationsWidget(),
-              new ListChatWidget(),
+              // NotificationsWidget(),
+              //new ListChatWidget(),
 
-              //new ChatWidget( channelID: "newchanel", senderEmail: "bingo@yahoo.com", senderName: "Erin",),
+              new ChatWidget( channelID: _channelID, chatEmail: _chatEmail, chatName: _chatName,),
              
-             new TestWidget(),
+              new TestWidget(),  // for testing login
              // new CreateAccountWidget(),
             //  new LoginFirebaseWidget(),
              // new TextFormFieldDemo(),

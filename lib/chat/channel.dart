@@ -83,7 +83,6 @@ class Channel {
   // Firebase specific to the channel
    Future<List>  getFirebaseMessages() async {
 
-    
       // this takes a snapshot of the data which comes in as key value pairs
       DataSnapshot snapshot = await _reference.once();
       

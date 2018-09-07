@@ -130,7 +130,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 child: TextFormField(
                 textAlign: TextAlign.center,
                   decoration: const InputDecoration(
-                  hintText: 'Must be at least 3 characters',
+                  hintText: 'Must be at least 8 characters',
                   border: UnderlineInputBorder(),
                     labelText: 'Password',
                   ),

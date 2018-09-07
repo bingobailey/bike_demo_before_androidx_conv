@@ -56,7 +56,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   Widget build(BuildContext context) {
 
       return new Scaffold( 
-
+ 
+          resizeToAvoidBottomPadding: false,
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[

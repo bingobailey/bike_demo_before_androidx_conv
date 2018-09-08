@@ -188,6 +188,10 @@ void buildMessageWidget({Message message}) {
   // handles submitting the message
   void _handleSubmitted(String text) {
   
+    // Even though we disable the send button, we put this code here
+    // because the checkbutton on the keyboard executes if you press it.
+    if (text.length==0) return;
+   
     _textController.clear();  // clear the contents of textfield
       setState(() {                    
      _isComposing = false;   // set composing to false and redraw the screen

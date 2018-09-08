@@ -142,7 +142,7 @@ class _ListChatWidgetState extends State<ListChatWidget> {
   //   ));
 
      Navigator.push(context, MaterialPageRoute(
-       builder: (context)=>new ChatWidget( member: _sqlDataRows[index],),
+       builder: (context)=>new ChatWidget( user: _sqlDataRows[index],),
      ));
 
    }

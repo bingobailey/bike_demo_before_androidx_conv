@@ -18,7 +18,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
   // Webservice attributes
   String wsLocation;
   WebService ws; 
-  List _sqlDataRows; // this is the rows coming back from the db query
+  List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -71,6 +71,10 @@ class _DemoListWidgetState extends State<DemoListWidget> {
 
           setState(() {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
+
+             print(_sqlDataRows.toString());
+
+
              _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
           });
         

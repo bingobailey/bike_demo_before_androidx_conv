@@ -12,13 +12,20 @@ import '../toolbox/notify.dart';
 /// Chat Screen CLASS
 class ChatWidget extends StatefulWidget {
 
-  final String channelID;
-  final String chatName;  
-  final String chatEmail;
+// attributed passed in
+ final Map<String,dynamic> member;
+
+
+  //  final String channelID;
+  //  final String chatName;  
+  //  final String chatEmail;
 
   // Constructor - set the fields with the unquie channel id, sender name
   // and email, since this will be the same for all communication
-  ChatWidget({this.channelID,this.chatName,this.chatEmail});
+  //ChatWidget({this.channelID,this.chatName,this.chatEmail});
+
+  ChatWidget({this.member});
+
 
   @override
   State<StatefulWidget> createState() {
@@ -45,7 +52,11 @@ Channel channel;
     super.initState();
     
     // Create the channel and send this class to be notified of updates
-    channel = new Channel( channelID: widget.channelID,notify: this);
+    //channel = new Channel( channelID: widget.channelID,notify: this);
+
+    channel = new Channel( channelID: widget.member['channelID'],notify: this);
+
+
 
     // We need to pull any previous messages that exist in the channel and re-display (ie
     // a person picking up a conversation after shutting down the app
@@ -183,7 +194,9 @@ void buildMessageWidget({Message message}) {
      });
 
     // Create the message and push it to db
-    Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
+   // Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
+    Message message = new Message( name: widget.member['username'], content: text,  email: widget.member['email']);
+
     channel.push(message); // send it to the db
 
     buildMessageWidget( message: message); // build message

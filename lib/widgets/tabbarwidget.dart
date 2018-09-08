@@ -32,9 +32,9 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
       */
 
       // For TESTING
-      String _channelID = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1" + "_" + "ZgrSJsAjeVeA8i11QPmGcse0k0h2";
-      String _chatEmail = "chuppy@gmail.com";
-      String _chatName = "chuppy";
+      String _channelID = "channelfour";
+      String _chatEmail = "bingobailey@gmail.com";
+      String _chatName = "bingobailey";
 
 
   @override
@@ -62,10 +62,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             controller: _controller,
             children: <Widget>[
               new DemoListWidget(),
-              // NotificationsWidget(),
-              //new ListChatWidget(),
+              new NotificationsWidget(),
+              new ListChatWidget(),
 
-              new ChatWidget( channelID: _channelID, chatEmail: _chatEmail, chatName: _chatName,),
+              //new ChatWidget( channelID: _channelID, chatEmail: _chatEmail, chatName: _chatName,),
              
               new TestWidget(),  // for testing login
              // new CreateAccountWidget(),

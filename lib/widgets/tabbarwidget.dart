@@ -20,7 +20,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   @override
   void initState() {
       super.initState();
-      _controller = new TabController( vsync: this, length: 3 );
+      _controller = new TabController( vsync: this, length: 4 );
     }
 
   @override
@@ -42,9 +42,9 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             children: <Widget>[
               new DemoListWidget(),
               new NotificationsWidget(),
-              new ListChatWidget(),
+               new ListChatWidget(),
               new AccountProfileWidget(),
-             
+            
              // new TestWidget(),  // for testing login
             ]
           ),  

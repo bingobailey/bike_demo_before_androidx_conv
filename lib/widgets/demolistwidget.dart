@@ -34,7 +34,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
       ws = new WebService(wsLocation: wsLocation); 
 
       _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-      buildSQLData();
+      runSQLQuery();
     }
 
 
@@ -58,7 +58,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
 
 
   // Run the webservice and build the SQLData and set it to the bodyWidget
-  void buildSQLData() {
+  void runSQLQuery() {
     
     // Select all the members
      var payload = {"requestor":"JoeBiker"};

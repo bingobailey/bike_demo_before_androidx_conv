@@ -11,8 +11,11 @@ simonthetiger   Vx2GCPPs7AbnXb8hk8UTzo22UOw1   simon@yahoo.com   aaaaaaaaa
 */
 
 
-
-
+/*
+TODO:  
+- Make call to SQLDB to retrieve list of channels associated with this user
+    
+*/
 
 
 class ListChatWidget extends StatefulWidget {
@@ -28,8 +31,6 @@ class ListChatWidget extends StatefulWidget {
 
 class _ListChatWidgetState extends State<ListChatWidget> {
 
-
-  List chatList =["channelone", "channeltwo", "channelthree", "channelfour"];
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
  
   // We use this widget to switch out the progress indicator
@@ -71,12 +72,8 @@ class _ListChatWidgetState extends State<ListChatWidget> {
 
       ];
 
-
      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-      buildSQLData();
-
-
-
+      runSQLQuery();
 
     }
 
@@ -99,7 +96,7 @@ class _ListChatWidgetState extends State<ListChatWidget> {
   }
 
 // Run the webservice and build the SQLData and set it to the bodyWidget
-  void buildSQLData() {
+  void runSQLQuery() {
       // here we would execute webservice call .  for now we just load it the model
 
        _bodyWidget = buildListWidget( sqlDataRows: _sqlDataRows);
@@ -134,13 +131,6 @@ class _ListChatWidgetState extends State<ListChatWidget> {
 
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
-
-    print("on tap hit");
-
-  //   Navigator.push(context, MaterialPageRoute(
-  //     builder: (context)=>new ChatWidget( channelID: sqlros,),
-  //   ));
-
      Navigator.push(context, MaterialPageRoute(
        builder: (context)=>new ChatWidget( user: _sqlDataRows[index],),
      ));

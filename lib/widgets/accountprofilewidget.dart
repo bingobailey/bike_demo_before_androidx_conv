@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 
-class NotificationsWidget extends StatefulWidget {
+class AccountProfileWidget extends StatefulWidget {
 
 @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return new _NotficationsWidgetState();
+    return new _AccountProfileWidgetState();
   }
 
 
 }
 
 
-class _NotficationsWidgetState extends State<NotificationsWidget> {
+class _AccountProfileWidgetState extends State<AccountProfileWidget> {
 
 
 @override
@@ -21,10 +21,10 @@ class _NotficationsWidgetState extends State<NotificationsWidget> {
    
 
 return new Scaffold(
-      appBar: new AppBar( title: new Text("Notifications"), centerTitle: true,
+      appBar: new AppBar( title: new Text("Account Profile"), centerTitle: true,
       ),
       body: new Center(
-         child: new Text("notifications"),
+         child: new Text("Account Profile"),
       ),
     
     );

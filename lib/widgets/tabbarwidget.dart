@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/demolistwidget.dart';
-import '../chat/chatwidget.dart';
 import '../widgets/notificationswidget.dart';
 import '../chat/listchatwidget.dart';
-
-import '../widgets/textformfielddemo.dart';
-import '../widgets/loginfirebase.dart';
-import '../widgets/createaccountwidget.dart';
-import '../widgets/testwidget.dart';
-
+import '../widgets/accountprofilewidget.dart';
 
 
 class TabBarWidget extends StatefulWidget {
@@ -22,20 +16,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
   // Need this to handle the tabs
   TabController _controller;
-
-
-      /*  FOR TESTING CHannel
-      UIDS: 
-      chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2
-      Stevie  ZgrSJsAjeVeA8i11QPmGcse0k0h2 
-      simonthetiger   Vx2GCPPs7AbnXb8hk8UTzo22UOw1
-      */
-
-      // For TESTING
-      String _channelID = "channelfour";
-      String _chatEmail = "bingobailey@gmail.com";
-      String _chatName = "bingobailey";
-
 
   @override
   void initState() {
@@ -51,7 +31,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
 
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -64,14 +43,9 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new DemoListWidget(),
               new NotificationsWidget(),
               new ListChatWidget(),
-
-              //new ChatWidget( channelID: _channelID, chatEmail: _chatEmail, chatName: _chatName,),
+              new AccountProfileWidget(),
              
-              new TestWidget(),  // for testing login
-             // new CreateAccountWidget(),
-            //  new LoginFirebaseWidget(),
-             // new TextFormFieldDemo(),
-              //new LoginWidget(),
+             // new TestWidget(),  // for testing login
             ]
           ),  
 
@@ -84,7 +58,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new Tab( icon: new Icon(Icons.home)),
               new Tab( icon: new Icon(Icons.notifications)),
               new Tab( icon: new Icon(Icons.chat)),
-
               new Tab( icon: new Icon(Icons.person)),
            ]))
 

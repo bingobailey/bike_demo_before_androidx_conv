@@ -4,6 +4,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 /*
 Observations up to this point; 
 
+See this doc to make sure you have the latest version and following the instructions on how-to
+https://pub.dartlang.org/packages/firebase_messaging#-readme-tab-
+
+
+
 -  To send messages from the console ; 
   https://console.firebase.google.com/project/pushnotifications-52982/notification
 
@@ -73,12 +78,12 @@ Remove the notification property in DATA to send a data message.
 
 
 
-class HomePage extends StatefulWidget {
+class NotificatonTest extends StatefulWidget {
   @override
-  _HomePageState createState() => new _HomePageState();
+  _NotificatonTestState createState() => new _NotificatonTestState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NotificatonTestState extends State<NotificatonTest> {
   
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   String textValue = "hello world";
@@ -91,6 +96,9 @@ class _HomePageState extends State<HomePage> {
 
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {
+
+            print("message: ${message.toString()}");
+
             print("on Message called body-> ${message['body']}");
             print("on Message called title-> ${message['title']}");
           },
@@ -131,7 +139,7 @@ class _HomePageState extends State<HomePage> {
         NOTE:  You can also create a system wide topic, if you want to send a push 
         notification to all users using the app. 
 */
-        _firebaseMessaging.subscribeToTopic("myemail_at_gmail_dot_com");
+        _firebaseMessaging.subscribeToTopic("topicOne");
 
     }
 

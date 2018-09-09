@@ -5,6 +5,8 @@ import '../widgets/notificationswidget.dart';
 import '../chat/listchatwidget.dart';
 import '../widgets/accountprofilewidget.dart';
 
+import '../toolbox/notifications.dart'; // for testing here
+
 
 class TabBarWidget extends StatefulWidget {
   @override
@@ -41,7 +43,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             controller: _controller,
             children: <Widget>[
               new DemoListWidget(),
-              new NotificationsWidget(),
+
+              //new NotificationsWidget(),
+              new NotificatonTest(),
+              
                new ListChatWidget(),
               new AccountProfileWidget(),
             

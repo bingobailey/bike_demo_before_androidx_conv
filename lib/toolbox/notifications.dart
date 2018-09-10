@@ -121,9 +121,9 @@ class _NotificatonTestState extends State<NotificatonTest> {
         ineffective to use in a real application.  It's better used for testing 
         since it's immediate. 
 */
-        _firebaseMessaging.getToken().then((String token){
-          print("token = $token");  //SCM token for this device. Can send  to specific user
-        });
+        // _firebaseMessaging.getToken().then((String token){
+        //   print("token = $token");  //SCM token for this device. Can send  to specific user
+        // });
 
 /*
         When the app is run, it creates the topic in Firebase.  Then you can 

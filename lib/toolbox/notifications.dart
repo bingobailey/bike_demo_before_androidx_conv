@@ -97,16 +97,13 @@ class _NotificatonTestState extends State<NotificatonTest> {
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {
 
-            print("message: ${message.toString()}");
-
-            print("on Message called body-> ${message['body']}");
-            print("on Message called title-> ${message['title']}");
+            print("onMessage: ${message.toString()}");
           },
           onResume: (Map<String, dynamic> message) {
-            print("on resume called -->  $message");
+              print("onResume: ${message.toString()}");
           },
           onLaunch: (Map<String, dynamic> message) {
-            print("on launch called --> $message");
+              print("onLaunch: ${message.toString()}");
           },
         );
 

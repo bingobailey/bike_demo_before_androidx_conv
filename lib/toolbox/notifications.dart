@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -123,14 +124,17 @@ class _NotificatonTestState extends State<NotificatonTest> {
             });
 
 /*
-        This is the SCM token that can be used to send to a specific device. Note that
-        the SCM token appears to change each time the program is run, making it 
-        ineffective to use in a real application.  It's better used for testing 
-        since it's immediate. 
+        This is the SCM token that can be used to send to a specific device. This allows
+        peer to peer communication.  each user saves their token in the firebase db. 
+        How would this work if the user gets a new phone ?  new token ? 
 */
-        // _firebaseMessaging.getToken().then((String token){
-        //   print("token = $token");  //SCM token for this device. Can send  to specific user
-        // });
+         _firebaseMessaging.getToken().then((String token){
+           print("token = $token");  //SCM token for this device. Can send  to specific user
+      
+          DatabaseReference databaseReference = new FirebaseDatabase().reference();
+          databaseReference.child('fcm-token/$token').set( {"token":token});
+
+         });
 
 /*
         When the app is run, it creates the topic in Firebase.  Then you can 

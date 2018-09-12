@@ -5,6 +5,8 @@ import './message.dart';
 import '../toolbox/notify.dart';
 
 
+final String _database = "database/chat";
+
 // The channel Class which manages communication with Firebase sending
 // and listening for messages
 class Channel {
@@ -23,7 +25,7 @@ class Channel {
   Channel({this.channelID, this.notify}) {
       channelID = channelID.replaceAll('.', 'X'); // Firebase won't accept '.' in a link
       // Get a reference to the database and channel
-      _reference = FirebaseDatabase.instance.reference().child("messages").child(channelID);
+      _reference = FirebaseDatabase.instance.reference().child(_database).child(channelID);
     
 
       // any time an entry is made in this channel execute this method

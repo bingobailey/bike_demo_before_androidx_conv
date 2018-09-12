@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
+
+
+
 /*
 Observations up to this point; 
 
@@ -144,12 +151,55 @@ class _NotificatonTestState extends State<NotificatonTest> {
   @override
     Widget build(BuildContext context) {
   
+      Widget text = new Text(textValue);
+      Widget tapText = new GestureDetector( child: text, onTap: sendMessage,);
+
       return new Scaffold( 
         appBar: new AppBar( title: new Text("Firebase Messaging"),),
-         body: new Center( child: new Text(textValue,),)
+         body: new Center( child: tapText,)
+
 
       ,);
     }
 
 
+void sendMessage() {
+
+String fcmServerKey = "AAAALtyq7bI:APA91bEedIvGaZavpfUoot_26Hn9UzPSPgfyIIrV0E3zUe4QxLt0r9YnJi0HWuQZsF8w1RQ1n2nJwX6haoCM4-_VOe5u94U9bOlxZ7LnVSp2q8Yk1Qds35HHghBOOrGHasZHIqJ_XNxH";
+/*
+DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
+curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
+*/
+
+  // Lets set the headers
+    var headers = {
+       HttpHeaders.contentTypeHeader: 'application/json',
+       HttpHeaders.authorizationHeader : 'key=$fcmServerKey',
+      };
+
+  String  payload ='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"name": "bingobailey", click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "$fcmServerKey"}';
+  String url = "https://fcm.googleapis.com/fcm/send";
+
+    http.post(
+       url, 
+       headers: headers,
+        body: jsonEncode(payload),
+    ).then((http.Response response) {
+       print(response.body);
+
+    }).catchError((e) {
+       print(e);
+
+    });
+
+
 }
+
+
+
+
+
+
+
+
+} // end of class

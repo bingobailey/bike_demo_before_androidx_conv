@@ -26,24 +26,16 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 
-
-// exports.helloWorld = functions.database.ref('notification/{uidfrom}/{uidto}').onWrite(evt => {
-//     const payload = {
-//         notification:{
-//             title : 'Message from Cloud',
-//             body : 'This is your body',
-//             badge : '1',
-//             sound : 'default'
-//         }
-//     };
+exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo}').onWrite((data, context) => {
 
 
+    console.log("UID From= " + context.params.uidFrom);
+    console.log("UID To= " + context.params.uidTo);
+    console.log("timestamp = " + context.timestamp);
 
-
-exports.helloWorld = functions.database.ref('notification/{id}').onWrite(event => {
-
-    console.log("event data below");
-    console.log(event.data.val());
+    const datavalue = data.after.val();
+    console.log("message = " + datavalue.msg);
+  
     const payload = {
         notification:{
             title : 'Message from Cloud',
@@ -65,5 +57,10 @@ exports.helloWorld = functions.database.ref('notification/{id}').onWrite(event =
             console.log('No token available');
         }
     });
+
+
+
+
+    
 
 });

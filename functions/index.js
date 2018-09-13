@@ -18,16 +18,12 @@
 
 */
 
-
-
-
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 
 exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo}').onWrite((data, context) => {
-
 
     console.log("UID From= " + context.params.uidFrom);
     console.log("UID To= " + context.params.uidTo);
@@ -47,6 +43,8 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
 
 
     return admin.database().ref('fcm-token').once('value').then(allToken => {
+
+        console.log('value =  ' + allToken.val());
         if(allToken.val()){
             console.log('token available');
             const token = Object.keys(allToken.val());

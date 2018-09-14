@@ -25,6 +25,9 @@ admin.initializeApp(functions.config().firebase);
 
 exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo}').onWrite((data, context) => {
 
+    const uidFrom = context.params.uidFrom;
+    const uidTo = context.params.uidTo;
+
     console.log("UID From= " + context.params.uidFrom);
     console.log("UID To= " + context.params.uidTo);
     console.log("timestamp = " + context.timestamp);
@@ -42,19 +45,43 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
     };
 
 
-    return admin.database().ref('fcm-token').once('value').then(allToken => {
 
-        console.log('value =  ' + allToken.val());
-        if(allToken.val()){
-            console.log('token available');
-            const token = Object.keys(allToken.val());
-            //return admin.messaging().sendToDevice(token,payload);
-            return admin.messaging().sendToTopic("topicOne", payload);
+
+    return admin.database().ref('users/' + uidTo).once('value').then(snapshot => {
+
+        jsonvalue = snapshot.val();
+        console.log('value = ' + jsonvalue['fcm-token']);
+        console.log('key = ' + snapshot.key);
+    
+        if(snapshot.val()){
+            const token = snapshot.val()['fcm-token'];
+            console.log('sending to msg to device');
+            return admin.messaging().sendToDevice(token,payload);
+            //return admin.messaging().sendToTopic("topicOne", payload);
 
         }else{
             console.log('No token available');
         }
     });
+
+
+
+
+
+
+    // return admin.database().ref('fcm-token').once('value').then(allToken => {
+
+    //     console.log('value =  ' + allToken.val());
+    //     if(allToken.val()){
+    //         console.log('token available');
+    //         const token = Object.keys(allToken.val());
+    //         //return admin.messaging().sendToDevice(token,payload);
+    //         return admin.messaging().sendToTopic("topicOne", payload);
+
+    //     }else{
+    //         console.log('No token available');
+    //     }
+    // });
 
 
 

@@ -1,10 +1,7 @@
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+
 
 /*
  TODO: 
@@ -22,7 +19,10 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-
+// We send out a notification when the notification database is updated.  This
+// indicates peer to peer communication, so we must retrieve the token
+// NOTE:  when this notfication table is updated from the app, it should also store
+//       the datetime, so that can be accessed as well. 
 exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo}').onWrite((data, context) => {
 
     const uidFrom = context.params.uidFrom;
@@ -46,21 +46,19 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
 
 
 
-
+    // We access the user we want to send the notification to, to retrieve the fcm-token
+    // all fcm-tokens are saved under users/ uid  when they start up the app
     return admin.database().ref('users/' + uidTo).once('value').then(snapshot => {
 
-        jsonvalue = snapshot.val();
-        console.log('value = ' + jsonvalue['fcm-token']);
-        console.log('key = ' + snapshot.key);
-    
+        // if the snapshot has data, continue 
         if(snapshot.val()){
-            const token = snapshot.val()['fcm-token'];
+            const token = snapshot.val()['fcm-token']; // access the toekn
             console.log('sending to msg to device');
             return admin.messaging().sendToDevice(token,payload);
             //return admin.messaging().sendToTopic("topicOne", payload);
 
         }else{
-            console.log('No token available');
+            console.log('No data available in snapshot');
         }
     });
 

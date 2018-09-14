@@ -5,14 +5,17 @@
 
 /*
  TODO: 
-    - reorg fcm-token to users/name/token   so that each user can store their token in
-    the structure.   Test to make sure it works. 
+    
+   - plug in actual message into title and body of notification 
+   - use an actual user in the authentication database to match up when you add the user
+     to the notification database and try the admin.auth.getUser()
+     see the code below 
+https://github.com/firebase/functions-samples/blob/Node-8/fcm-notifications/functions/index.js
 
-   - pull data out of the event (with exisiing notification structure)
-   - reorg notification structure to notifications / chat or noticiations / newbikeadded
-   - test with new structure
-
-
+    - write some code in the app that updates the notificaton db via the program to see
+      if the notification works
+    - Setup another function to send to a topic, when another database is updated, figure
+      out the strucure of this database
 */
 
 const functions = require('firebase-functions');
@@ -63,27 +66,5 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
     });
 
 
-
-
-
-
-    // return admin.database().ref('fcm-token').once('value').then(allToken => {
-
-    //     console.log('value =  ' + allToken.val());
-    //     if(allToken.val()){
-    //         console.log('token available');
-    //         const token = Object.keys(allToken.val());
-    //         //return admin.messaging().sendToDevice(token,payload);
-    //         return admin.messaging().sendToTopic("topicOne", payload);
-
-    //     }else{
-    //         console.log('No token available');
-    //     }
-    // });
-
-
-
-
-    
 
 });

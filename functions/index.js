@@ -6,7 +6,6 @@
 /*
  TODO: 
     
-   - plug in actual message into title and body of notification 
    - use an actual user in the authentication database to match up when you add the user
      to the notification database and try the admin.auth.getUser()
      see the code below 
@@ -30,22 +29,23 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
 
     const uidFrom = context.params.uidFrom;
     const uidTo = context.params.uidTo;
-
-    console.log("UID From= " + context.params.uidFrom);
-    console.log("UID To= " + context.params.uidTo);
-    console.log("timestamp = " + context.timestamp);
+    const datetime = context.timestamp;
+    const title = 'Message from ' + uidFrom;
 
     const datavalue = data.after.val();
-    console.log("message = " + datavalue.msg);
+    const body = datavalue.msg;
   
     const payload = {
         notification:{
-            title : 'Message from Cloud',
-            body : 'This is your body',
+            title : title,
+            body : body,
             badge : '1',
             sound : 'default'
         }
     };
+
+    // const uid = 'ZgrSJsAjeVeA8i11QPmGcse0k0h2';
+    // const userProfile = admin.auth.getUser(uid);
 
 
 

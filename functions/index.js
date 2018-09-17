@@ -44,14 +44,19 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
         }
     };
 
-    // const uid = 'ZgrSJsAjeVeA8i11QPmGcse0k0h2';
-    // const userProfile = admin.auth.getUser(uid);
-
 
 
     // We access the user we want to send the notification to, to retrieve the fcm-token
     // all fcm-tokens are saved under users/ uid  when they start up the app
     return admin.database().ref('users/' + uidTo).once('value').then(snapshot => {
+
+        // NOTE: Unable to the code below to work. getUser appears to execute
+        //       but updateRecord.displayName comes back as undefined
+        // const uid = 'ZgrSJsAjeVeA8i11QPmGcse0k0h2';
+        // const userProfileRecord = admin.auth().getUser(uid);
+        // console.log('user profile displayname: ' + userProfileRecord.displayName);
+
+
 
         // if the snapshot has data, continue 
         if(snapshot.val()){

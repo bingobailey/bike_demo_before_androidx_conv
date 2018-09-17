@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'dart:io';
-import 'dart:convert';
-
 
 
 /*
@@ -131,12 +126,11 @@ class _NotificatonTestState extends State<NotificatonTest> {
          _firebaseMessaging.getToken().then((String token){
            print("token = $token");  //SCM token for this device. Can send  to specific user
       
-          String uid= "uidchuppy";
+          String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
+          String displayName = "Chuppy";
 
           DatabaseReference databaseReference = new FirebaseDatabase().reference();
-          //databaseReference.child('fcm-token/$token').set( {"token":token});
-          databaseReference.child('users/$uid').set({"fcm-token":token});
-
+          databaseReference.child('users/$uid').set({"fcm-token":token, "displayName":displayName});
 
          });
 
@@ -160,7 +154,7 @@ class _NotificatonTestState extends State<NotificatonTest> {
     Widget build(BuildContext context) {
   
       Widget text = new Text(textValue);
-      Widget tapText = new GestureDetector( child: text, onTap: sendMessage,);
+      Widget tapText = new GestureDetector( child: text, onTap: sendContactNotification,);
 
       return new Scaffold( 
         appBar: new AppBar( title: new Text("Firebase Messaging"),),
@@ -170,43 +164,31 @@ class _NotificatonTestState extends State<NotificatonTest> {
       ,);
     }
 
-
-void sendMessage() {
-
-String fcmServerKey = "AAAALtyq7bI:APA91bEedIvGaZavpfUoot_26Hn9UzPSPgfyIIrV0E3zUe4QxLt0r9YnJi0HWuQZsF8w1RQ1n2nJwX6haoCM4-_VOe5u94U9bOlxZ7LnVSp2q8Yk1Qds35HHghBOOrGHasZHIqJ_XNxH";
-/*
-DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
-curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
-*/
-
-  // Lets set the headers
-    var headers = {
-       HttpHeaders.contentTypeHeader: 'application/json',
-       HttpHeaders.authorizationHeader : 'key=$fcmServerKey',
-      };
-
-  String  payload ='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"name": "bingobailey", click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "$fcmServerKey"}';
-  String url = "https://fcm.googleapis.com/fcm/send";
-
-    http.post(
-       url, 
-       headers: headers,
-        body: jsonEncode(payload),
-    ).then((http.Response response) {
-       print(response.body);
-
-    }).catchError((e) {
-       print(e);
-
-    });
+  void sendContactNotification() {
 
 
-}
+    // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
+
+    // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
+    // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
 
 
 
+    String uidFrom = "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // stevie
+    String uidTo = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
+    String message = "what size frame";
+    String datetime = DateTime.now().toString();
+    print("datetime $datetime");
 
+    print("sending notification");
+    DatabaseReference databaseReference = new FirebaseDatabase().reference();
+    databaseReference.child('notification/$uidFrom/$uidTo').set(
+      {
+      "msg":message,
+      "datetime": datetime,
+      });
 
+  }
 
 
 

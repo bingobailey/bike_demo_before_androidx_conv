@@ -5,7 +5,7 @@ import './message.dart';
 import '../toolbox/notify.dart';
 
 
-final String _database = "database/chat";
+final String _database = "chat";
 
 // The channel Class which manages communication with Firebase sending
 // and listening for messages

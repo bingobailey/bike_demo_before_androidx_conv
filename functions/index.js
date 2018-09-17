@@ -54,13 +54,13 @@ exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo
         //       but updateRecord.displayName comes back as undefined
         // const uid = 'ZgrSJsAjeVeA8i11QPmGcse0k0h2';
         // const userProfileRecord = admin.auth().getUser(uid);
-        // console.log('user profile displayname: ' + userProfileRecord.displayName);
+        // console.log('user profile displayname: ' + userProfileRecord.displayName) ;
 
 
 
         // if the snapshot has data, continue 
         if(snapshot.val()){
-            const token = snapshot.val()['fcm-token']; // access the toekn
+            const token = snapshot.val()['fcm-token']; // access the token
             console.log('sending to msg to device');
             return admin.messaging().sendToDevice(token,payload);
             //return admin.messaging().sendToTopic("topicOne", payload);

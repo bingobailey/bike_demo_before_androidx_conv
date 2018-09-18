@@ -126,8 +126,8 @@ class _NotificatonTestState extends State<NotificatonTest> {
          _firebaseMessaging.getToken().then((String token){
            print("token = $token");  //SCM token for this device. Can send  to specific user
       
-          String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
-          String displayName = "Chuppy";
+          String uid= "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // uid associated with the user
+          String displayName = "Stevie";
 
           DatabaseReference databaseReference = new FirebaseDatabase().reference();
           databaseReference.child('users/$uid').set({"fcm-token":token, "displayName":displayName});
@@ -164,31 +164,37 @@ class _NotificatonTestState extends State<NotificatonTest> {
       ,);
     }
 
+
   void sendContactNotification() {
 
-
     // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
-
     // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
     // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
 
-
-
-    String uidFrom = "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // stevie
-    String uidTo = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
+    // The from parms
+    String uidFrom= "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // stevie
+    String displayName = "Stevie";
     String message = "what size frame";
     String datetime = DateTime.now().toString();
-    print("datetime $datetime");
 
+    // The To parms
+    String uidTo = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // chuppy
+    
     print("sending notification");
     DatabaseReference databaseReference = new FirebaseDatabase().reference();
-    databaseReference.child('notification/$uidFrom/$uidTo').set(
+    databaseReference.child('notification/$uidTo/$uidFrom').set(
       {
       "msg":message,
       "datetime": datetime,
+      "displayName": displayName,
       });
 
   }
+
+
+
+
+
 
 
 

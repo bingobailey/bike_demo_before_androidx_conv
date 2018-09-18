@@ -5,12 +5,9 @@
 
 /*
  TODO: 
-    
-   - use an actual user in the authentication database to match up when you add the user
-     to the notification database and try the admin.auth.getUser()
-     see the code below 
-https://github.com/firebase/functions-samples/blob/Node-8/fcm-notifications/functions/index.js
-
+    - Write code in the notification.dart that will pull a list of notifications, both
+      from notifiations sent to this user by date.  Should be peer to peer notifications and
+      topic notifications. 
     - write some code in the app that updates the notificaton db via the program to see
       if the notification works
     - Setup another function to send to a topic, when another database is updated, figure
@@ -25,14 +22,14 @@ admin.initializeApp(functions.config().firebase);
 // indicates peer to peer communication, so we must retrieve the token
 // NOTE:  when this notfication table is updated from the app, it should also store
 //       the datetime, so that can be accessed as well. 
-exports.sendNotification = functions.database.ref('notification/{uidFrom}/{uidTo}').onWrite((data, context) => {
+exports.sendNotification = functions.database.ref('notification/{uidTo}/{uidFrom}').onWrite((data, context) => {
 
     const uidFrom = context.params.uidFrom;
     const uidTo = context.params.uidTo;
     const datetime = context.timestamp;
-    const title = 'Message from ' + uidFrom;
-
+   
     const datavalue = data.after.val();
+    const title = datavalue.displayName + ' sent you a message';
     const body = datavalue.msg;
   
     const payload = {

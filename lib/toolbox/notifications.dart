@@ -128,11 +128,13 @@ class _NotificatonTestState extends State<NotificatonTest> {
          _firebaseMessaging.getToken().then((String token){
            print("token = $token");  //SCM token for this device. Can send  to specific user
       
-          String uid= "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // uid associated with the user
-          String displayName = "Stevie";
-
-          DatabaseReference databaseReference = new FirebaseDatabase().reference();
-          databaseReference.child('users/$uid').set({"fcm-token":token, "displayName":displayName});
+          // This would be the uid of the person logged in
+          String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
+        
+          // Update the user, now that we have the token
+          User user = new User( uid: uid); // This would be the user logged in 
+          user.updateProfile( displayName: "chuppychoo", photoURL: "urlchuppy");
+          user.updateFCMToken( fcmToken: token);
 
          });
 

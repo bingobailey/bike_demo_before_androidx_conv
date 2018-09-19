@@ -17,7 +17,7 @@ class User {
 
   // Constructor
   User({this.uid}) {
-   _ref = new FirebaseDatabase().reference().child("users").child(this.uid);
+   _ref = new FirebaseDatabase().reference().child("users/${this.uid}");
   }
   
 

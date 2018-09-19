@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'dart:async';
 
+import '../toolbox/user.dart';
 
 /*
 Observations up to this point; 
@@ -154,7 +156,7 @@ class _NotificatonTestState extends State<NotificatonTest> {
     Widget build(BuildContext context) {
   
       Widget text = new Text(textValue);
-      Widget tapText = new GestureDetector( child: text, onTap: sendContactNotification,);
+      Widget tapText = new GestureDetector( child: text, onTap: updateUserInfo); 
 
       return new Scaffold( 
         appBar: new AppBar( title: new Text("Firebase Messaging"),),
@@ -164,6 +166,42 @@ class _NotificatonTestState extends State<NotificatonTest> {
       ,);
     }
 
+// method below for testing
+
+  void updateChat() {
+
+    // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
+    // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
+    // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
+
+    // The from parms
+    String uidFrom= "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
+    String displayName = "Simon";
+    String message = "what color";
+    String datetime = DateTime.now().toString();
+
+    // The To parms
+    String uidTo = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // chuppy
+    
+    print("updating chat");
+    DatabaseReference databaseReference = new FirebaseDatabase().reference();
+    String channelID = uidTo + "_" + uidFrom;
+    databaseReference.child('chat/$channelID').set(
+      {
+        'description': {
+          'title': "yeti 5.5",
+          'datetime': datetime,
+          'uidFrom' : uidFrom,
+          'uidTo' : uidTo,
+        }
+     
+      });
+
+
+
+  }
+
+
 
   void sendContactNotification() {
 
@@ -172,9 +210,9 @@ class _NotificatonTestState extends State<NotificatonTest> {
     // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
 
     // The from parms
-    String uidFrom= "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; // stevie
-    String displayName = "Stevie";
-    String message = "what size frame";
+    String uidFrom= "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
+    String displayName = "Simon";
+    String message = "what color";
     String datetime = DateTime.now().toString();
 
     // The To parms
@@ -192,7 +230,91 @@ class _NotificatonTestState extends State<NotificatonTest> {
   }
 
 
+  void updateUserInfo() {
+    User user = new User( uid:"ZgrSJsAjeVeA8i11QPmGcse0k0h2" );
+    user.updateProfile( displayName: 'bingoX', photoURL: "howdeeURL");
+  }
 
+
+  void createChannel() {
+      User user = new User( uid:"ZgrSJsAjeVeA8i11QPmGcse0k0h2" );
+      user.createChannel( chateeUID: "wV9aWBbmHgUySap10e1qgJrLMbv2" , title: "what bike" );
+  }
+
+
+  void getChannelList() {
+    User user = new User( uid:"ZgrSJsAjeVeA8i11QPmGcse0k0h2" );
+    user.getChannelList().then((List list){
+      list.forEach((channel){
+        print("channelID: ${channel['channelID']}");
+        print("title: ${channel['title']}");
+        print("chateeUID:  ${channel['chateeUID']}");
+      });
+
+    });
+
+
+  }
+
+
+  // // Testing getting a list of the chats
+  //  Future<List> getChatList() async {
+
+  //   // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
+  //   // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
+  //   // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
+ 
+
+  //   String uid =  "wV9aWBbmHgUySap10e1qgJrLMbv2";
+
+  //   DatabaseReference _ref = new FirebaseDatabase().reference().child("users").child(uid).child('channels');
+
+  //   Query query = _ref.orderByChild('title').startAt('like').endAt("like\uf8ff");
+
+  //   DataSnapshot snapshot = await query.once();
+
+  //     snapshot.value.forEach( (k,v) {
+  //         print("k = $k");
+  //         print("title = ${v['title']}");
+         
+  //     });
+
+
+  //    return null;
+
+  //  }
+
+
+  
+  Future<List> getNotificationList() async {
+
+    // This is the user that we want to retrieve any notifications associated with.
+    // In the FB database it's setup as uidTo/uidFrom
+    String notificationUID = "notification/wV9aWBbmHgUySap10e1qgJrLMbv2";
+
+    DatabaseReference reference = new FirebaseDatabase().reference().child(notificationUID);
+
+      // this takes a snapshot of the data which comes in as key value pairs
+      DataSnapshot snapshot = await reference.once();
+
+      print("print out..");
+      snapshot.value.forEach( (k,v) {
+
+            print("k = $k");
+            print("displayname = ${v['displayName']}");
+            print("msg = ${v['msg']}");
+
+          
+        });
+
+
+
+
+
+  return null;  // for testing only
+
+  }
+ 
 
 
 

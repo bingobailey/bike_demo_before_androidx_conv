@@ -50,7 +50,7 @@ class _ListChatWidgetState extends State<ListChatWidget> {
             'channelID':"channelone",
             'username': "chuppy",
             'email': "psimoj@gmail.com",
-            'bike' : 'transition sentintal',
+            'bike' : 'transition sentintal', 
             'time' : '2 hrs ago',
           },
 

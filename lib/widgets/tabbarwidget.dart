@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/demolistwidget.dart';
-import '../widgets/notificationswidget.dart';
 import '../chat/listchatwidget.dart';
 import '../widgets/accountprofilewidget.dart';
 

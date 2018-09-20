@@ -53,7 +53,7 @@ void updateFCMToken({String fcmToken}) {
 
 
 // This associates a channel with the user and links the chatee. 
-void createChannel({String chateeUID, String title }) {
+void addChannel({String chateeUID, String chateeDisplayName, String title }) {
     String channelID = uid + "_" + chateeUID; // creats the channel to communicate on
     // .push inserts an auto key.  This makes it possible to get a list
     _ref.child('channels').push().set(
@@ -61,6 +61,7 @@ void createChannel({String chateeUID, String title }) {
           'channelID': channelID,
           'title': title,
           'chateeUID': chateeUID,
+          'chateeDisplayName' : chateeDisplayName,
           'datetime' :  DateTime.now().toString(),
         });
 

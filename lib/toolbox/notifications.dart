@@ -158,7 +158,7 @@ class _NotificatonTestState extends State<NotificatonTest> {
     Widget build(BuildContext context) {
   
       Widget text = new Text(textValue);
-      Widget tapText = new GestureDetector( child: text, onTap: updateUserInfo); 
+      Widget tapText = new GestureDetector( child: text, onTap: createChannel); 
 
       return new Scaffold( 
         appBar: new AppBar( title: new Text("Firebase Messaging"),),
@@ -239,8 +239,17 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
 
   void createChannel() {
-      User user = new User( uid:"ZgrSJsAjeVeA8i11QPmGcse0k0h2" );
-      user.createChannel( chateeUID: "wV9aWBbmHgUySap10e1qgJrLMbv2" , title: "what bike" );
+
+    String simonUID = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1";
+    String  stevieUID =  "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
+    String chuppyUID =   "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
+
+
+
+      User user = new User( uid:chuppyUID);
+      user.addChannel( chateeUID: stevieUID , chateeDisplayName: "stevie", title: "what bike is it" );
+      user.addChannel( chateeUID: simonUID , chateeDisplayName: "simon", title: "how much do u charge" );
+  
   }
 
 

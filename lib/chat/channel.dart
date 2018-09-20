@@ -95,7 +95,6 @@ class Channel {
           // Let's create a message with the snapshot
           Message msg = new Message( 
             content: v['content'],
-             email: v['email'],
               name: v['name'],
             );
             msg.key = k; // we need to set the key & the datetime

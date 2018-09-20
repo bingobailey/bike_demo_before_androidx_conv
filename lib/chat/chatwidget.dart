@@ -13,12 +13,12 @@ import '../toolbox/notify.dart';
 class ChatWidget extends StatefulWidget {
 
 // attributed passed in
- final Map<String,dynamic> user;
+ final Map<dynamic,dynamic> channel;
 
 
 
   // this is coming in from the sql db
-  ChatWidget({this.user});
+  ChatWidget({this.channel});
 
 
   @override
@@ -46,7 +46,7 @@ Channel channel;
     super.initState();
     
     // Create the channel and send this class to be notified of updates
-    channel = new Channel( channelID: widget.user['channelID'],notify: this);
+    channel = new Channel( channelID: widget.channel['channelID'],notify: this);
 
     // We need to pull any previous messages that exist in the channel and re-display (ie
     // a person picking up a conversation after shutting down the app
@@ -68,7 +68,7 @@ Channel channel;
     return Scaffold(
       appBar: new AppBar(  
         centerTitle: true,
-        title: new Text(widget.user['bike']),
+        title: new Text(widget.channel['title']),
         elevation:  isIOS ? 0.0 : 4.0,
       ),
       body: buildChatWidget(context)
@@ -179,6 +179,8 @@ void buildMessageWidget({Message message}) {
   // handles submitting the message
   void _handleSubmitted(String text) {
   
+    String currentUserName = "chuppy"; // NOTE: this would be pulled from auth whoever is logged in
+
     // Even though we disable the send button, we put this code here
     // because the checkbutton on the keyboard executes if you press it.
     if (text.length==0) return;
@@ -190,7 +192,7 @@ void buildMessageWidget({Message message}) {
 
     // Create the message and push it to db
    // Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
-    Message message = new Message( name: widget.user['username'], content: text,  email: widget.user['email']);
+    Message message = new Message( name: currentUserName, content: text, );
 
     channel.push(message); // send it to the db
 

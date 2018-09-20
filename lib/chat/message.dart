@@ -8,11 +8,10 @@ class Message {
   String key;  // this is auto generated from firebase after entry is made
   String name; 
   String content;
-  String email;
   DateTime datetime;
 
   // Constructor
-  Message({this.name,this.content, this.email}) {
+  Message({this.name,this.content}) {
     datetime = new DateTime.now();
   }
 
@@ -24,7 +23,6 @@ class Message {
     key = snapshot.key;
     name = snapshot.value['name'];
     content = snapshot.value['content'];
-    email = snapshot.value['email'];
     datetime = DateTime.parse(snapshot.value['datetime']) ; // convert from string
   }
 
@@ -34,7 +32,6 @@ class Message {
     return {
            "name" : name,
         "content" : content,
-        "email" : email,
         "datetime" : datetime.toString(),
     };
 

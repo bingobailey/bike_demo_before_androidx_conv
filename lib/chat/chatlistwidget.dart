@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../chat/chatwidget.dart';
 import '../toolbox/uitools.dart';
+import '../toolbox//user.dart';
 
 /*
 chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
@@ -11,28 +12,25 @@ simonthetiger   Vx2GCPPs7AbnXb8hk8UTzo22UOw1   simon@yahoo.com   aaaaaaaaa
 */
 
 
-/*
-TODO:  
-- Make call to SQLDB to retrieve list of channels associated with this user
-    
-*/
 
 
-class ListChatWidget extends StatefulWidget {
+class ChatListWidget extends StatefulWidget {
 
 @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return new _ListChatWidgetState();
+    return new _ChatListWidgetState();
   }
 
 }
 
 
-class _ListChatWidgetState extends State<ListChatWidget> {
+class _ChatListWidgetState extends State<ChatListWidget> {
 
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
  
+  List _channels; 
+
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
 
@@ -73,7 +71,20 @@ class _ListChatWidgetState extends State<ListChatWidget> {
       ];
 
      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-      runSQLQuery();
+      
+      String uid = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // current user logged in 
+
+      User user = new User(  uid: uid );
+      user.getChannelList().then((List channels){
+        _channels = channels; // We store it so we can access it when  user clicks
+        setState(() {
+          _bodyWidget = buildChannelListWidget( channels: channels);
+        });
+
+      });
+
+
+     // runSQLQuery();
 
     }
 
@@ -125,6 +136,29 @@ class _ListChatWidgetState extends State<ListChatWidget> {
   }
 
 
+  // Using the SQL Data build the list widget
+  Widget buildChannelListWidget({List<dynamic> channels}) {
+
+    return new Center(
+          child: new ListView.builder(
+            itemCount: channels.length,
+            itemBuilder:(BuildContext context, int index) {
+              return new ListTile(
+                title: new Text(channels[index]['chateeDisplayName']),
+                subtitle: new Text(channels[index]['title']),
+                trailing: new Text(channels[index]['datetime']),
+               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
+                onTap: ()=> _onTapItem(context, index),
+              );
+            } ,
+          )
+        );
+
+  }
+
+
+
+
 // ********** ACTION Methods
 
 
@@ -132,7 +166,7 @@ class _ListChatWidgetState extends State<ListChatWidget> {
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
      Navigator.push(context, MaterialPageRoute(
-       builder: (context)=>new ChatWidget( user: _sqlDataRows[index],),
+       builder: (context)=>new ChatWidget( channel: _channels[index],),
      ));
 
    }

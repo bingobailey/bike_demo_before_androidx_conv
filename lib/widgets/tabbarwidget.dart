@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/demolistwidget.dart';
-import '../chat/listchatwidget.dart';
+import '../chat/chatlistwidget.dart';
 import '../widgets/accountprofilewidget.dart';
 
 import '../toolbox/notifications.dart'; // for testing here
@@ -46,7 +46,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               //new NotificationsWidget(),
               new NotificatonTest(),
               
-               new ListChatWidget(),
+               new ChatListWidget(),
               new AccountProfileWidget(),
             
              // new TestWidget(),  // for testing login

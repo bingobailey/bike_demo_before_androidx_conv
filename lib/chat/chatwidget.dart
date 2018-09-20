@@ -14,11 +14,11 @@ class ChatWidget extends StatefulWidget {
 
 // attributed passed in
  final Map<dynamic,dynamic> channel;
+ final String currentUserDisplayName;
 
 
-
-  // this is coming in from the sql db
-  ChatWidget({this.channel});
+  // channel property is coming from the Chat List
+  ChatWidget({this.channel, this.currentUserDisplayName});
 
 
   @override
@@ -179,8 +179,6 @@ void buildMessageWidget({Message message}) {
   // handles submitting the message
   void _handleSubmitted(String text) {
   
-    String currentUserName = "chuppy"; // NOTE: this would be pulled from auth whoever is logged in
-
     // Even though we disable the send button, we put this code here
     // because the checkbutton on the keyboard executes if you press it.
     if (text.length==0) return;
@@ -192,7 +190,7 @@ void buildMessageWidget({Message message}) {
 
     // Create the message and push it to db
    // Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
-    Message message = new Message( name: currentUserName, content: text, );
+    Message message = new Message( name: widget.currentUserDisplayName, content: text, );
 
     channel.push(message); // send it to the db
 

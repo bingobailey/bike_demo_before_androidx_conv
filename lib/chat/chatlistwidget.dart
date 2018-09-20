@@ -18,7 +18,6 @@ class ChatListWidget extends StatefulWidget {
 
 @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return new _ChatListWidgetState();
   }
 
@@ -26,65 +25,32 @@ class ChatListWidget extends StatefulWidget {
 
 
 class _ChatListWidgetState extends State<ChatListWidget> {
-
-  List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
  
   List _channels; 
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
 
+    // TODO:  Need to call credentials.getcurrentuser() here ...
+      String uid = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // current user logged in 
+      String currentUserDisplayName = "Chuppy";
 
   @override
     void initState() {
       // TODO: implement initState
       super.initState();
 
-      // We build the sql rows as JSON here for testing.  This will ultimately be retrieved through webservice
-      // and should match the format
-      _sqlDataRows = [
-
-          {
-            'channelID':"channelone",
-            'username': "chuppy",
-            'email': "psimoj@gmail.com",
-            'bike' : 'transition sentintal', 
-            'time' : '2 hrs ago',
-          },
-
-          {
-            'channelID':"channeltwo",
-            'username': "stevie",
-            'email': "stevie@gmail.com",
-            'bike' : 'ibis ripmo',
-            'time' : '1 week ago',
-          },
-
-          {
-            'channelID':"channelthree",
-            'username': "chuppy",
-            'email': "simonthetiger@yahoo.com",
-            'bike' : 'yeti sb 150',
-            'time' : '1 hr ago',
-          },
-
-      ];
 
      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
       
-      String uid = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // current user logged in 
-
       User user = new User(  uid: uid );
       user.getChannelList().then((List channels){
         _channels = channels; // We store it so we can access it when  user clicks
         setState(() {
-          _bodyWidget = buildChannelListWidget( channels: channels);
+          _bodyWidget = buildChannelListWidget( channels: channels );
         });
 
       });
-
-
-     // runSQLQuery();
 
     }
 
@@ -106,34 +72,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     );
   }
 
-// Run the webservice and build the SQLData and set it to the bodyWidget
-  void runSQLQuery() {
-      // here we would execute webservice call .  for now we just load it the model
-
-       _bodyWidget = buildListWidget( sqlDataRows: _sqlDataRows);
-
-  }
-
-
-  // Using the SQL Data build the list widget
-  Widget buildListWidget({List<dynamic> sqlDataRows}) {
-
-    return new Center(
-          child: new ListView.builder(
-            itemCount: sqlDataRows.length,
-            itemBuilder:(BuildContext context, int index) {
-              return new ListTile(
-                title: new Text(sqlDataRows[index]['username']),
-                subtitle: new Text(sqlDataRows[index]['bike']),
-                trailing: new Text(sqlDataRows[index]['time']),
-               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
-                onTap: ()=> _onTapItem(context, index),
-              );
-            } ,
-          )
-        );
-
-  }
 
 
   // Using the SQL Data build the list widget
@@ -161,12 +99,11 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
 // ********** ACTION Methods
 
-
-
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
      Navigator.push(context, MaterialPageRoute(
-       builder: (context)=>new ChatWidget( channel: _channels[index],),
+       builder: (context)=>new ChatWidget( channel: _channels[index],
+       currentUserDisplayName:currentUserDisplayName,),
      ));
 
    }

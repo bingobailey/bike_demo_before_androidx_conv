@@ -71,7 +71,7 @@ void addChannel({String chateeUID, String chateeDisplayName, String title, Strin
 
     // We also need to add the channel on the chat table so it will fire a notification to the
     // chatee. 
-    DatabaseReference chatRef = new FirebaseDatabase().reference().child("chat/{$channelID}");
+    DatabaseReference chatRef = new FirebaseDatabase().reference().child("chat/$channelID");
     chatRef.push().set(
       {
           'name': 'chuppy',

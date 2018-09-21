@@ -31,29 +31,28 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
   @override
     void initState() {
-      // TODO: implement initState
+
       super.initState();
 
-      _credentials.fetchProvidersForEmail( email: "psimoj@gmail.com").then((loginResult) {
-          print("providers = ${loginResult.providers.toString()}");
-          print("exceptin = ${loginResult.e}");
+      _credentials.fetchProvidersForEmail( email: "psimoj@gmail.com").then((bool isSuccessful) {
+         if(isSuccessful) print("providers = ${LoginProfile.providers.toString()}");
+          else print("exceptin = ${LoginProfile.e}");
 
       });
 
 
       // See if user is already logged in 
-      _credentials.getCurrentUser().then((loginResult) {
-        if (loginResult.user!=null) {
-          print("User already logged in user: ${loginResult.user}");
-          print("token: ${loginResult.tokenID}");
+      _credentials.isLoggedIn().then((bool isSuccessful) {
+
+        if(isSuccessful) {
+          print("User already logged in user: ${LoginProfile.user}");
+          print("token: ${LoginProfile.tokenID}");
         } else {
           print("user not logged in");
-          print("initiating login");
+          print("initiating login"); // TODO:  Maybe display login page here
         }
       });
-
     }
-  
 
 //                ********** Build Methods ************
 
@@ -213,9 +212,9 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
         // TODO: Login successful... This is where we would transition to another page
 
-        print("user= ${loginResult.user}");
-        print("tokenid = ${loginResult.tokenID}");
-        print("e = ${loginResult.e}");
+        print("user= ${LoginProfile.user}");
+        print("tokenid = ${LoginProfile.tokenID}");
+        print("e = ${LoginProfile.e}");
       });
 
     }

@@ -1,6 +1,7 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
+import '../toolbox/credentials.dart';
 
     // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
     // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
@@ -53,7 +54,10 @@ void updateFCMToken({String fcmToken}) {
 
 
 // This associates a channel with the user and links the chatee. 
-void addChannel({String chateeUID, String chateeDisplayName, String title }) {
+void addChannel({String chateeUID, String chateeDisplayName, String title, String msg }) {
+
+  // We add the channel to the user so it will show up when we pull all the channels for this
+  // user
     String channelID = uid + "_" + chateeUID; // creats the channel to communicate on
     // .push inserts an auto key.  This makes it possible to get a list
     _ref.child('channels').push().set(
@@ -64,6 +68,17 @@ void addChannel({String chateeUID, String chateeDisplayName, String title }) {
           'chateeDisplayName' : chateeDisplayName,
           'datetime' :  DateTime.now().toString(),
         });
+
+    // We also need to add the channel on the chat table so it will fire a notification to the
+    // chatee. 
+    DatabaseReference chatRef = new FirebaseDatabase().reference().child("chat/{$channelID}");
+    chatRef.push().set(
+      {
+          'name': 'chuppy',
+          'content': msg,
+          'datetime' : DateTime.now().toString(),
+      });
+
 
   }
 

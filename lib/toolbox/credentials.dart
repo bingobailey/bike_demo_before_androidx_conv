@@ -15,12 +15,14 @@ import '../widgets/createaccountwidget.dart';
 
 */
 
-class LoginResult {
-  FirebaseUser user;
-  String tokenID; 
-  List<String> providers;
-  Exception e;
+ class LoginProfile {
+  static FirebaseUser user;
+  static String tokenID; 
+  static List<String> providers;
+  static Exception e;
 
+ 
+ 
   String toString() {
     return("user=$user, tokenID=$tokenID, providers=${providers.toString()}, e=${e.toString()}");
 
@@ -34,68 +36,80 @@ class Credentials  {
   FirebaseUser user;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // We declare these static so we can access them from any module
+  static String userDisplayName = "chuppychoo"; // This is fixed for testing for now
+  static String userUID;
+  static String photoURL; 
+
  
-  // Get the current user, if logged in
-  Future<LoginResult> getCurrentUser() async {
-      LoginResult loginResult = new LoginResult();
+  // Determine if current user is logged in.  If so, update the static vars
+  // in the LoginProfile class
+  Future<bool> isLoggedIn() async {
+
+      bool loginStatus=false;
+      //LoginProfile LoginProfile = new LoginProfile();
       FirebaseUser user = await _auth.currentUser();
       if(user != null ) {
-        loginResult.user = user;
-        loginResult.tokenID = await user.getIdToken();
+        LoginProfile.user = user;
+        LoginProfile.tokenID = await user.getIdToken();
+        loginStatus=true;
       }
-      return loginResult;
-  }
+      return loginStatus;
+  } 
 
 
 // Fetch the providers (ie how they logged in)
- Future<LoginResult> fetchProvidersForEmail({String email}) async {
+ Future<bool> fetchProvidersForEmail({String email}) async {
    
    // NOTE: if an email address is not found in firebase it will return a empty list
    // a provider of "password" indicates the user signed in with email and password
-    LoginResult loginResult = new LoginResult();
+    bool fetchStatus=false;
     try {
       List<String> providers = await _auth.fetchProvidersForEmail( email: email);
-      loginResult.providers = providers;
+      LoginProfile.providers = providers;
+      fetchStatus=true;
     } catch (e) {
-      loginResult.e = e;
+      LoginProfile.e = e;
     }
   
-    return loginResult;
+    return fetchStatus;
  }
 
 
 
 // Send Password Reset email
-  Future<LoginResult> sendPasswordResetEmail({String email}) async {
+  Future<bool> sendPasswordResetEmail({String email}) async {
 
-    LoginResult loginResult = new LoginResult();
+    bool sendStatus = false; 
     try {
       await _auth.sendPasswordResetEmail( email: email);
+      sendStatus=true;
     } catch(e){
 
     /* Errors:
       no email address ->  Given String is empty or null
       wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
     */
-      loginResult.e = e;
+      sendStatus=false;
+      LoginProfile.e = e;
     }
-    return loginResult; // if loginResult.e is null, it was successful
+    return sendStatus; 
   }
 
 
 
   // Sign in with Email and Password
-  Future<LoginResult> signInWithEmailAndPassword({String email, String password}) async {
+  Future<bool> signInWithEmailAndPassword({String email, String password}) async {
 
-    LoginResult loginResult = new LoginResult(); 
-    // We use the try catch block here so we can push the results into LoginResult,
+    bool signInStatus=false;
+    // We use the try catch block here so we can push the results into LoginProfile,
     // so we don't have to catch the error on the calling program
     try { 
      FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
-     loginResult.user = user;
-     loginResult.tokenID = await user.getIdToken();
-     return loginResult;
+     LoginProfile.user = user;
+     LoginProfile.tokenID = await user.getIdToken();
+     signInStatus=true;
      
     } catch( e ){
         /* 
@@ -103,9 +117,10 @@ class Credentials  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-      loginResult.e = e;
-      return loginResult;
+      LoginProfile.e = e;
+      signInStatus=false;
     }
+    return signInStatus;
   }
 
 
@@ -127,21 +142,21 @@ class Credentials  {
 
 
 // Create user Account with Email and Password
-  Future<LoginResult> createAccount({String email, String username, String password}) async {
+  Future<bool> createAccount({String email, String username, String password}) async {
+
+    bool createAccountStatus=false;
 
     // An example of creating a displayname and photo url and updating in firebase
     var userUpdateInfo = new UserUpdateInfo();
     userUpdateInfo.displayName = username;
    // userUpdateInfo.photoUrl = "photo url goes here";
 
-    LoginResult loginResult = new LoginResult();
-
     try {
       FirebaseUser user = await _auth.createUserWithEmailAndPassword( email: email, password: password);
 
       assert( user !=null );
-      loginResult.user = user;
-      loginResult.tokenID = await user.getIdToken();
+      LoginProfile.user = user;
+      LoginProfile.tokenID = await user.getIdToken();
       _auth.updateProfile(userUpdateInfo);
 
       // NOTE: This is where we would make the call the SQL DB to create the account there as well.
@@ -158,14 +173,15 @@ class Credentials  {
       */
       //user.sendEmailVerification(); // Optional if u want the email verified. Does not effect logging in
 
-     return loginResult;
+      createAccountStatus=true;
     } catch(e){
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-        loginResult.e = e; 
-        return loginResult;
+        LoginProfile.e = e; 
+        createAccountStatus=false;
     }
+    return createAccountStatus;
        
   } // Create account method
 

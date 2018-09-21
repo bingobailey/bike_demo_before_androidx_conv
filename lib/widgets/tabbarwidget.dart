@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../widgets/demolistwidget.dart';
 import '../chat/chatlistwidget.dart';
 import '../widgets/accountprofilewidget.dart';
-
 import '../toolbox/notifications.dart'; // for testing here
 
 

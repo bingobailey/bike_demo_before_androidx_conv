@@ -56,6 +56,7 @@ void updateFCMToken({String fcmToken}) {
 // This associates a channel with the user and links the chatee. 
 void addChannel({String chateeUID, String chateeDisplayName, String title, String msg }) {
 
+
   // We add the channel to the user so it will show up when we pull all the channels for this
   // user
     String channelID = uid + "_" + chateeUID; // creats the channel to communicate on
@@ -71,6 +72,8 @@ void addChannel({String chateeUID, String chateeDisplayName, String title, Strin
 
     // We also need to add the channel on the chat table so it will fire a notification to the
     // chatee. 
+
+   
     DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
     chatRef.push().set(
       {

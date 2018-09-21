@@ -248,7 +248,7 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
       User user = new User( uid:chuppyUID);
       user.addChannel( chateeUID: stevieUID , chateeDisplayName: "stevie", title: "would like to talk", msg: "how much?" );
-      user.addChannel( chateeUID: simonUID , chateeDisplayName: "simon", title: "like  your bike", msg: "what size frame?" );
+     // user.addChannel( chateeUID: simonUID , chateeDisplayName: "simon", title: "like  your bike", msg: "what size frame?" );
   
   }
 

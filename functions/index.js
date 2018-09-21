@@ -5,11 +5,6 @@
 
 /*
  TODO: 
-    - Write code in the notification.dart that will pull a list of notifications, both
-      from notifiations sent to this user by date.  Should be peer to peer notifications and
-      topic notifications. 
-    - write some code in the app that updates the notificaton db via the program to see
-      if the notification works
     - Setup another function to send to a topic, when another database is updated, figure
       out the strucure of this database
 */
@@ -18,20 +13,25 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-// We send out a notification when the notification database is updated.  This
-// indicates peer to peer communication, so we must retrieve the token
+// We send out chat notification when a message is entered.  This
+// indicates peer to peer communication, so we must retrieve the fcm token
 // NOTE:  when this notfication table is updated from the app, it should also store
 //       the datetime, so that can be accessed as well. 
-exports.sendNotification = functions.database.ref('notification/{uidTo}/{uidFrom}').onWrite((data, context) => {
+exports.sendChatNotification = functions.database.ref('chat/{uidChannel}/{key}').onWrite((data, context) => {
 
-    const uidFrom = context.params.uidFrom;
-    const uidTo = context.params.uidTo;
     const datetime = context.timestamp;
    
+    // The channel ID concatonates both UID id's (seperated by _) so we can split them and determine
+    // the from and to.  
+    const channelID = context.params.uidChannel;
+    const pos = channelID.search("_"); 
+    const uidFrom  = channelID.substr(0,pos);  // first uid is the From
+    const uidTo = channelID.substr(pos+1);     // second uid is the To
+    
     const datavalue = data.after.val();
-    const title = datavalue.displayName + ' sent you a message';
-    const body = datavalue.msg;
-  
+    const title = datavalue.name + ' sent you a message';
+    const body = datavalue.content;
+
     const payload = {
         notification:{
             title : title,
@@ -53,13 +53,13 @@ exports.sendNotification = functions.database.ref('notification/{uidTo}/{uidFrom
         // const userProfileRecord = admin.auth().getUser(uid);
         // console.log('user profile displayname: ' + userProfileRecord.displayName) ;
 
-
-
         // if the snapshot has data, continue 
         if(snapshot.val()){
             const token = snapshot.val()['fcm-token']; // access the token
             console.log('sending to msg to device');
             return admin.messaging().sendToDevice(token,payload);
+
+            // NOTE: The line below is what we would use to send to a topic, subscribed
             //return admin.messaging().sendToTopic("topicOne", payload);
 
         }else{

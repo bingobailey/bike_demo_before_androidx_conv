@@ -43,7 +43,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
       
-      User user = new User(  uid: uid );
+      User user = new User();
       user.getChannelList().then((List channels){
         _channels = channels; // We store it so we can access it when  user clicks
         setState(() {

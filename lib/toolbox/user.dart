@@ -1,24 +1,25 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
-
+//import '../toolbox/loginprofile.dart';
 
     // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
     // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
     // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
 
 
-// This class updates all the user info, profile and channels etc. 
+// This class updates all the user info, profile and channels etc. in the Firebase DB
 
 class User {
 
   // Attributes
-  String uid;
+  String _uid;
   DatabaseReference _ref;
 
   // Constructor
-  User({this.uid}) {
-   _ref = new FirebaseDatabase().reference().child("users/${this.uid}");
+  User() {
+    _uid = 'bingo';// LoginProfile().user.uid; // the uid here is the user logged in
+   _ref = new FirebaseDatabase().reference().child("users/$_uid");
   }
   
 
@@ -54,26 +55,28 @@ void updateFCMToken({String fcmToken}) {
 
 
 // This associates a channel with the user and links the chatee. 
-void addChannel({String chateeUID, String chateeDisplayName, String title, String msg }) {
-
+void addChannel({String toUID, String toDisplayName, String title, String msg }) {
 
   // We add the channel to the user so it will show up when we pull all the channels for this
   // user
-    String channelID = uid + "_" + chateeUID; // creats the channel to communicate on
+    String channelID = _uid + "_" + toUID; // creats the channel to communicate on
     // .push inserts an auto key.  This makes it possible to get a list
     _ref.child('channels').push().set(
         {
           'channelID': channelID,
           'title': title,
-          'chateeUID': chateeUID,
-          'chateeDisplayName' : chateeDisplayName,
+          'chateeUID': toUID,
+          'chateeDisplayName' : toDisplayName,
           'datetime' :  DateTime.now().toString(),
         });
 
     // We also need to add the channel on the chat table so it will fire a notification to the
     // chatee. 
 
-   
+   // We push the message, which is coming from the person logged in. 
+
+    // TODO:  replace the hardcode name below with,
+    //   LoginProfile().user.displayName    in order to use this feature user must be logged in
     DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
     chatRef.push().set(
       {

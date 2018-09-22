@@ -6,6 +6,7 @@ import 'dart:async';
 
 import '../toolbox/user.dart';
 
+
 /*
 Observations up to this point; 
 
@@ -236,8 +237,7 @@ class _NotificatonTestState extends State<NotificatonTest> {
     User user = new User( uid:"ZgrSJsAjeVeA8i11QPmGcse0k0h2" );
     user.updateProfile( displayName: 'bingoX', photoURL: "howdeeURL");
   }
-
-
+ 
   void createChannel() {
 
     String simonUID = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1";
@@ -317,9 +317,6 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
           
         });
-
-
-
 
 
   return null;  // for testing only

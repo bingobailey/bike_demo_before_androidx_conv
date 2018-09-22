@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart'; 
 import '../toolbox/credentials.dart';
 import '../toolbox/validator.dart';
+import '../toolbox/loginprofile.dart';
 
 class _LoginData {
   String email = '';
@@ -35,8 +36,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       super.initState();
 
       _credentials.fetchProvidersForEmail( email: "psimoj@gmail.com").then((bool isSuccessful) {
-         if(isSuccessful) print("providers = ${LoginProfile.providers.toString()}");
-          else print("exceptin = ${LoginProfile.e}");
+         if(isSuccessful) print("providers = ${LoginProfile().providers.toString()}");
+          else print("exceptin = ${LoginProfile().e}");
 
       });
 
@@ -45,8 +46,8 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       _credentials.isLoggedIn().then((bool isSuccessful) {
 
         if(isSuccessful) {
-          print("User already logged in user: ${LoginProfile.user}");
-          print("token: ${LoginProfile.tokenID}");
+          print("User already logged in user: ${LoginProfile().user}");
+          print("token: ${LoginProfile().tokenID}");
         } else {
           print("user not logged in");
           print("initiating login"); // TODO:  Maybe display login page here
@@ -212,9 +213,9 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
 
         // TODO: Login successful... This is where we would transition to another page
 
-        print("user= ${LoginProfile.user}");
-        print("tokenid = ${LoginProfile.tokenID}");
-        print("e = ${LoginProfile.e}");
+        print("user= ${LoginProfile().user}");
+        print("tokenid = ${LoginProfile().tokenID}");
+        print("e = ${LoginProfile().e}");
       });
 
     }

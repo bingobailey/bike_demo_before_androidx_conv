@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
 import '../toolbox/usertools.dart';
+import './currentuser.dart';
 
 
 /*
@@ -129,14 +130,19 @@ class _NotificatonTestState extends State<NotificatonTest> {
          _firebaseMessaging.getToken().then((String token){
            print("token = $token");  //SCM token for this device. Can send  to specific user
       
-          // This would be the uid of the person logged in
-          String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
-        
-          // Update the user, now that we have the token
-          UserTools userTools = new UserTools(); // This would be the user logged in 
-          userTools.updateProfile( displayName: "chuppychoo", photoURL: "urlchuppy");
-          userTools.updateFCMToken( fcmToken: token);
+            // This would be the uid of the person logged in
+            String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
+          
+            // Update the user, now that we have the token
 
+            // TODO:  The code below should be placed on the startup of the app, not here..
+            // It updates the fcm token for the user logged in
+            if ( CurrentUser().isLoggedIn()) {
+              UserTools userTools = new UserTools(); // This would be the user logged in 
+              userTools.updateProfile( displayName: CurrentUser().user.displayName, photoURL: CurrentUser().user.photoUrl);
+              userTools.updateFCMToken( fcmToken: token);
+            }
+      
          });
 
 /*
@@ -150,6 +156,9 @@ class _NotificatonTestState extends State<NotificatonTest> {
         NOTE:  You can also create a system wide topic, if you want to send a push 
         notification to all users using the app. 
 */
+
+        // TODO:  This needs to be integrated with the topics on FB and whether the
+        // user subscribes to those topics  (ie Added_bike etc)
         _firebaseMessaging.subscribeToTopic("topicOne");
 
     }
@@ -168,41 +177,6 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
       ,);
     }
-
-// method below for testing
-
-  void updateChat() {
-
-    // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
-    // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
-    // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
-
-    // The from parms
-    String uidFrom= "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
-    String displayName = "Simon";
-    String message = "what color";
-    String datetime = DateTime.now().toString();
-
-    // The To parms
-    String uidTo = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // chuppy
-    
-    print("updating chat");
-    DatabaseReference databaseReference = new FirebaseDatabase().reference();
-    String channelID = uidTo + "_" + uidFrom;
-    databaseReference.child('chat/$channelID').set(
-      {
-        'description': {
-          'title': "yeti 5.5",
-          'datetime': datetime,
-          'uidFrom' : uidFrom,
-          'uidTo' : uidTo,
-        }
-     
-      });
-
-
-
-  }
 
 
 
@@ -264,64 +238,11 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
     });
 
-
   }
-
-
-  // // Testing getting a list of the chats
-  //  Future<List> getChatList() async {
-
-  //   // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
-  //   // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
-  //   // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
- 
-
-  //   String uid =  "wV9aWBbmHgUySap10e1qgJrLMbv2";
-
-  //   DatabaseReference _ref = new FirebaseDatabase().reference().child("users").child(uid).child('channels');
-
-  //   Query query = _ref.orderByChild('title').startAt('like').endAt("like\uf8ff");
-
-  //   DataSnapshot snapshot = await query.once();
-
-  //     snapshot.value.forEach( (k,v) {
-  //         print("k = $k");
-  //         print("title = ${v['title']}");
-         
-  //     });
-
-
-  //    return null;
-
-  //  }
-
 
   
-  Future<List> getNotificationList() async {
 
-    // This is the user that we want to retrieve any notifications associated with.
-    // In the FB database it's setup as uidTo/uidFrom
-    String notificationUID = "notification/wV9aWBbmHgUySap10e1qgJrLMbv2";
-
-    DatabaseReference reference = new FirebaseDatabase().reference().child(notificationUID);
-
-      // this takes a snapshot of the data which comes in as key value pairs
-      DataSnapshot snapshot = await reference.once();
-
-      print("print out..");
-      snapshot.value.forEach( (k,v) {
-
-            print("k = $k");
-            print("displayname = ${v['displayName']}");
-            print("msg = ${v['msg']}");
-
-          
-        });
-
-
-  return null;  // for testing only
-
-  }
+  
  
 
 

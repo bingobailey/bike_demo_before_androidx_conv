@@ -24,6 +24,11 @@ import 'package:firebase_auth/firebase_auth.dart';
       // any initialization goes here.. 
     }
 
+    bool isLoggedIn() {
+      if (user != null) return true;
+      else return false;
+    }
+
   String toString() {
     return("user=$user, tokenID=$tokenID, providers=${providers.toString()}, e=${e.toString()}");
 

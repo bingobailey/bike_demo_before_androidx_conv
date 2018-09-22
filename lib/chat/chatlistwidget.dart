@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../chat/chatwidget.dart';
 import '../toolbox/uitools.dart';
 import '../toolbox//usertools.dart';
+import '../toolbox/currentuser.dart';
 
 /*
 chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
@@ -40,17 +41,22 @@ class _ChatListWidgetState extends State<ChatListWidget> {
       // TODO: implement initState
       super.initState();
 
+      // Only show list if logged in
+      if (CurrentUser().isLoggedIn()) {
+        _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
+        UserTools userTools = new UserTools();
+        userTools.getChannelList().then((List channels){
+          _channels = channels; // We store it so we can access it when  user clicks
+          setState(() {
+            _bodyWidget = buildChannelListWidget( channels: channels );
+          });
 
-     _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-      
-      UserTools userTools = new UserTools();
-      userTools.getChannelList().then((List channels){
-        _channels = channels; // We store it so we can access it when  user clicks
-        setState(() {
-          _bodyWidget = buildChannelListWidget( channels: channels );
         });
+      } else {
+        _bodyWidget = new Text("not logged in");
+      }
+    
 
-      });
 
     }
 

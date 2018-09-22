@@ -27,6 +27,9 @@ class Credentials  {
  
   // Determine if current user is logged in.  If so, update the static vars
   // in the CurrentUser class
+
+// TODO:  The code below should be moved to another method upon startup of the app
+// to update CurrentUser().  should not be called from credentials
   Future<bool> isLoggedIn() async {
 
       bool loginStatus=false;
@@ -39,6 +42,7 @@ class Credentials  {
       }
       return loginStatus;
   } 
+
 
 
 // Fetch the providers (ie how they logged in)

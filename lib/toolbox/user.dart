@@ -1,6 +1,8 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
+import './currentuser.dart';
+
 
 
     // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
@@ -12,13 +14,13 @@ import 'dart:async';
 
 class User {
 
-  // Attributes
+  // Attributes 
   String _uid;
   DatabaseReference _ref;
 
   // Constructor
   User() {
-    _uid = 'bingo';// LoginProfile().user.uid; // the uid here is the user logged in
+    _uid = CurrentUser().user.uid; // the uid here is the user logged in
    _ref = new FirebaseDatabase().reference().child("users/$_uid");
   }
   
@@ -76,11 +78,11 @@ void addChannel({String toUID, String toDisplayName, String title, String msg })
    // We push the message, which is coming from the person logged in. 
 
     // TODO:  replace the hardcode name below with,
-    //   LoginProfile().user.displayName    in order to use this feature user must be logged in
+    //   CurrentUser().user.displayName    in order to use this feature user must be logged in
     DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
     chatRef.push().set(
       {
-          'name': 'chuppy',
+          'name': CurrentUser().user.displayName,
           'content': msg,
           'datetime' : DateTime.now().toString(),
       });

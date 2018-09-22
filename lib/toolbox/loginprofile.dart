@@ -11,11 +11,11 @@ import 'package:firebase_auth/firebase_auth.dart';
    List<String> providers;
    Exception e;
 
+  static final LoginProfile _singleton = new LoginProfile._internal(); // singleton
+
+
   // Methods:
-
-    static final LoginProfile _singleton = new LoginProfile._internal();
-
-
+   
     factory LoginProfile() {
       return _singleton;
     }

@@ -204,7 +204,7 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
       // Let's try to login
       _credentials.signInWithEmailAndPassword( 
         email: _loginData.email, 
-        password: _loginData.password).then((loginResult) {
+        password: _loginData.password).then((bool isSuccessful) {
 
         // We've returned so set loading to false and refresh the screen
         setState(() {
@@ -212,10 +212,17 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
         });
 
         // TODO: Login successful... This is where we would transition to another page
+        if(isSuccessful) {
+          print("login successful");
+          print("user= ${LoginProfile().user}");
+          print("tokenid = ${LoginProfile().tokenID}");
+         
+        } else { // was unsuccessful, need to inform user
+          print("login unsuccessful");
+            print("e = ${LoginProfile().e}");
+        }
 
-        print("user= ${LoginProfile().user}");
-        print("tokenid = ${LoginProfile().tokenID}");
-        print("e = ${LoginProfile().e}");
+        
       });
 
     }

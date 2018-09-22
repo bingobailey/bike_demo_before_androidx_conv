@@ -24,11 +24,6 @@ class Credentials  {
   FirebaseUser user;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // We declare these static so we can access them from any module
-  static String userDisplayName = "chuppychoo"; // This is fixed for testing for now
-  static String userUID;
-  static String photoURL; 
-
  
   // Determine if current user is logged in.  If so, update the static vars
   // in the LoginProfile class

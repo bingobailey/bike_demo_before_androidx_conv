@@ -5,6 +5,8 @@ import '../chat/chatlistwidget.dart';
 import '../widgets/accountprofilewidget.dart';
 import '../toolbox/notifications.dart'; // for testing here
 
+import '../widgets/loginfirebase.dart'; // for testing
+
 
 class TabBarWidget extends StatefulWidget {
   @override
@@ -46,7 +48,9 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new NotificatonTest(),
               
                new ChatListWidget(),
-              new AccountProfileWidget(),
+
+               new LoginFirebaseWidget(),
+              //new AccountProfileWidget(),
             
              // new TestWidget(),  // for testing login
             ]

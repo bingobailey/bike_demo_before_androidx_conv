@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../chat/chatwidget.dart';
 import '../toolbox/uitools.dart';
-import '../toolbox//user.dart';
+import '../toolbox//usertools.dart';
 
 /*
 chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
@@ -43,8 +43,8 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
       
-      User user = new User();
-      user.getChannelList().then((List channels){
+      UserTools userTools = new UserTools();
+      userTools.getChannelList().then((List channels){
         _channels = channels; // We store it so we can access it when  user clicks
         setState(() {
           _bodyWidget = buildChannelListWidget( channels: channels );

@@ -12,14 +12,14 @@ import './currentuser.dart';
 
 // This class updates all the user info, profile and channels etc. in the Firebase DB
 
-class User {
+class UserTools {
 
   // Attributes 
   String _uid;
   DatabaseReference _ref;
 
   // Constructor
-  User() {
+  UserTools() {
     _uid = CurrentUser().user.uid; // the uid here is the user logged in
    _ref = new FirebaseDatabase().reference().child("users/$_uid");
   }

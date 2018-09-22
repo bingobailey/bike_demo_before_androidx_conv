@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'dart:async';
 
-import '../toolbox/user.dart';
+import '../toolbox/usertools.dart';
 
 
 /*
@@ -133,9 +133,9 @@ class _NotificatonTestState extends State<NotificatonTest> {
           String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
         
           // Update the user, now that we have the token
-          User user = new User(); // This would be the user logged in 
-          user.updateProfile( displayName: "chuppychoo", photoURL: "urlchuppy");
-          user.updateFCMToken( fcmToken: token);
+          UserTools userTools = new UserTools(); // This would be the user logged in 
+          userTools.updateProfile( displayName: "chuppychoo", photoURL: "urlchuppy");
+          userTools.updateFCMToken( fcmToken: token);
 
          });
 
@@ -234,8 +234,8 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
 
   void updateUserInfo() {
-    User user = new User();
-    user.updateProfile( displayName: 'bingoX', photoURL: "howdeeURL");
+    UserTools userTools = new UserTools();
+    userTools.updateProfile( displayName: 'bingoX', photoURL: "howdeeURL");
   }
  
   void createChannel() {
@@ -246,16 +246,16 @@ class _NotificatonTestState extends State<NotificatonTest> {
 
 
 
-      User user = new User();
-      user.addChannel(  toUID: stevieUID,  toDisplayName: "stevie", title: "would like to talk", msg: "how much?" );
+      UserTools userTools = new UserTools();
+      userTools.addChannel(  toUID: stevieUID,  toDisplayName: "stevie", title: "would like to talk", msg: "how much?" );
      // user.addChannel( chateeUID: simonUID , chateeDisplayName: "simon", title: "like  your bike", msg: "what size frame?" );
   
   }
 
 
   void getChannelList() {
-    User user = new User();
-    user.getChannelList().then((List list){
+    UserTools userTools = new UserTools();
+    userTools.getChannelList().then((List list){
       list.forEach((channel){
         print("channelID: ${channel['channelID']}");
         print("title: ${channel['title']}");

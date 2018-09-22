@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import '../widgets/loginfirebase.dart';
 import '../widgets/createaccountwidget.dart';
-import '../toolbox/loginprofile.dart';
+import '../toolbox/currentuser.dart';
 
 /*
  
@@ -26,15 +26,15 @@ class Credentials  {
 
  
   // Determine if current user is logged in.  If so, update the static vars
-  // in the LoginProfile class
+  // in the CurrentUser class
   Future<bool> isLoggedIn() async {
 
       bool loginStatus=false;
-      //LoginProfile LoginProfile = new LoginProfile();
+      //CurrentUser CurrentUser = new CurrentUser();
       FirebaseUser user = await _auth.currentUser();
       if(user != null ) {
-        LoginProfile().user = user;
-        LoginProfile().tokenID = await user.getIdToken();
+        CurrentUser().user = user;
+        CurrentUser().tokenID = await user.getIdToken();
         loginStatus=true;
       }
       return loginStatus;
@@ -49,10 +49,10 @@ class Credentials  {
     bool fetchStatus=false;
     try {
       List<String> providers = await _auth.fetchProvidersForEmail( email: email);
-      LoginProfile().providers = providers;
+      CurrentUser().providers = providers;
       fetchStatus=true;
     } catch (e) {
-      LoginProfile().e = e;
+      CurrentUser().e = e;
     }
   
     return fetchStatus;
@@ -74,7 +74,7 @@ class Credentials  {
       wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
     */
       sendStatus=false;
-      LoginProfile().e = e;
+      CurrentUser().e = e;
     }
     return sendStatus; 
   }
@@ -85,13 +85,13 @@ class Credentials  {
   Future<bool> signInWithEmailAndPassword({String email, String password}) async {
 
     bool signInStatus=false;
-    // We use the try catch block here so we can push the results into LoginProfile,
+    // We use the try catch block here so we can push the results into CurrentUser,
     // so we don't have to catch the error on the calling program
     try { 
      FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
-     LoginProfile().user = user;
-     LoginProfile().tokenID = await user.getIdToken();
+     CurrentUser().user = user;
+     CurrentUser().tokenID = await user.getIdToken();
      signInStatus=true;
      
     } catch( e ){
@@ -100,7 +100,7 @@ class Credentials  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-      LoginProfile().e = e;
+      CurrentUser().e = e;
       signInStatus=false;
     }
     return signInStatus;
@@ -138,8 +138,8 @@ class Credentials  {
       FirebaseUser user = await _auth.createUserWithEmailAndPassword( email: email, password: password);
 
       assert( user !=null );
-      LoginProfile().user = user;
-      LoginProfile().tokenID = await user.getIdToken();
+      CurrentUser().user = user;
+      CurrentUser().tokenID = await user.getIdToken();
       _auth.updateProfile(userUpdateInfo);
 
       // NOTE: This is where we would make the call the SQL DB to create the account there as well.
@@ -161,7 +161,7 @@ class Credentials  {
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-        LoginProfile().e = e; 
+        CurrentUser().e = e; 
         createAccountStatus=false;
     }
     return createAccountStatus;

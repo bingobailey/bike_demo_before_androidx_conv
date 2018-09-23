@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/demolistwidget.dart';
-import '../chat/chatlistwidget.dart';
-import '../widgets/accountprofilewidget.dart';
-import '../toolbox/notifications.dart'; // for testing here
-
-import '../widgets/loginfirebase.dart'; // for testing
+import 'package:bike_demo/widgets/demolistwidget.dart';
+import 'package:bike_demo/chat/chatlistwidget.dart';
+import 'package:bike_demo/widgets/accountprofilewidget.dart';
+import 'package:bike_demo/toolbox/notifications.dart'; // for testing here
+import 'package:bike_demo/widgets/loginfirebase.dart'; // for testing
 
 
 class TabBarWidget extends StatefulWidget {

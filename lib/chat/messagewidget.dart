@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './message.dart';
+
+import 'package:bike_demo/chat/message.dart';
 
 
 // MessageWidget CLASS

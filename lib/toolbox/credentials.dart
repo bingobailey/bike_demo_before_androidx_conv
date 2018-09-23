@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-import '../widgets/loginfirebase.dart';
-import '../widgets/createaccountwidget.dart';
-import '../toolbox/currentuser.dart';
+import 'package:bike_demo/widgets/loginfirebase.dart';
+import 'package:bike_demo/widgets/createaccountwidget.dart';
+import 'package:bike_demo/toolbox/currentuser.dart';
 
 /*
  
@@ -36,8 +36,8 @@ class Credentials  {
       //CurrentUser CurrentUser = new CurrentUser();
       FirebaseUser user = await _auth.currentUser();
       if(user != null ) {
-        CurrentUser().user = user;
-        CurrentUser().tokenID = await user.getIdToken();
+        CurrentUser.getInstance().user = user;
+        CurrentUser.getInstance().tokenID = await user.getIdToken();
         loginStatus=true;
       }
       return loginStatus;
@@ -53,10 +53,10 @@ class Credentials  {
     bool fetchStatus=false;
     try {
       List<String> providers = await _auth.fetchProvidersForEmail( email: email);
-      CurrentUser().providers = providers;
+      CurrentUser.getInstance().providers = providers;
       fetchStatus=true;
     } catch (e) {
-      CurrentUser().e = e;
+      CurrentUser.getInstance().e = e;
     }
   
     return fetchStatus;
@@ -78,7 +78,7 @@ class Credentials  {
       wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
     */
       sendStatus=false;
-      CurrentUser().e = e;
+      CurrentUser.getInstance().e = e;
     }
     return sendStatus; 
   }
@@ -94,8 +94,10 @@ class Credentials  {
     try { 
      FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
-     CurrentUser().user = user;
-     CurrentUser().tokenID = await user.getIdToken();
+
+     print("setting user uid.. ${user.uid}");
+     CurrentUser.getInstance().user = user;
+     CurrentUser.getInstance().tokenID = await user.getIdToken();
      signInStatus=true;
      
     } catch( e ){
@@ -104,7 +106,7 @@ class Credentials  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-      CurrentUser().e = e;
+      CurrentUser.getInstance().e = e;
       signInStatus=false;
     }
     return signInStatus;
@@ -142,8 +144,8 @@ class Credentials  {
       FirebaseUser user = await _auth.createUserWithEmailAndPassword( email: email, password: password);
 
       assert( user !=null );
-      CurrentUser().user = user;
-      CurrentUser().tokenID = await user.getIdToken();
+      CurrentUser.getInstance().user = user;
+      CurrentUser.getInstance().tokenID = await user.getIdToken();
       _auth.updateProfile(userUpdateInfo);
 
       // NOTE: This is where we would make the call the SQL DB to create the account there as well.
@@ -165,7 +167,7 @@ class Credentials  {
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-        CurrentUser().e = e; 
+        CurrentUser.getInstance().e = e; 
         createAccountStatus=false;
     }
     return createAccountStatus;

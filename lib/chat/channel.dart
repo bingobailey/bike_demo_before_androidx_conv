@@ -1,8 +1,9 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
-import './message.dart';
-import '../toolbox/notify.dart';
+
+import 'package:bike_demo/chat/message.dart';
+import 'package:bike_demo/toolbox/notify.dart';
 
 
 final String _baseTable = "chat";

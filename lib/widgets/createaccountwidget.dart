@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart'; 
-import '../toolbox/credentials.dart';
-import '../toolbox/validator.dart';
+
+import 'package:bike_demo/toolbox/credentials.dart';
+import 'package:bike_demo/toolbox/validator.dart';
 
 class _AccountData {
   String email = '';

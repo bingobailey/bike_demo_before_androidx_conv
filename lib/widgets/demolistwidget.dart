@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../toolbox/webservice.dart';
-import '../toolbox/uitools.dart';
-import '../memberprofilepage.dart';
+import 'package:bike_demo/toolbox/webservice.dart';
+import 'package:bike_demo/toolbox/uitools.dart';
+import 'package:bike_demo/memberprofilepage.dart';
 
 
 class DemoListWidget extends StatefulWidget {
@@ -28,6 +28,9 @@ class _DemoListWidgetState extends State<DemoListWidget> {
     void initState() {
       super.initState();
        
+
+print("inside demolistwidget initstate");
+
       // Instantiate the webservice
       //wsLocation = "http://www.mtbphotoz.com/prod/PHP/";
       wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './widgets/tabbarwidget.dart';
+import 'package:bike_demo/widgets/tabbarwidget.dart';
 
 
 void main() {

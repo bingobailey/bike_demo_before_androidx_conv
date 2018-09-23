@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';   // for ios icons etc
 
-import './messagewidget.dart';
-import '../toolbox/platformconstants.dart';
-import './message.dart';
-import './channel.dart';
-import '../toolbox/notify.dart';
+import 'package:bike_demo/chat/messagewidget.dart';
+import 'package:bike_demo/toolbox/platformconstants.dart';
+import 'package:bike_demo/chat/message.dart';
+import 'package:bike_demo/chat/channel.dart';
+import 'package:bike_demo/toolbox/notify.dart';
 
 
 /// Chat Screen CLASS

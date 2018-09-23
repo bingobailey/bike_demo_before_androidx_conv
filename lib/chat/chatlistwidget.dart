@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../chat/chatwidget.dart';
-import '../toolbox/uitools.dart';
-import '../toolbox//usertools.dart';
-import '../toolbox/currentuser.dart';
+import 'package:bike_demo/chat/chatwidget.dart';
+import 'package:bike_demo/toolbox/uitools.dart';
+import 'package:bike_demo/toolbox//usertools.dart';
+import 'package:bike_demo/toolbox/currentuser.dart';
 
 /*
 chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
@@ -31,19 +31,20 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
-
-    // TODO:  Need to call credentials.getcurrentuser() here ...
-      String uid = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // current user logged in 
-      String currentUserDisplayName = "Chuppy";
+  String currentUserDisplayName;
 
   @override
     void initState() {
-      // TODO: implement initState
       super.initState();
 
+print("inside chatlistwidget initstate");
+
+
       // Only show list if logged in
-      if (CurrentUser().isLoggedIn()) {
+      if (CurrentUser.getInstance().isLoggedIn()) {
+        currentUserDisplayName = CurrentUser.getInstance().user.displayName;
         _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
+
         UserTools userTools = new UserTools();
         userTools.getChannelList().then((List channels){
           _channels = channels; // We store it so we can access it when  user clicks

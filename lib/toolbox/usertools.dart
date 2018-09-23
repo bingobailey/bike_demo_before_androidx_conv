@@ -1,9 +1,7 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
-import './currentuser.dart';
-
-
+import 'package:bike_demo/toolbox/currentuser.dart';
 
     // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
     // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
@@ -20,7 +18,10 @@ class UserTools {
 
   // Constructor
   UserTools() {
-    _uid = CurrentUser().user.uid; // the uid here is the user logged in
+
+    print("Usertools ABOVE _uid user= ${CurrentUser.getInstance().toString()}");
+    _uid = CurrentUser.getInstance().user.uid; // the uid here is the user logged in
+    print("usertools BELOW");
    _ref = new FirebaseDatabase().reference().child("users/$_uid");
   }
   
@@ -76,13 +77,10 @@ void addChannel({String toUID, String toDisplayName, String title, String msg })
     // chatee. 
 
    // We push the message, which is coming from the person logged in. 
-
-    // TODO:  replace the hardcode name below with,
-    //   CurrentUser().user.displayName    in order to use this feature user must be logged in
     DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
     chatRef.push().set(
       {
-          'name': CurrentUser().user.displayName,
+          'name': CurrentUser.getInstance().user.displayName,
           'content': msg,
           'datetime' : DateTime.now().toString(),
       });

@@ -11,18 +11,22 @@ import 'package:firebase_auth/firebase_auth.dart';
    List<String> providers;
    Exception e;
 
-  static final CurrentUser _singleton = new CurrentUser._internal(); // singleton
+  //static final CurrentUser _singleton = new CurrentUser._internal(); // singleton
+
+  static CurrentUser _instance;
+
+  static CurrentUser getInstance() {
+    if (_instance==null) {
+      _instance = new CurrentUser();
+    }
+    return _instance;
+
+  }
+
 
 
   // Methods:
    
-    factory CurrentUser() {
-      return _singleton;
-    }
-
-    CurrentUser._internal(){
-      // any initialization goes here.. 
-    }
 
     bool isLoggedIn() {
       if (user != null) return true;

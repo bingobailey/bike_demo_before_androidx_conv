@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import 'package:bike_demo/toolbox/usertools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
 
@@ -53,18 +52,14 @@ print("inside notification initstate");
          _firebaseMessaging.getToken().then((String token){
            print("token = $token");  //SCM token for this device. Can send  to specific user
       
-            // This would be the uid of the person logged in
-            String uid= "wV9aWBbmHgUySap10e1qgJrLMbv2"; // uid associated with the user
-          
-            // Update the user, now that we have the token
-
             // TODO:  The code below should be placed on the startup of the app, not here..
             // It updates the fcm token for the user logged in
-            if ( CurrentUser.getInstance().isLoggedIn()) {
-              UserTools userTools = new UserTools(); // This would be the user logged in 
-              userTools.updateProfile( displayName: CurrentUser.getInstance().user.displayName, photoURL: CurrentUser.getInstance().user.photoUrl);
-              userTools.updateFCMToken( fcmToken: token);
-            }
+
+            print("notication.dart: checking if user is authenticated to set token");
+            if ( CurrentUser.getInstance().isAuthenticated()) {
+              print("user is authenticated, setting token");
+              CurrentUser.getInstance().fcmToken = token;
+            } else print ("user not authenticated");
       
          });
 
@@ -129,30 +124,22 @@ print("inside notification initstate");
 
   }
 
-
-  void updateUserInfo() {
-    UserTools userTools = new UserTools();
-    userTools.updateProfile( displayName: 'bingoX', photoURL: "howdeeURL");
-  }
  
   void createChannel() {
-
     String simonUID = "Vx2GCPPs7AbnXb8hk8UTzo22UOw1";
     String  stevieUID =  "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
     String chuppyUID =   "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
 
-
-
-      UserTools userTools = new UserTools();
-      userTools.addChannel(  toUID: stevieUID,  toDisplayName: "stevie", title: "would like to talk", msg: "how much?" );
-     // user.addChannel( chateeUID: simonUID , chateeDisplayName: "simon", title: "like  your bike", msg: "what size frame?" );
-  
+      CurrentUser.getInstance().addChannel(  
+            toUID: stevieUID,  
+            toDisplayName: "stevie", 
+            title: "like your bike", 
+            msg: "rent out for 1/2 day ?" );
   }
 
 
   void getChannelList() {
-    UserTools userTools = new UserTools();
-    userTools.getChannelList().then((List list){
+    CurrentUser.getInstance().getChannelList().then((List list){
       list.forEach((channel){
         print("channelID: ${channel['channelID']}");
         print("title: ${channel['title']}");
@@ -162,8 +149,5 @@ print("inside notification initstate");
     });
 
   }
-
-  
-
 
 } // end of class

@@ -94,8 +94,6 @@ class Credentials  {
     try { 
      FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
-
-     print("setting user uid.. ${user.uid}");
      CurrentUser.getInstance().user = user;
      CurrentUser.getInstance().tokenID = await user.getIdToken();
      signInStatus=true;

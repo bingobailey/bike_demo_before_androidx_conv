@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/uitools.dart';
-import 'package:bike_demo/toolbox//usertools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
 /*
@@ -37,16 +36,10 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     void initState() {
       super.initState();
 
-print("inside chatlistwidget initstate");
-
-
       // Only show list if logged in
-      if (CurrentUser.getInstance().isLoggedIn()) {
-        currentUserDisplayName = CurrentUser.getInstance().user.displayName;
+      if (CurrentUser.getInstance().isAuthenticated()) {
         _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-
-        UserTools userTools = new UserTools();
-        userTools.getChannelList().then((List channels){
+        CurrentUser.getInstance().getChannelList().then((List channels){
           _channels = channels; // We store it so we can access it when  user clicks
           setState(() {
             _bodyWidget = buildChannelListWidget( channels: channels );

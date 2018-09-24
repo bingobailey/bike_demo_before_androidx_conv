@@ -123,7 +123,7 @@ import 'dart:async';
       });
   }
 
-
+// TODO:  updateProfile and updatePhoto should also write the contents to disk via sharedprefs
 
   // Update the user's photo 
   void updatePhoto({String photoURL}){
@@ -161,8 +161,8 @@ import 'dart:async';
           {
             'channelID': channelID,
             'title': title,
-            'chateeUID': toUID,
-            'chateeDisplayName' : toDisplayName,
+            'toUID': toUID,
+            'toDisplayName' : toDisplayName,
             'datetime' :  DateTime.now().toString(),
           });
 
@@ -173,7 +173,7 @@ import 'dart:async';
       DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
       chatRef.push().set(
         {
-            'name': CurrentUser.getInstance().user.displayName,
+            'name': CurrentUser.getInstance()._displayName,
             'content': msg,
             'datetime' : DateTime.now().toString(),
         });

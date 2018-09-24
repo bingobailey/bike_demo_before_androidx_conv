@@ -82,7 +82,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemCount: channels.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(channels[index]['chateeDisplayName']),
+                title: new Text(channels[index]['toDisplayName']),
                 subtitle: new Text(channels[index]['title']),
                 trailing: new Text(channels[index]['datetime']),
                // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),

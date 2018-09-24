@@ -86,7 +86,7 @@ print("inside notification initstate");
     Widget build(BuildContext context) {
   
       Widget text = new Text(textValue);
-      Widget tapText = new GestureDetector( child: text, onTap: createChannel); 
+      Widget tapText = new GestureDetector( child: text, onTap: createChannel);  
 
       return new Scaffold( 
         appBar: new AppBar( title: new Text("Firebase Messaging"),),
@@ -96,33 +96,6 @@ print("inside notification initstate");
       ,);
     }
 
-
-
-  void sendContactNotification() {
-
-    // simon - Vx2GCPPs7AbnXb8hk8UTzo22UOw1
-    // stevie "ZgrSJsAjeVeA8i11QPmGcse0k0h2"; 
-    // chuppy  "wV9aWBbmHgUySap10e1qgJrLMbv2"; 
-
-    // The from parms
-    String uidFrom= "Vx2GCPPs7AbnXb8hk8UTzo22UOw1"; // simon
-    String displayName = "Simon";
-    String message = "what color";
-    String datetime = DateTime.now().toString();
-
-    // The To parms
-    String uidTo = "wV9aWBbmHgUySap10e1qgJrLMbv2"; // chuppy
-    
-    print("sending notification");
-    DatabaseReference databaseReference = new FirebaseDatabase().reference();
-    databaseReference.child('notification/$uidTo/$uidFrom').set(
-      {
-      "msg":message,
-      "datetime": datetime,
-      "displayName": displayName,
-      });
-
-  }
 
  
   void createChannel() {
@@ -137,13 +110,14 @@ print("inside notification initstate");
             msg: "rent out for 1/2 day ?" );
   }
 
+// TODO:  NOT sending the msg part.  
 
   void getChannelList() {
     CurrentUser.getInstance().getChannelList().then((List list){
       list.forEach((channel){
         print("channelID: ${channel['channelID']}");
         print("title: ${channel['title']}");
-        print("chateeUID:  ${channel['chateeUID']}");
+        print("toUID:  ${channel['toUID']}");
       });
 
     });

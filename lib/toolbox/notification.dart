@@ -42,7 +42,7 @@ class Notificaton {
 
         // TODO:  This needs to be integrated with the topics on FB and whether the
         // user subscribes to those topics  (ie Added_bike etc)
-        _firebaseMessaging.subscribeToTopic("topicOne");
+        _firebaseMessaging.subscribeToTopic("Review_posted");
 
     }
 

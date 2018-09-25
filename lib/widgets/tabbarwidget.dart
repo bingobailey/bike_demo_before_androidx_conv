@@ -24,12 +24,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   @override
   void initState() {
       super.initState();
-
-      CurrentUser.getInstance().init();  // Call the init method so we can load the user's data
       
-      _controller = new TabController( vsync: this, length: 4 );
-
-      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc
+     _controller = new TabController( vsync: this, length: 4 );
+      CurrentUser.getInstance().init();  // Call the init method so we can load the user's data
+      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
 
     }
 

@@ -13,6 +13,38 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+
+// Send the notification to the topic that was updated.  NOTE: only those that have subscribed
+// to the topic will recieve the notification.
+exports.sendActionTopicNotification = functions.database.ref('topics/actions/{actionTopic}/{key}').onWrite((data, context) => {
+
+    const actionTopic = context.params.actionTopic;
+    const datetime = context.timestamp;
+    const datavalue = data.after.val();
+    const displayName = datavalue.displayName;
+    const uid = datavalue.uid;
+    const description = datavalue.description;
+
+    const title = actionTopic + " by " + displayName;
+    const body = description;
+
+    const payload = {
+        notification:{
+            title : title,
+            body : body,
+            badge : '1',
+            sound : 'default'
+        }
+    };
+
+    // Send the message to the topic. notification will be recieved by those that subscribed to this topic
+     return admin.messaging().sendToTopic(actionTopic, payload);
+
+
+
+});
+
+
 // We send out chat notification when a message is entered.  This
 // indicates peer to peer communication, so we must retrieve the fcm token
 // NOTE:  when this notfication table is updated from the app, it should also store

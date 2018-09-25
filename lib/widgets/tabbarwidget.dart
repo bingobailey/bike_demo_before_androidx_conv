@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/widgets/demolistwidget.dart';
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/accountprofilewidget.dart';
-import 'package:bike_demo/toolbox/notifications.dart'; // for testing here
+import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/loginfirebase.dart'; // for testing
+
+import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/notification.dart';
 
 
 class TabBarWidget extends StatefulWidget {
@@ -21,7 +24,13 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   @override
   void initState() {
       super.initState();
+
+      CurrentUser.getInstance().init();  // Call the init method so we can load the user's data
+      
       _controller = new TabController( vsync: this, length: 4 );
+
+      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc
+
     }
 
   @override
@@ -43,8 +52,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
             children: <Widget>[
               new DemoListWidget(),
 
-              //new NotificationsWidget(),
-              new NotificatonTest(),
+              new NotificationListWidget(),
+              //new NotificatonTest(),
               
                new ChatListWidget(),
 

@@ -26,9 +26,11 @@ import 'dart:async';
                       // amount of time has passed, force re-login. 
    String _fcmToken;    // this is the device token to send fcm messages
 
-  // Constructor
-  CurrentUser() {
-      // We load the parms from disk, if they exists
+
+  // This method should be called at the start of the app loading. Because it's async
+  // it might take a few seconds to load
+  void init() {
+    // We load the parms from disk, if they exists
       SharedPreferences.getInstance().then((prefs) {
         _uid = prefs.getString("uid"); 
         print("uid = ${prefs.getString("uid")}");
@@ -40,7 +42,6 @@ import 'dart:async';
         if(_uid !=null) {
            _ref = new FirebaseDatabase().reference().child("users/$_uid"); 
         }
-
       });
 
   }

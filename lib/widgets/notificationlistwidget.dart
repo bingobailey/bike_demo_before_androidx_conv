@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 
-class NotificationsWidget extends StatefulWidget {
+class NotificationListWidget extends StatefulWidget {
 
 @override
   State<StatefulWidget> createState() {
-    return new _NotficationsWidgetState();
+    return new _NotficationListWidgetState();
   }
 }
 
 
-class _NotficationsWidgetState extends State<NotificationsWidget> {
+class _NotficationListWidgetState extends State<NotificationListWidget> {
 
 
 @override

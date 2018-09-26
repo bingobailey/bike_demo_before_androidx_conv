@@ -75,14 +75,14 @@ print("inside demolistwidget initstate");
           setState(() {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
 
-             print(_sqlDataRows.toString());
+           //  print(_sqlDataRows.toString());
 
 
              _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
           });
         
           for (var row in sqldata.rows) {
-            print(row.toString());
+           // print(row.toString());
            // print("username: ${row['username']} country:${row ['country']}"); 
           }
 

@@ -34,12 +34,12 @@ return new Scaffold(
   // For Testing...
   void addActionTopicEntry() {
   
-    //String topicName = 'Bike added';
+    //String topicName = 'Bike_added';
     String topicName = 'Review_posted';
 
-    String uid = 'zzzzz3zxwxxzdd';
-    String displayName = 'fast biker again';
-    String description = "just posted review on yeti 575";
+    String uid = 'WzZx34drrrrzxwxxzdd';
+    String displayName = "chuppy";
+    String description = "nice review on Orbea";
 
 
     new Topic().addActionTopicEntry( topicName: topicName, 
@@ -55,8 +55,8 @@ return new Scaffold(
 
 
   void getActionTopicEntries() {
-    //String topicName = 'Bike added';
-    String topicName = 'Review posted';
+    //String topicName = 'Bike_added';
+    String topicName = 'Review_posted';
 
     new Topic().getActionTopicEntries( topicName: topicName);
 

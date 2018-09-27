@@ -132,25 +132,27 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
-    print("tapped it");
+
+    print("notification hit ${_actionTopics[index]['description']}");
 
 
-              String topicName = 'Bike_added';
-              //String topicName = 'Review_posted';
+      //String topicName = 'Bike_added';
+      String topicName = 'Review_posted';
 
-              String uid = 'zzzxxx';
-              String displayName = "simon";
-              String description = "intense primer medium ";
-
-
-              new Topic().addActionTopicEntry( topicName: topicName, 
-                      displayName: displayName, 
-                      uid: uid, 
-                      description: description);
-            }
+      String uid = 'zzzxxx';
+      String displayName = "simon";
+      String description = "posted new review on primer";
 
 
-   }
+      new Topic().addActionTopicEntry( topicName: topicName, 
+              displayName: displayName, 
+              uid: uid, 
+              description: description);
+
+    }
+
+
+   
 
 
 

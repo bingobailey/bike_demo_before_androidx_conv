@@ -16,6 +16,7 @@ dependencies:
   firebase_auth: ^0.5.3
   firebase_messaging: ^2.0.0
   shared_preferences: ^0.4.2
+  intl: ^0.15.7
 
 
   

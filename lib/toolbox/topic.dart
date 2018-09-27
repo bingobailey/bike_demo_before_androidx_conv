@@ -39,10 +39,10 @@ class Topic {
 
       snapshot.value.forEach( (k,v) {
         _list.add(v);
-        print("k = $k");
-        print("topic = $topicName");
-        print("description = ${v['description']}");
-        print("displayname = ${v['displayName']}");
+        // print("k = $k");
+        // print("topic = $topicName");
+        // print("description = ${v['description']}");
+        // print("displayname = ${v['displayName']}");
       });
 
       return _list;

@@ -16,6 +16,12 @@ class Notificaton {
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {
             print("onMessage: ${message.toString()}");
+
+            // Pulling info out of the message
+            print("onMessage title = ${message['notification']['title']}");
+            print("onMessage body = ${message['notification']['body']}");
+            print("onMessage source = ${message['data']['source']}");
+
           },
           onResume: (Map<String, dynamic> message) {
               print("onResume: ${message.toString()}");

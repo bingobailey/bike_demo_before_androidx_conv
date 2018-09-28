@@ -136,20 +136,25 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     print("notification hit ${_actionTopics[index]['description']}");
 
 
-      //String topicName = 'Bike_added';
-      String topicName = 'Review_posted';
+    //   //String topicName = 'Bike_added';
+    //   String topicName = 'Review_posted';
+    //   String uid = 'zzzxxx';
+    //   String displayName = "simon";
+    //   String description = "posted new review on primer";
+    //   new Topic().addActionTopicEntry( topicName: topicName, 
+    //           displayName: displayName, 
+    //           uid: uid, 
+    //           description: description);
 
-      String uid = 'zzzxxx';
-      String displayName = "simon";
-      String description = "posted new review on primer";
 
 
-      new Topic().addActionTopicEntry( topicName: topicName, 
-              displayName: displayName, 
-              uid: uid, 
-              description: description);
+      // Create the add topic
+      String companyName = "Yeti";
+      String websiteURL = "https://www.yeticycles.com";
+      String content = "New SB150 is here !";
+      new Topic().addAdTopic( companyName: companyName, content: content, websiteURL: websiteURL);
 
-    }
+   }
 
 
    

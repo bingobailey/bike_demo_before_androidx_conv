@@ -14,6 +14,39 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 
+// Send the AD  notification that was updated.  NOTE: only those that have subscribed
+// to the advertisement topic will recieve the notification.
+exports.sendAdNotification = functions.database.ref('topics/advertisement/{key}').onWrite((data, context) => {
+
+    const datetime = context.timestamp;
+    const datavalue = data.after.val();
+    const companyName = datavalue.companyName;
+    const websiteURL = datavalue.websiteURL;
+    const content = datavalue.content;
+
+    const payload = {
+        notification:{
+            title : companyName,
+            body : content,
+            badge : '1',
+            sound : 'default'
+        },
+        data: {
+            'source': 'advertisement',
+           'websiteURL': websiteURL,
+        }
+    };
+
+    // Send the message to the topic. notification will be recieved by those that subscribed to this topic
+     return admin.messaging().sendToTopic('advertisement', payload);
+
+});
+
+
+
+
+
+
 // Send the notification to the topic that was updated.  NOTE: only those that have subscribed
 // to the topic will recieve the notification.
 exports.sendActionTopicNotification = functions.database.ref('topics/actions/{actionTopic}/{key}').onWrite((data, context) => {
@@ -34,13 +67,15 @@ exports.sendActionTopicNotification = functions.database.ref('topics/actions/{ac
             body : body,
             badge : '1',
             sound : 'default'
+        },
+        data: {
+            'source': actionTopic,
+            'uid': uid,
         }
     };
 
     // Send the message to the topic. notification will be recieved by those that subscribed to this topic
      return admin.messaging().sendToTopic(actionTopic, payload);
-
-
 
 });
 

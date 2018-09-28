@@ -50,17 +50,14 @@ class Topic {
 
 
 
-
-
-
-  void createAdTopic() {
+  void addAdTopic({ String companyName, String content, String websiteURL}) {
 
    DatabaseReference chatRef = _ref.child('advertisement');
       chatRef.push().set(
         {
-            'companyName': 'Yeti Bikes',
-            'websiteURL' : 'https://www.yeticycles.com',
-            'content': 'come check out our new models',
+            'companyName': companyName,
+            'websiteURL' : websiteURL,
+            'content': content,
             'datetime' : DateTime.now().toString(),
         });
 

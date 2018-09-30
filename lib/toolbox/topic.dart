@@ -1,23 +1,25 @@
 
-
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 
 
 class Topic {
 
   DatabaseReference _ref; 
 
-
   Topic() {
     _ref = FirebaseDatabase.instance.reference().child('topics');
-
   }
 
-
-  void addTopicEntry({String topicName, String displayName, String uid, String content, String photoURL, String websiteURL}) {
-      DatabaseReference chatRef = _ref.child(topicName);
-      chatRef.push().set(
+  // Add the notification to the topic. Note that photoURL and websiteURL are optional
+  void addNotification({  @required String topicName, 
+                          @required String displayName, 
+                          @required String uid, 
+                          @required String content, 
+                          String photoURL, String websiteURL}) {
+      DatabaseReference topicRef = _ref.child(topicName);
+      topicRef.push().set(
         {
            'photoURL' : photoURL,
            'websiteURL' : websiteURL,
@@ -31,8 +33,8 @@ class Topic {
 
 
 
-    // Get the list of channels associated with this user
-    Future<List> getTopicEntries({String topicName}) async {
+    // Get the list of notifications associated with the topic
+    Future<List> getNotifications({String topicName}) async {
 
       if (_ref==null) return null; // Need to ensure we have a valid ref before making the call
       List _list = [];

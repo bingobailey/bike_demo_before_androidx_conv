@@ -39,13 +39,11 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
           _topics = topics; // We store it so we can access it when  user clicks
           setState(() {
 
-              _bodyWidget = new Center(
-                 child: new GestureDetector( child: new Text("click me"), onTap: addEntry,)
-              );
+              // _bodyWidget = new Center(
+              //    child: new GestureDetector( child: new Text("click me"), onTap: addEntry,)
+              // );
 
-          //  _bodyWidget = buildTopicListWidget( topics: topics );
-
-
+            _bodyWidget = buildTopicListWidget( topics: topics );
 
           });
 
@@ -104,14 +102,18 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
   Future<List> getTopics() async {
     List bikeAddedList;
     List reviewPostedList; 
+    List advertisementList;
 
-    reviewPostedList = await new Topic().getTopicEntries( topicName: "reviewPosted");
-    bikeAddedList = await new Topic().getTopicEntries( topicName: "bikeAdded");
+    reviewPostedList = await new Topic().getNotifications( topicName: "reviewPosted");
+    bikeAddedList = await new Topic().getNotifications( topicName: "bikeAdded");
+    advertisementList = await new Topic().getNotifications( topicName: "advertisement");
 
-    List topicList = [reviewPostedList, bikeAddedList].expand((x) => x).toList();
+    List topicList = [reviewPostedList, bikeAddedList, advertisementList].expand((x) => x).toList();
     topicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));
       
-    return topicList;
+   // For some reason the sort method is sorting it in decending order.  so we reverse the list
+   // to return the list in acsending order
+    return topicList.reversed.toList();
   }
 
 
@@ -121,12 +123,23 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
       DateTime dt = DateTime.parse(datetime);
       Duration duration = DateTime.now().difference(dt);
-      if (duration.inHours >=24 ) {
-        timeElapsed = "${duration.inDays}d";
-      } else {
-        timeElapsed = "${duration.inHours}h";
 
+      if (duration.inHours < 1) {
+           timeElapsed = "${duration.inMinutes}m";
+           return timeElapsed;
       }
+
+      if (duration.inHours < 24) {
+            timeElapsed = "${duration.inHours}h";
+           return timeElapsed;
+      }
+
+      if (duration.inHours > 24) {
+            timeElapsed = "${duration.inDays}d";
+           return timeElapsed;
+      }
+     
+
       // print("days= ${duration.inDays}");
       // print("hrs = ${duration.inHours}");
 
@@ -147,11 +160,13 @@ void addEntry() {
       String topicName = 'advertisement';
       String uid = 'xxxxzzzwww333';
       String displayName = "Yeti Cycles";
-      String content = "See the new SB 130 !!";
-      new Topic().addTopicEntry( topicName: topicName, 
+      String content = "See the new SB 150 !!";
+      new Topic().addNotification( topicName: topicName, 
               displayName: displayName, 
-              uid: uid, 
-              content: content);
+              uid: uid,
+              content: content,
+              photoURL : "https://www.yeti.com/avatar.jpg",
+              );
 
 }
 
@@ -161,16 +176,15 @@ void addEntry() {
 
     print("notification hit ${_topics[index]['content']}");
 
-
-    //   //String topicName = 'bikeAdded';
-      String topicName = 'reviewPosted';
-      String uid = 'zzzxxx';
-      String displayName = "chuppy";
-      String content = "posted new review on primer";
-      new Topic().addTopicEntry( topicName: topicName, 
-              displayName: displayName, 
-              uid: uid, 
-              content: content);
+    // //   //String topicName = 'bikeAdded';
+    //   String topicName = 'reviewPosted';
+    //   String uid = 'zzzxxx';
+    //   String displayName = "chuppy";
+    //   String content = "posted new review on primer";
+    //   new Topic().addTopicEntry( topicName: topicName, 
+    //           displayName: displayName, 
+    //           uid: uid, 
+    //           content: content);
 
       
 

@@ -66,7 +66,7 @@ exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}
 
     // PhotoURL is not a required property.  If we have it, set it
     if (datavalue.hasOwnProperty('photoURL')) {
-        websiteURL = datavalue.photoURL;
+        photoURL = datavalue.photoURL;
     }
 
     const content = datavalue.content;

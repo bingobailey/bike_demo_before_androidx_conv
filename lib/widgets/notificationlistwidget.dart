@@ -21,7 +21,7 @@ class NotificationListWidget extends StatefulWidget {
 
 class _NotificationListWidgetState extends State<NotificationListWidget> {
  
-  List _actionTopics; 
+  List _topics; 
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -35,10 +35,18 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
       // Only show list if logged in
       if (CurrentUser.getInstance().isAuthenticated()) {
         _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
-        getActionTopics().then((List actionTopics){
-          _actionTopics = actionTopics; // We store it so we can access it when  user clicks
+        getTopics().then((List topics){
+          _topics = topics; // We store it so we can access it when  user clicks
           setState(() {
-            _bodyWidget = buildActionListWidget( actionTopics: actionTopics );
+
+              _bodyWidget = new Center(
+                 child: new GestureDetector( child: new Text("click me"), onTap: addEntry,)
+              );
+
+          //  _bodyWidget = buildTopicListWidget( topics: topics );
+
+
+
           });
 
         });
@@ -71,16 +79,16 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
 
   // Using the SQL Data build the list widget
-  Widget buildActionListWidget({List<dynamic> actionTopics}) {
+  Widget buildTopicListWidget({List<dynamic> topics}) {
 
     return new Center(
           child: new ListView.builder(
-            itemCount: actionTopics.length,
+            itemCount: topics.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(actionTopics[index]['description']),
-                subtitle: new Text(actionTopics[index]['displayName']),
-                trailing: new Text(getDuration(datetime:actionTopics[index]['datetime'] )),
+                title: new Text(topics[index]['content']),
+                subtitle: new Text(topics[index]['displayName']),
+                trailing: new Text(getDuration(datetime:topics[index]['datetime'] )),
                // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
@@ -92,18 +100,18 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
 
 
-  // Retrieve all the action topics
-  Future<List> getActionTopics() async {
+  // Retrieve all the  topics
+  Future<List> getTopics() async {
     List bikeAddedList;
     List reviewPostedList; 
 
-    reviewPostedList = await new Topic().getActionTopicEntries( topicName: "Review_posted");
-    bikeAddedList = await new Topic().getActionTopicEntries( topicName: "Bike_added");
+    reviewPostedList = await new Topic().getTopicEntries( topicName: "reviewPosted");
+    bikeAddedList = await new Topic().getTopicEntries( topicName: "bikeAdded");
 
-    List actionTopicList = [reviewPostedList, bikeAddedList].expand((x) => x).toList();
-    actionTopicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));
+    List topicList = [reviewPostedList, bikeAddedList].expand((x) => x).toList();
+    topicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));
       
-    return actionTopicList;
+    return topicList;
   }
 
 
@@ -130,29 +138,48 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
 // ********** ACTION Methods
 
+// for testing only..
+
+void addEntry() {
+
+
+      //String topicName = 'bikeAdded';
+      String topicName = 'advertisement';
+      String uid = 'xxxxzzzwww333';
+      String displayName = "Yeti Cycles";
+      String content = "See the new SB 130 !!";
+      new Topic().addTopicEntry( topicName: topicName, 
+              displayName: displayName, 
+              uid: uid, 
+              content: content);
+
+}
+
+
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
 
-    print("notification hit ${_actionTopics[index]['description']}");
+    print("notification hit ${_topics[index]['content']}");
 
 
-    //   //String topicName = 'Bike_added';
-    //   String topicName = 'Review_posted';
-    //   String uid = 'zzzxxx';
-    //   String displayName = "simon";
-    //   String description = "posted new review on primer";
-    //   new Topic().addActionTopicEntry( topicName: topicName, 
-    //           displayName: displayName, 
-    //           uid: uid, 
-    //           description: description);
+    //   //String topicName = 'bikeAdded';
+      String topicName = 'reviewPosted';
+      String uid = 'zzzxxx';
+      String displayName = "chuppy";
+      String content = "posted new review on primer";
+      new Topic().addTopicEntry( topicName: topicName, 
+              displayName: displayName, 
+              uid: uid, 
+              content: content);
+
+      
 
 
-
-      // Create the add topic
-      String companyName = "Yeti";
-      String websiteURL = "https://www.yeticycles.com";
-      String content = "New SB150 is here !";
-      new Topic().addAdTopic( companyName: companyName, content: content, websiteURL: websiteURL);
+      // //Create the add topic
+      // String displayName = "Yeti";
+      // String websiteURL = "https://www.yeticycles.com";
+      // String content = "New SB150 is here !";
+      // new Topic().addAdTopic( displayName: displayName, content: content, websiteURL: websiteURL);
 
    }
 

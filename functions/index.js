@@ -15,32 +15,32 @@ admin.initializeApp(functions.config().firebase);
 
 
 // Send the AD  notification that was updated.  NOTE: only those that have subscribed
-// to the advertisement topic will recieve the notification.
-exports.sendAdNotification = functions.database.ref('topics/advertisement/{key}').onWrite((data, context) => {
+// // to the advertisement topic will recieve the notification.
+// exports.sendAdNotification = functions.database.ref('topics/advertisement/{key}').onWrite((data, context) => {
 
-    const datetime = context.timestamp;
-    const datavalue = data.after.val();
-    const companyName = datavalue.companyName;
-    const websiteURL = datavalue.websiteURL;
-    const content = datavalue.content;
+//     const datetime = context.timestamp;
+//     const datavalue = data.after.val();
+//     const companyName = datavalue.companyName;
+//     const websiteURL = datavalue.websiteURL;
+//     const content = datavalue.content;
 
-    const payload = {
-        notification:{
-            title : companyName,
-            body : content,
-            badge : '1',
-            sound : 'default'
-        },
-        data: {
-            'source': 'advertisement',
-           'websiteURL': websiteURL,
-        }
-    };
+//     const payload = {
+//         notification:{
+//             title : companyName,
+//             body : content,
+//             badge : '1',
+//             sound : 'default'
+//         },
+//         data: {
+//             'source': 'advertisement',
+//            'websiteURL': websiteURL,
+//         }
+//     };
 
-    // Send the message to the topic. notification will be recieved by those that subscribed to this topic
-     return admin.messaging().sendToTopic('advertisement', payload);
+//     // Send the message to the topic. notification will be recieved by those that subscribed to this topic
+//      return admin.messaging().sendToTopic('advertisement', payload);
 
-});
+// });
 
 
 
@@ -49,17 +49,29 @@ exports.sendAdNotification = functions.database.ref('topics/advertisement/{key}'
 
 // Send the notification to the topic that was updated.  NOTE: only those that have subscribed
 // to the topic will recieve the notification.
-exports.sendActionTopicNotification = functions.database.ref('topics/actions/{actionTopic}/{key}').onWrite((data, context) => {
+exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}').onWrite((data, context) => {
 
-    const actionTopic = context.params.actionTopic;
+    const topicName = context.params.topicName;
     const datetime = context.timestamp;
     const datavalue = data.after.val();
     const displayName = datavalue.displayName;
     const uid = datavalue.uid;
-    const description = datavalue.description;
+    var websiteURL = '';
+    var photoURL = '';
 
-    const title = actionTopic + " by " + displayName;
-    const body = description;
+    // WebsiteURL is not a required property.  If we have it, set it
+    if (datavalue.hasOwnProperty('websiteURL')) {
+        websiteURL = datavalue.websiteURL;
+    } 
+
+    // PhotoURL is not a required property.  If we have it, set it
+    if (datavalue.hasOwnProperty('photoURL')) {
+        websiteURL = datavalue.photoURL;
+    }
+
+    const content = datavalue.content;
+    const title = topicName + " by " + displayName;
+    const body = content;
 
     const payload = {
         notification:{
@@ -69,13 +81,15 @@ exports.sendActionTopicNotification = functions.database.ref('topics/actions/{ac
             sound : 'default'
         },
         data: {
-            'source': actionTopic,
+            'source': topicName,
             'uid': uid,
+            'websiteURL': websiteURL,
+            'photoURL': photoURL,
         }
     };
 
     // Send the message to the topic. notification will be recieved by those that subscribed to this topic
-     return admin.messaging().sendToTopic(actionTopic, payload);
+     return admin.messaging().sendToTopic(topicName, payload);
 
 });
 

@@ -50,8 +50,8 @@ class Notificaton {
         // user subscribes to those topics  (ie Added_bike etc)
 
         print("subscribing to topics..");
-        _firebaseMessaging.subscribeToTopic("Review_posted");
-        _firebaseMessaging.subscribeToTopic("Bike_added");
+        _firebaseMessaging.subscribeToTopic("reviewPosted");
+        _firebaseMessaging.subscribeToTopic("bikeAdded");
         _firebaseMessaging.subscribeToTopic("advertisement");
 
     }

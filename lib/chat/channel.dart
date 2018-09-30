@@ -91,6 +91,9 @@ class Channel {
       
      // Because the data is setup in key value pairs, we run forEach. 
      // snapshot.value contains both the key and value
+
+      if(snapshot.value==null) return []; // nothing found, return an empty list
+      
       snapshot.value.forEach( (k,v) {
 
           // Let's create a message with the snapshot

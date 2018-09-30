@@ -191,6 +191,8 @@ import 'dart:async';
       Query query = _channelRef.orderByKey();
       DataSnapshot snapshot = await query.once(); // get the data
 
+      if(snapshot.value==null) return []; // nothing found return empty list. 
+
       snapshot.value.forEach( (k,v) {
         _list.add(v);
         print("k = $k");

@@ -17,6 +17,8 @@ dependencies:
   firebase_messaging: ^2.0.0
   shared_preferences: ^0.4.2
   intl: ^0.15.7
+  url_launcher: ^4.0.0
+
 
 
   

@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart'; 
 
 import 'package:bike_demo/toolbox/credentials.dart';
-import 'package:bike_demo/toolbox/validator.dart';
+import 'package:bike_demo/toolbox/tools.dart';
 
 class _AccountData {
   String email = '';
   String password = '';
   String username = '';
-  Validator validate = new Validator();
+  Tools tools = new Tools();
 
   String toString() {
     return ("email=$email password=$password username=$username");
@@ -90,7 +90,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _accountData.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                validator: _accountData.validate.validateEmail,
+                validator: _accountData.tools.validateEmail,
                 
               ),
     );
@@ -139,7 +139,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   obscureText: true,
                   onSaved: (String value) { _accountData.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                  validator: _accountData.validate.validatePassword,
+                  validator: _accountData.tools.validatePassword,
                 ),
 
      );

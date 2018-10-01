@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
-import 'package:bike_demo/toolbox/uitools.dart';
+import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/memberprofilepage.dart';
 
 
@@ -36,7 +36,7 @@ print("inside demolistwidget initstate");
       wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";
       ws = new WebService(wsLocation: wsLocation); 
 
-      _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
+      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
       runSQLQuery();
     }
 

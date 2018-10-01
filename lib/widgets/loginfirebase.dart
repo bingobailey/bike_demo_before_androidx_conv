@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart'; 
 import 'package:bike_demo/toolbox/credentials.dart';
-import 'package:bike_demo/toolbox/validator.dart';
+import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
 class _LoginData {
   String email = '';
   String password = '';
-  Validator validate = new Validator();
+  Tools tools = new Tools();
   String toString() {
     return ("email=$email password=$password");
   }
@@ -107,7 +107,7 @@ print("inside loginfirebasewidget  initstate");
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _loginData.email = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                validator: _loginData.validate.validateEmail,
+                validator: _loginData.tools.validateEmail,
                 
               ),
     );
@@ -130,7 +130,7 @@ print("inside loginfirebasewidget  initstate");
                   obscureText: true,
                   onSaved: (String value) { _loginData.password=value; },
                   style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
-                  validator: _loginData.validate.validatePassword,
+                  validator: _loginData.tools.validatePassword,
                 ),
 
      );
@@ -171,7 +171,7 @@ print("inside loginfirebasewidget  initstate");
   // Login button
   void _onLoginPressed() {
 
-    // First validate form, then save if OK
+    // First tools form, then save if OK
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
 

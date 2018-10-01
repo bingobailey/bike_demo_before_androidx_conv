@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bike_demo/toolbox/topic.dart';
 import 'dart:async';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
 
 import 'package:bike_demo/toolbox/currentuser.dart';
-import 'package:bike_demo/toolbox/uitools.dart';
+import 'package:bike_demo/toolbox/tools.dart';
 
 
 
@@ -34,7 +34,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
       // Only show list if logged in
       if (CurrentUser.getInstance().isAuthenticated()) {
-        _bodyWidget = new UITools().showProgressIndicator( title: "Loading...");
+        _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
         getTopics().then((List topics){
           _topics = topics; // We store it so we can access it when  user clicks
           setState(() {
@@ -171,10 +171,17 @@ void addEntry() {
 }
 
 
+
+
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
 
     print("notification hit ${_topics[index]['content']}");
+
+    new Tools().launchURL( url: "https://www.yeticycles.com");
+
+
+
 
     // //   //String topicName = 'bikeAdded';
     //   String topicName = 'reviewPosted';

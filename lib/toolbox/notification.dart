@@ -1,20 +1,20 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:bike_demo/toolbox/currentuser.dart';
 
+/*
+  This class registers listening to topics. 
+*/
 
 class Notificaton {
   
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
- 
 
-
+  // we call this method when we want to register for listening to fcm
   void listen() {
-      print("inside notification initstate");
-
+ 
       _firebaseMessaging.configure(
-          onMessage: (Map<String, dynamic> message) {
+          onMessage: (Map<String, dynamic> message) {  // executes when the app is running
             print("onMessage: ${message.toString()}");
 
             // Pulling info out of the message
@@ -23,10 +23,10 @@ class Notificaton {
             print("onMessage source = ${message['data']['source']}");
 
           },
-          onResume: (Map<String, dynamic> message) {
+          onResume: (Map<String, dynamic> message) {  // executes when app is in background
               print("onResume: ${message.toString()}");
           },
-          onLaunch: (Map<String, dynamic> message) {
+          onLaunch: (Map<String, dynamic> message) {  // executes when app is not loaded
               print("onLaunch: ${message.toString()}");
           },
         );
@@ -46,16 +46,13 @@ class Notificaton {
          });
       }
 
-        // TODO:  This needs to be integrated with the topics on FB and whether the
-        // user subscribes to those topics  (ie Added_bike etc)
-
-        print("subscribing to topics..");
+        // TODO:  Right now we have the topics hardcoded.  Should be based on the user's
+        // profile.  The default could be turned on
         _firebaseMessaging.subscribeToTopic("reviewPosted");
         _firebaseMessaging.subscribeToTopic("bikeAdded");
         _firebaseMessaging.subscribeToTopic("advertisement");
 
     }
-
 
 
 

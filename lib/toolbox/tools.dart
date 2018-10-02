@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
+/*
+  This class contains tools to help facilitate, UI and other tasks. 
+*/
 
 class Tools {
 
   BuildContext context;
 
 
-  // Methods:
-
-    // Show the progress indicator
+    // Show the progress indicator along with the title (optional)
     Widget showProgressIndicator({String title}) {
       if (title==null) {
           return new CircularProgressIndicator();
@@ -24,6 +25,10 @@ class Tools {
 
 
   // Launch the URL in the browser
+  // NOTE: setting forceSafariVC and forceWebView to false, opens the url in the browser, which might
+  // be the safest option.  If you set forceSafariVC and forceWebview to true, it will force to open 
+  // within the app (webview) on both android and iOS 
+
   Future launchURL({String url}) async {
     if (await canLaunch(url)) {
       await launch( url, forceSafariVC: false, forceWebView: false);
@@ -52,7 +57,6 @@ class Tools {
         } else
           return null;  // returning null indicates the validation passed
       }
-
 
 
 

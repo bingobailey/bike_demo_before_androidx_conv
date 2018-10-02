@@ -58,7 +58,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
                new LoginFirebaseWidget(),
               //new AccountProfileWidget(),
             
-             // new TestWidget(),  // for testing login
             ]
           ),  
 

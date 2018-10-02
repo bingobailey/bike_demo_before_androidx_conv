@@ -6,7 +6,10 @@ import 'package:intl/intl.dart';   // don't remove this if u are using Duration,
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 
+/*
+This class displays all the notifications associated with a topic(s)
 
+*/
 
 
 class NotificationListWidget extends StatefulWidget {
@@ -21,7 +24,7 @@ class NotificationListWidget extends StatefulWidget {
 
 class _NotificationListWidgetState extends State<NotificationListWidget> {
  
-  List _topics; 
+  List _topics;  // need this so we can associate which index the use clicks on
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -52,8 +55,6 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
         _bodyWidget = new Text("not logged in");
       }
     
-
-
     }
 
 
@@ -69,7 +70,6 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
       body: new Center(
          child: _bodyWidget,
       ),
-     
 
     );
   }
@@ -104,6 +104,8 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     List reviewPostedList; 
     List advertisementList;
 
+    // TODO:  topics are hardcoded here, but should be based on user's profile, whether they 
+    // subscribe or not to a topic
     reviewPostedList = await new Topic().getNotifications( topicName: "reviewPosted");
     bikeAddedList = await new Topic().getNotifications( topicName: "bikeAdded");
     advertisementList = await new Topic().getNotifications( topicName: "advertisement");
@@ -116,7 +118,8 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     return topicList.reversed.toList();
   }
 
-
+  // Return the amount of min, or hours or days from the time the notifcation was posted until
+  // now
   String getDuration({String datetime}) {
 
       String timeElapsed;
@@ -139,10 +142,6 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
            return timeElapsed;
       }
      
-
-      // print("days= ${duration.inDays}");
-      // print("hrs = ${duration.inHours}");
-
       return timeElapsed;
 
   }
@@ -152,6 +151,9 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 // ********** ACTION Methods
 
 // for testing only..
+
+// TODO:  This method was used for testing but should be inserted into another class when the user
+// adds a bike, promotes an advertisement etc. 
 
 void addEntry() {
 
@@ -178,10 +180,7 @@ void addEntry() {
 
     print("notification hit ${_topics[index]['content']}");
 
-    new Tools().launchURL( url: "https://www.yeticycles.com");
-
-
-
+  
 
     // //   //String topicName = 'bikeAdded';
     //   String topicName = 'reviewPosted';

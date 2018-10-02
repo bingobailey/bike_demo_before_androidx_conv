@@ -34,8 +34,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
 //                ********** Build Methods ************
 
-  // build the main widget
 
+  // The main widget builder
    @override
      Widget build(BuildContext context) {
 
@@ -148,9 +148,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
 // We call this the action button, it either returns the signup button or the progress indicator
 Widget buildActionButton() {
-  
   return (_isLoading ? new CircularProgressIndicator():buildSignUpButton());
-
 }
             
  // Build SignUp button
@@ -187,8 +185,7 @@ Widget buildActionButton() {
       print('Email: ${_accountData.email}');
       print('Password: ${_accountData.password}');
 
-      // Create Account
-
+      // Create the Account
       _credentials.createAccount( 
         email: _accountData.email, 
         password: _accountData.password, 

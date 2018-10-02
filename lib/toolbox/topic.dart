@@ -3,14 +3,21 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 
+/*
+  This class contains the logic to update data on the topics that are subscribed to . 
+*/
 
 class Topic {
 
   DatabaseReference _ref; 
+  String rootNode = 'topics';
+
 
   Topic() {
-    _ref = FirebaseDatabase.instance.reference().child('topics');
+    _ref = FirebaseDatabase.instance.reference().child(rootNode);
   }
+
+
 
   // Add the notification to the topic. Note that photoURL and websiteURL are optional
   void addNotification({  @required String topicName, 
@@ -57,4 +64,4 @@ class Topic {
 
 
 
-}
+} // end of class

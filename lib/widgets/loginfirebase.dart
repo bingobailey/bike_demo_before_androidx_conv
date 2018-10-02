@@ -33,9 +33,6 @@ class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
   @override
     void initState() {
       super.initState();
-
-print("inside loginfirebasewidget  initstate");
-
     }
 
 //                ********** Build Methods ************
@@ -140,9 +137,7 @@ print("inside loginfirebasewidget  initstate");
 
   // Either returns the progress indicator (if loading) or the login button
   Widget buildActionButton() {
-  
     return (_isLoading ? new CircularProgressIndicator():buildLoginButton());
-
   }
  
 
@@ -166,8 +161,6 @@ print("inside loginfirebasewidget  initstate");
 
   //                    ********  Action Methods *********
 
-
-
   // Login button
   void _onLoginPressed() {
 
@@ -189,23 +182,21 @@ print("inside loginfirebasewidget  initstate");
         email: _loginData.email, 
         password: _loginData.password).then((bool isSuccessful) {
 
-        // We've returned so set loading to false and refresh the screen
-        setState(() {
-          _isLoading=false;              
-        });
+            // We've returned so set loading to false and refresh the screen
+            setState(() {
+              _isLoading=false;              
+            });
 
-        // TODO: Login successful... This is where we would transition to another page
-        if(isSuccessful) {
-          print("login successful");
-          print("user= ${CurrentUser.getInstance().user}");
-          print("tokenid = ${CurrentUser.getInstance().tokenID}");
-         
-        } else { // was unsuccessful, need to inform user
-          print("login unsuccessful");
-            print("e = ${CurrentUser.getInstance().e}");
-        }
-
-        
+            // TODO: Login successful... This is where we would transition to another page
+            if(isSuccessful) {
+              print("login successful");
+              print("user= ${CurrentUser.getInstance().user}");
+              print("tokenid = ${CurrentUser.getInstance().tokenID}");
+            
+            } else { // was unsuccessful, need to inform user
+              print("login unsuccessful");
+                print("e = ${CurrentUser.getInstance().e}");
+            }
       });
 
     }

@@ -5,6 +5,7 @@ import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/accountprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/loginfirebase.dart'; // for testing
+import 'package:bike_demo/widgets/bikeswidget.dart';
 
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/notification.dart';
@@ -48,15 +49,10 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[
-              new DemoListWidget(),
-
+              new BikesWidget(),
               new NotificationListWidget(),
-              //new NotificatonTest(),
-              
-               new ChatListWidget(),
-
-               new LoginFirebaseWidget(),
-              //new AccountProfileWidget(),
+              new ChatListWidget(),
+              new AccountProfileWidget(),
             
             ]
           ),  
@@ -67,7 +63,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
              child: new TabBar(  // This is the same code used above
              controller: _controller,
              tabs: <Tab>[
-              new Tab( icon: new Icon(Icons.home)),
+              new Tab( icon: new Icon(Icons.directions_bike)),
               new Tab( icon: new Icon(Icons.notifications)),
               new Tab( icon: new Icon(Icons.chat)),
               new Tab( icon: new Icon(Icons.person)),

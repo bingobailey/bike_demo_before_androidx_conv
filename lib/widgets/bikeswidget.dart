@@ -150,9 +150,9 @@ void _onClickedAdd() {
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(sqlDataRows[index]['username']),
-                subtitle: new Text(sqlDataRows[index]['country']),
-                leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
+                title: new Text(sqlDataRows[index]['description']),
+                subtitle: new Text(sqlDataRows[index]['frame_size']),
+               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

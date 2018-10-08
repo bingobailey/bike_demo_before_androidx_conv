@@ -59,10 +59,12 @@ class WebService {
   Future<SQLData> run({String service, Map<String,dynamic>jsonPayload}) async {
 
     sqlData = new SQLData(serviceCalled: service);
-   
     String url = wsLocation + service;
+
     // Associate the payload with the key, so we can pull it in the php files
     Map<String,dynamic> payLoadWithKey= {'key':jsonPayload};
+
+    print("payloadwithkey = $payLoadWithKey");
 
     // Lets set the headers
     var headers = {

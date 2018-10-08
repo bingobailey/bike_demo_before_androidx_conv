@@ -18,7 +18,7 @@ function getPwrd() {
 
 
 function getDB() {
-    return "mtblinku_prod";
+    return "mtblinku_bikedemotest";
 }
 
 ?>

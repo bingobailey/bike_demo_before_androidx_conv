@@ -10,14 +10,14 @@ class ImageService {
 
  
 
-  Future<Map> uploadImage({File imageFile}) async {
+  Future<Map> uploadImage({String uid, File imageFile}) async {
 
     // this is the service we call to upload the image
     String url = "http://www.mtbphotoz.com/bikedemo/php/XuploadPhoto.php";
    
     // This is the directory where the image files will be kept, specific to
     // each user. Each user should get an assigned photoKeyStore (ie dir)
-    String photoKeyStore = "howdee";  
+    String photoKeyStore = uid;  // we use the UID of the user as the folder to store the photos
 
     // Get the extension
     String fileExtension = extension(imageFile.path);

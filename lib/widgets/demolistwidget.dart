@@ -32,9 +32,7 @@ class _DemoListWidgetState extends State<DemoListWidget> {
 print("inside demolistwidget initstate");
 
       // Instantiate the webservice
-      //wsLocation = "http://www.mtbphotoz.com/prod/PHP/";
-      wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";
-      ws = new WebService(wsLocation: wsLocation); 
+      ws = new WebService(); 
 
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
       runSQLQuery();

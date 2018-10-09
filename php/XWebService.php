@@ -44,7 +44,9 @@ class WebService {
    // Returns an element from the property list (passed in via Json) and places escape chars
    // where necessary so it will work within a query. 
    public function p($p) {
-    return $this->mysqli->real_escape_string($this->data[$p]);
+
+    return $this->data[$p];
+    //return $this->mysqli->real_escape_string($this->data[$p]);
    }
 
 

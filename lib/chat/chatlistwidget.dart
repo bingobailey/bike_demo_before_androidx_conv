@@ -85,7 +85,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                 title: new Text(channels[index]['toDisplayName']),
                 subtitle: new Text(channels[index]['title']),
                 trailing: new Text(channels[index]['datetime']),
-               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
+               // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

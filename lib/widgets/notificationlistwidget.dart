@@ -87,7 +87,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                 title: new Text(topics[index]['content']),
                 subtitle: new Text(topics[index]['displayName']),
                 trailing: new Text(getDuration(datetime:topics[index]['datetime'] )),
-               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
+               // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

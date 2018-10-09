@@ -48,11 +48,8 @@ import 'dart:convert';
 
 class WebService {
 
-  String wsLocation; // Location of the webservice (ie url)
+  String wsLocation =  "http://www.mtbphotoz.com/bikedemo/php/"; // Location of the webservice (ie url)
   SQLData sqlData;   // the object that will contain all the sql results
-
-  WebService({this.wsLocation,});
-
 
 
   // This is the async call to call the Webservice

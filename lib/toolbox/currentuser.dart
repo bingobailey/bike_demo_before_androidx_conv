@@ -25,6 +25,8 @@ import 'dart:async';
    String _password;  // TODO:  Need to save password to disk or save date to disk then if x
                       // amount of time has passed, force re-login. 
    String _fcmToken;    // this is the device token to send fcm messages
+   String _units;     // KM or MI  for radius calc
+   String _radius;    // The radius to conduct the location search 
 
 
   // This method should be called at the start of the app loading. Because it's async
@@ -38,6 +40,9 @@ import 'dart:async';
         _email = prefs.getString("email"); 
         _photoURL = prefs.getString("photoURL"); 
         _fcmToken = prefs.getString("fcmToken");
+        _units = prefs.getString("units"); 
+        _radius = prefs.getString("radius");
+
         // If we have a UID, let's assign the reference
         if(_uid !=null) {
            _ref = new FirebaseDatabase().reference().child("users/$_uid"); 
@@ -53,7 +58,24 @@ import 'dart:async';
   String get displayName => _displayName;
   String get email => _email;
   String get photoURL => _photoURL;
+  String get units => _units;
+  String get radius => _radius;
+  String get fcmToken => _fcmToken;
+
   FirebaseUser get user => _user;
+
+
+
+
+  // The static method call or Singleton, to ensure we only have one instance of this in the app
+  static CurrentUser getInstance() {
+    if (_instance==null) {
+      _instance = new CurrentUser();
+    }
+    return _instance;
+  }
+
+
 
   // User has been set after being authenticated, we store each
   // parm so we can access and save it to disk, until the next authentication
@@ -72,37 +94,34 @@ import 'dart:async';
           prefs.setString('displayName', _displayName);
           prefs.setString('email', _email);
           prefs.setString('photoURL', _photoURL);
-
       });
   }
 
-  // This is the token from the device that allows us to send firebase cloud messages (fcm)
-  set fcmToken(String token){
-    _fcmToken = token;
-      SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('fcmToken', _fcmToken);  // store it to disk
-      });
 
-      // If we have the _UID, go ahead and update the user and the token
-      if (_uid !=null) {
-          updateProfile( displayName: _displayName, photoURL: _photoURL);
-          updateFCMToken( fcmToken: token);
-      }
 
+
+
+  // **** Set METHODS **** 
+
+  // Update the users fcm-token (firebase cloud messaging), which is associated with
+  // each users' device.  This allows peer to peer communication
+  set fcmToken(String fcmToken) {
+    _fcmToken = fcmToken;
+
+     // Save prefs to disk
+    SharedPreferences.getInstance().then((prefs) {
+        prefs.setString('fcmToken', _fcmToken);  // store it to disk
+    });
+
+     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+      _ref.update( 
+        {
+          'fcm-token': _fcmToken,
+        });
   }
 
 
-  // The static method call or Singleton, to ensure we only have one instance of this in the app
-  static CurrentUser getInstance() {
-    if (_instance==null) {
-      _instance = new CurrentUser();
-    }
-    return _instance;
-  }
 
-
-
-  // **** METHODS **** 
 
   // Does this user have an fcm token yet ?
   bool hasFCMToken() {
@@ -110,42 +129,106 @@ import 'dart:async';
     else return false;
   }
 
+
+
+
   // Update the user's profile with display name and photoURL
-  void updateProfile({String displayName, String photoURL, String email}) {
+  set displayName(String displayName) {
     // we use update so it won't overrite other fields.  if you use set() instead it will
     // wipe out properties that are not being updated in this call. 
+    _displayName = displayName;
+  
+    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+    _ref.update( 
+      {
+        'displayName': _displayName,
+      });
+
+      // since we updated database, save it to disk 
+      SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('displayName', _displayName);  // store it to disk
+      });
+  }
+
+
+
+
+  // Update the user's profile with display name and photoURL
+  set email(String email) {
+    // we use update so it won't overrite other fields.  if you use set() instead it will
+    // wipe out properties that are not being updated in this call. 
+    _email = email;
 
     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
     _ref.update( 
       {
-        'displayName': displayName,
-        'email' : email,
-        'photoURL' : photoURL,
+        'email' : _email,
+      });
+
+      // since we updated database, save it to disk 
+      SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('email',_email);
       });
   }
 
-// TODO:  updateProfile and updatePhoto should also write the contents to disk via sharedprefs
+
+
+
+// Update the user's profile with display name and photoURL
+  set units (String units) {
+    // we use update so it won't overrite other fields.  if you use set() instead it will
+    // wipe out properties that are not being updated in this call. 
+    _units=units;
+
+    // Save prefs to disk
+      SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('units', _units);  // store it to disk
+      });
+
+    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+    _ref.update( 
+      {
+        'units': _units,
+      });
+  }
+
+
+
+
+// Update the user's profile with display name and photoURL
+  set radius(String radius) {
+    // we use update so it won't overrite other fields.  if you use set() instead it will
+    // wipe out properties that are not being updated in this call. 
+    _radius = radius;
+
+    // Save prefs to disk
+      SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('radius', _radius);  // store it to disk
+      });
+
+    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+    _ref.update( 
+      {
+        'radius' : _radius
+      });
+  }
+
 
   // Update the user's photo 
-  void updatePhoto({String photoURL}){
+  set photoURL(String photoURL){
+    _photoURL = photoURL;
+    // Save prefs to disk
+    SharedPreferences.getInstance().then((prefs) {
+        prefs.setString('photoURL', _photoURL);  // store it to disk
+    });
+
     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
     _ref.update( 
         {
-          'photoURL' : photoURL,
+          'photoURL' : _photoURL,
         });
   }
 
-
-  // Update the users fcm-token (firebase cloud messaging), which is associated with
-  // each users' device.  This allows peer to peer communication
-  void updateFCMToken({String fcmToken}) {
-
-     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-        {
-          'fcm-token': fcmToken,
-        });
-  }
 
 
 

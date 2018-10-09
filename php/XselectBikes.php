@@ -13,12 +13,20 @@
     // This is the user's location making the request, which is compared to lat and lng in the database
     $latitude   = $ws->p('latitude');
     $longitude  = $ws->p('longitude');
-    $status     = $ws->p('status'); // Passed in for WTD (want to demo), ATD (available to demo)
+    $radius     = $ws->p('radius'); 
+    $units       = $ws->p('units'); // km, mi
+    $whereClause = $ws->p('whereClause'); // sent in dynamically
 
     $milesConstant = 3959;
     $kilometersConstant = 6371;
-    $radius     = 50; // lets set this to 50 miles.  TODO: This could be a setting and passed in
+    $conversionConstant=0;
     
+    if ($units == 'km') {
+        $conversionConstant = $kilometersConstant;
+    } else {
+        $conversionConstant = $milesConstant;
+    }
+
     // For Pagination
     $rowsPaged = $ws->p('rowsPaged');
     $rowCount =  $ws->p('rowCount');
@@ -27,16 +35,16 @@
      
     $sql = "SELECT  User.uid, 
                     User.username,
+                    User.photo,
                     description,
                     frame_size,
                     status,
                     terms,
-                    photo,
                     category,
-                    ( $milesConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ) AS distance 
+                    ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ) AS distance 
              FROM   User
         INNER JOIN  Bike on User.uid = Bike.uid    
-            WHERE   status = '$status'
+            WHERE   $whereClause
             HAVING  distance <= $radius
           ORDER BY  distance ASC
             LIMIT   $rowCount, $rowsPaged";

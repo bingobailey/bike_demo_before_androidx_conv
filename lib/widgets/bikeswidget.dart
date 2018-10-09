@@ -19,8 +19,7 @@ class _BikesWidgetState extends State<BikesWidget>  with SingleTickerProviderSta
   SearchBar searchBar;
 
  // Webservice attributes
-  String wsLocation;
-  WebService ws; 
+  String _service = 'XselectBikes.php';
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
 
 // We use this widget to switch out the progress indicator
@@ -30,13 +29,11 @@ class _BikesWidgetState extends State<BikesWidget>  with SingleTickerProviderSta
   @override
     void initState() {
       super.initState();
-      wsLocation = "http://www.mtbphotoz.com/bikedemo/php/";
-      ws = new WebService(wsLocation: wsLocation); 
 
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-      runSQLQuery();
 
-
+      String whereClause = "status = 'WTD'";
+      selectBikes( service: _service, whereClause: whereClause);
     }
 
   // Constructor 
@@ -81,38 +78,13 @@ AppBar buildAppBar(BuildContext context) {
 
 
 
-
-void _onSubmittedSearch(String value) {
-
-  print("searchvalue =$value");
-}
-
-void _onClickedAdd() {
-  print("add clicked");
-
-}
-
-
-  // user clicked on a list item
-  void _onTapItem(BuildContext context, int index) {
-
-    print(_sqlDataRows[index].toString());
-
-    // Navigator.push(context, MaterialPageRoute(
-    //   builder: (context)=>new MemberProfilePage( member: _sqlDataRows[index],),
-    // ));
-  }
-
-
-
   // Run the webservice and build the SQLData and set it to the bodyWidget
-  void runSQLQuery() {
+  void selectBikes({String service, String whereClause}) {
 
-    // Select all the members
-     var payload = {'latitude':'40.585258', 'longitude':'-105.084419','status':'WTD'};
-     var service = 'XselectBikesByLocation.php';
+    //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
+    var payload = {'latitude':'-35.305', 'longitude':'149.114','radius':'13700', 'units':'km', 'whereClause':whereClause};
 
-     ws.run(service: service, jsonPayload: payload).then((sqldata){
+     new WebService().run(service: service, jsonPayload: payload).then((sqldata){
 
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
@@ -126,10 +98,9 @@ void _onClickedAdd() {
         
           for (var row in sqldata.rows) {
             print(row.toString());
-           // print("username: ${row['username']} country:${row ['country']}"); 
           }
 
-        // Something went wrong here with the http call
+        // Something went wrong with the http call
         } else {
           print("Http Error: ${sqldata.toString()}");
         }
@@ -152,7 +123,7 @@ void _onClickedAdd() {
               return new ListTile(
                 title: new Text(sqlDataRows[index]['description']),
                 subtitle: new Text(sqlDataRows[index]['frame_size']),
-               // leading: getImage( keystore: sqlDataRows[index]['photo_key_store'], image: sqlDataRows[index]['photo_profile_name']),
+             //   leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -163,15 +134,9 @@ void _onClickedAdd() {
 
 
 // Get the image associated with the user( ie their avatar )
-  Widget getImage({String keystore, String image}) {
+  Widget getImage({String uid, String image}) {
 
-     // String imageURL = "http://www.mtbphotoz.com/prod/Photo/p/p4/p4pgquai6q/aol6b4je.jpg";
-
-    String imageURL = "http://www.mtbphotoz.com/prod/Photo/" + 
-          keystore.substring(0,1) + "/" +
-          keystore.substring(0,2) + "/" +
-          keystore + "/" +
-          image;
+    String imageURL = "http://www.mtbphotoz.com/prod/Photo/" + uid + "/" + image;
 
       return new SizedBox( 
         child: Image.network(imageURL),
@@ -179,6 +144,35 @@ void _onClickedAdd() {
           width: 60.0,
         );
   }
+
+
+
+
+
+// *** ACTION METHODS ****
+
+void _onSubmittedSearch(String value) {
+  String whereClause = "status = 'WTD' AND description LIKE '%$value%'";
+  selectBikes( service: _service, whereClause: whereClause);
+}
+
+void _onClickedAdd() {
+  print("add clicked");
+
+}
+
+
+  // user clicked on a list item
+  void _onTapItem(BuildContext context, int index) {
+
+    print(_sqlDataRows[index].toString());
+
+    // Navigator.push(context, MaterialPageRoute(
+    //   builder: (context)=>new MemberProfilePage( member: _sqlDataRows[index],),
+    // ));
+  }
+
+
 
 
 

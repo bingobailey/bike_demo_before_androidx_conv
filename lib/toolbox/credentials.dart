@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
-import 'package:bike_demo/widgets/loginfirebase.dart';
-import 'package:bike_demo/widgets/createaccountwidget.dart';
+import 'package:bike_demo/widgets/loginwidget.dart';
+import 'package:bike_demo/widgets/signupwidget.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
 /*
@@ -212,7 +212,7 @@ Future<String> signInWithGoogle() async {
                 child: new Text("Login", style: new TextStyle( fontSize: 20.0) ,),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                          builder: (context)=>new LoginFirebaseWidget(),
+                          builder: (context)=>new LoginWidget(),
                      ));
 
                   },
@@ -228,7 +228,7 @@ Future<String> signInWithGoogle() async {
                  child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
                  onPressed: () {
                      Navigator.push(context, MaterialPageRoute(
-                           builder: (context)=>new CreateAccountWidget(),
+                           builder: (context)=>new SignUpWidget(),
                       ));
                   },
                   color: Colors.green[200],

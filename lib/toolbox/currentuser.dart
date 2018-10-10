@@ -31,7 +31,7 @@ import 'dart:async';
 
   // This method should be called at the start of the app loading. Because it's async
   // it might take a few seconds to load
-  void init() {
+  void loadSettings() {
     // We load the parms from disk, if they exists
       SharedPreferences.getInstance().then((prefs) {
         _uid = prefs.getString("uid"); 
@@ -301,6 +301,15 @@ import 'dart:async';
 
   // TODO: need to use a function to remove login info from disk when user signs out.
   // can't use clear() if you are going to save other parms such as radius, search settings etc.
+
+  void logout() {
+      _uid=null;
+     SharedPreferences.getInstance().then((prefs) {
+        prefs.setString('uid', null); 
+    });
+
+  }
+
 
 
 }

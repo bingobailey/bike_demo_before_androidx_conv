@@ -3,6 +3,9 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
+import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/widgets/loginwidget.dart';
+import 'package:bike_demo/widgets/signupwidget.dart';
 
 class BikesWidget extends StatefulWidget {
 
@@ -123,7 +126,7 @@ AppBar buildAppBar(BuildContext context) {
               return new ListTile(
                 title: new Text(sqlDataRows[index]['description']),
                 subtitle: new Text(sqlDataRows[index]['frame_size']),
-             //   leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
+                leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -136,7 +139,9 @@ AppBar buildAppBar(BuildContext context) {
 // Get the image associated with the user( ie their avatar )
   Widget getImage({String uid, String image}) {
 
-    String imageURL = "http://www.mtbphotoz.com/prod/Photo/" + uid + "/" + image;
+    image = 'elf.jpg';
+
+    String imageURL = "http://www.mtbphotoz.com/bikedemo/photos/" + uid + "/" + image;
 
       return new SizedBox( 
         child: Image.network(imageURL),
@@ -157,6 +162,22 @@ void _onSubmittedSearch(String value) {
 }
 
 void _onClickedAdd() {
+
+  // TODO:  Check if user is logged in or has an account, display the widget as necessary
+
+  
+  CurrentUser.getInstance().logout();
+
+  if (!CurrentUser.getInstance().isAuthenticated()) {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context)=>new SignUpWidget(),
+    ));
+
+  } else {
+    print("user is authenticated");
+  }
+
+
   print("add clicked");
 
 }

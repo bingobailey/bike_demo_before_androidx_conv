@@ -17,14 +17,14 @@ class _AccountData {
 }
  
 
-class CreateAccountWidget extends StatefulWidget {
+class SignUpWidget extends StatefulWidget {
   @override
     State<StatefulWidget> createState() {
-      return new _CreateAccountWidgetState();
+      return new _SignUpWidgetState();
     }
 }
 
-class _CreateAccountWidgetState extends State<CreateAccountWidget> {
+class _SignUpWidgetState extends State<SignUpWidget> {
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _AccountData _accountData = new _AccountData();

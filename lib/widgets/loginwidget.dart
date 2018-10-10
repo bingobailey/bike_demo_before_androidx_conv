@@ -14,14 +14,14 @@ class _LoginData {
 }
  
 
-class LoginFirebaseWidget extends StatefulWidget {
+class LoginWidget extends StatefulWidget {
   @override
     State<StatefulWidget> createState() {
-      return new _LoginFirebaseWidgetState();
+      return new _LoginWidgetState();
     }
 }
 
-class _LoginFirebaseWidgetState extends State<LoginFirebaseWidget> {
+class _LoginWidgetState extends State<LoginWidget> {
 
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();

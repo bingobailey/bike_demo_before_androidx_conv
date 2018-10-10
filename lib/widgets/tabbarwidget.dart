@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:bike_demo/widgets/demolistwidget.dart';
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/accountprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
-import 'package:bike_demo/widgets/loginfirebase.dart'; // for testing
 import 'package:bike_demo/widgets/bikeswidget.dart';
 
 import 'package:bike_demo/toolbox/currentuser.dart';
@@ -27,7 +25,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
       super.initState();
       
      _controller = new TabController( vsync: this, length: 4 );
-      CurrentUser.getInstance().init();  // Call the init method so we can load the user's data
+      CurrentUser.getInstance().loadSettings();  // Call the init method so we can load the user's data
       new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
 
     }

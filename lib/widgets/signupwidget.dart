@@ -53,7 +53,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
      } // build method
 
 
-  // Build the LoginForm
+  // Build the Account Form
   Widget buildAccountForm() {
    return new Form(
           key: _formKey,
@@ -83,9 +83,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             child: TextFormField(
               textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                hintText: 'you@example.com',
-                border: UnderlineInputBorder(),
+                  hintText: 'you@example.com',
+                  border: UnderlineInputBorder(),
                   labelText: 'email',
+                  icon: Icon(Icons.email),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _accountData.email = value; },
@@ -107,9 +108,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             child: TextFormField(
               textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                hintText: 'Your display name',
-                border: UnderlineInputBorder(),
+                  hintText: 'Your display name',
+                  border: UnderlineInputBorder(),
                   labelText: 'Display Name',
+                  icon: Icon(Icons.person_outline),
+
                 ),
                 keyboardType: TextInputType.text,
                 onSaved: (String value) { _accountData.username = value; },
@@ -129,11 +132,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     return new Container(
             margin: EdgeInsets.only( left: 25.0, right: 25.0),
                 child: TextFormField(
+                
                 textAlign: TextAlign.center,
                   decoration: const InputDecoration(
-                  hintText: 'Must be at least 8 characters',
-                  border: UnderlineInputBorder(),
-                    labelText: 'Password',
+                      hintText: 'Must be at least 8 characters',
+                      border: UnderlineInputBorder(),
+                      labelText: 'Password',
+                      icon: Icon(Icons.lock),
                   ),
                   keyboardType: TextInputType.text,
                   obscureText: true,

@@ -346,6 +346,8 @@ void showAccountAccess({BuildContext context, String response, String title}) {
 
   void signUp(BuildContext context) {
 
+    Navigator.of(context).pop(); // remove the dialog box
+
     Navigator.push(context, MaterialPageRoute(
          builder: (context)=>new SignUpWidget(),
      ));
@@ -354,6 +356,8 @@ void showAccountAccess({BuildContext context, String response, String title}) {
 
 
   void login(BuildContext context) {
+
+    Navigator.of(context).pop(); // Remove the dialog box
 
     Navigator.push(context, MaterialPageRoute(
          builder: (context)=>new LoginWidget(),

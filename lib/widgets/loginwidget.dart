@@ -44,26 +44,14 @@ class _LoginWidgetState extends State<LoginWidget> {
 
       return new Scaffold(
          body: new Container(
-            decoration: new BoxDecoration(
-               image: new DecorationImage(
-                      fit: BoxFit.cover,
-                    image: AssetImage('assets/lake.jpg'),
-               )
-            ),
-             child: new Opacity(
-                        child: new Container(
-                          margin: EdgeInsets.only( top: 200.0, bottom: 50.0,  left: 50.0, right: 50.0),
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                              borderRadius: BorderRadius.circular(5.0),
-                          ) ,
-                          child: buildLoginForm(),
-                          
-                        ),
-                        opacity: .8,
-             )
-           )
-         );
+                margin: EdgeInsets.only( top: 100.0, bottom: 50.0,  left: 50.0, right: 50.0),
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                ) ,
+                child: buildLoginForm(),
+          ),
+        );
       
      } // build method
 
@@ -97,9 +85,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             child: TextFormField(
               textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                hintText: 'you@example.com',
-                border: UnderlineInputBorder(),
+                  hintText: 'you@example.com',
+                  border: UnderlineInputBorder(),
                   labelText: 'email',
+                  icon: Icon(Icons.email),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _loginData.email = value; },
@@ -119,9 +108,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                 child: TextFormField(
                 textAlign: TextAlign.center,
                   decoration: const InputDecoration(
-                  hintText: '>= 8 chars',
-                  border: UnderlineInputBorder(),
+                    hintText: '>= 8 chars',
+                    border: UnderlineInputBorder(),
                     labelText: 'password',
+                    icon: Icon(Icons.lock),
                   ),
                   keyboardType: TextInputType.text,
                   obscureText: true,
@@ -189,10 +179,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
             // TODO: Login successful... This is where we would transition to another page
             if(isSuccessful) {
-              print("login successful");
-              print("user= ${CurrentUser.getInstance().user}");
-              print("tokenid = ${CurrentUser.getInstance().tokenID}");
-            
+              Navigator.of(context).pop(); // Remove the login page, since we were successful            
             } else { // was unsuccessful, need to inform user
               print("login unsuccessful");
                 print("e = ${CurrentUser.getInstance().e}");
@@ -204,3 +191,39 @@ class _LoginWidgetState extends State<LoginWidget> {
   
 
 } // end class
+
+
+
+
+
+
+
+//  *** EXAMPLE with background of image abstract
+
+  // @override
+  //    Widget build(BuildContext context) {
+
+  //     return new Scaffold(
+  //        body: new Container(
+  //           decoration: new BoxDecoration(
+  //              image: new DecorationImage(
+  //                     fit: BoxFit.cover,
+  //                   image: AssetImage('assets/lake.jpg'),
+  //              )
+  //           ),
+  //            child: new Opacity(
+  //                       child: new Container(
+  //                         margin: EdgeInsets.only( top: 200.0, bottom: 50.0,  left: 50.0, right: 50.0),
+  //                         decoration: new BoxDecoration(
+  //                           color: Colors.white,
+  //                             borderRadius: BorderRadius.circular(5.0),
+  //                         ) ,
+  //                         child: buildLoginForm(),
+                          
+  //                       ),
+  //                       opacity: .8,
+  //            )
+  //          )
+  //        );
+      
+  //    } // bu

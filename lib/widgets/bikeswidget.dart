@@ -64,7 +64,7 @@ class _BikesWidgetState extends State<BikesWidget>  with SingleTickerProviderSta
         floatingActionButton: new FloatingActionButton(
         tooltip: 'Add a bike', // used by assistive technologies
         child: Icon(Icons.add),
-        onPressed: _onClickedAdd,
+        onPressed: ()=>_onClickedAdd(context),
       ),
 
 
@@ -161,17 +161,32 @@ void _onSubmittedSearch(String value) {
   selectBikes( service: _service, whereClause: whereClause);
 }
 
-void _onClickedAdd() {
+void _onClickedAdd(BuildContext context) {
 
   // TODO:  Check if user is logged in or has an account, display the widget as necessary
 
   
   CurrentUser.getInstance().logout();
 
+
+
+
+
   if (!CurrentUser.getInstance().isAuthenticated()) {
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context)=>new SignUpWidget(),
-    ));
+
+    // User is not logged in. 
+    CurrentUser.getInstance().showAccountAccess( 
+      context: context, 
+     response: "To add a bike you have to login or signup", 
+     title: "Add a bike" );
+
+
+    // Navigator.push(context, MaterialPageRoute(
+    //     builder: (context)=>new SignUpWidget(),
+    // ));
+
+
+
 
   } else {
     print("user is authenticated");

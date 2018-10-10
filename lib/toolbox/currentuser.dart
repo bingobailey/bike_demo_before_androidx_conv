@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
+
+import 'package:bike_demo/widgets/loginwidget.dart';
+import 'package:bike_demo/widgets/signupwidget.dart';
 
  // This login class contains the attributes of the user logged in so we can access it
  // anywhere in the app.  It is implemented as a singleton. 
@@ -299,8 +303,67 @@ import 'dart:async';
 
   }
 
-  // TODO: need to use a function to remove login info from disk when user signs out.
-  // can't use clear() if you are going to save other parms such as radius, search settings etc.
+
+
+void showAccountAccess({BuildContext context, String response, String title}) {
+
+
+   showDialog( context: context,  
+    builder: (BuildContext context) {
+
+        return new AlertDialog( title: new Text(title,), 
+                                    content: new Text(response), 
+                                    actions: <Widget>[
+
+
+                                      new FlatButton.icon( 
+                                        icon: new Icon( Icons.directions_bike), 
+                                        label: new Text("Login",), 
+                                        onPressed: ()=>login(context),),
+
+                                      
+                                      new FlatButton.icon( 
+                                        icon: new Icon( Icons.settings), 
+                                        label: new Text("Sign Up",), 
+                                        onPressed: ()=>signUp(context),),
+
+
+                                      new FlatButton( child: const Text("Close"), 
+                                          textColor: Colors.amberAccent ,
+                                          onPressed: () {
+                                              Navigator.of(context).pop(); 
+                                            },
+                                      ),
+
+
+                                    ],
+          );
+
+   });
+
+ }
+
+
+  void signUp(BuildContext context) {
+
+    Navigator.push(context, MaterialPageRoute(
+         builder: (context)=>new SignUpWidget(),
+     ));
+
+  }
+
+
+  void login(BuildContext context) {
+
+    Navigator.push(context, MaterialPageRoute(
+         builder: (context)=>new LoginWidget(),
+     ));
+
+
+  }
+
+
+
 
   void logout() {
       _uid=null;

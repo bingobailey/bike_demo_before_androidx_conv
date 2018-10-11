@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';   // don't remove this if u are using Duration,
 
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/tools.dart';
+import 'package:bike_demo/toolbox/credentials.dart';
 
 /*
 This class displays all the notifications associated with a topic(s)
@@ -34,26 +35,15 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     void initState() {
       super.initState();
 
-
-      // Only show list if logged in
-      if (CurrentUser.getInstance().isAuthenticated()) {
-        _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-        getTopics().then((List topics){
-          _topics = topics; // We store it so we can access it when  user clicks
-          setState(() {
-
-              // _bodyWidget = new Center(
-              //    child: new GestureDetector( child: new Text("click me"), onTap: addEntry,)
-              // );
-
-            _bodyWidget = buildTopicListWidget( topics: topics );
-
-          });
-
+      // display the notifications
+      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+      getTopics().then((List topics){
+        _topics = topics; // We store it so we can access it when  user clicks
+        setState(() {
+          _bodyWidget = buildTopicListWidget( topics: topics );
         });
-      } else {
-        _bodyWidget = new Text("not logged in");
-      }
+      });
+     
     
     }
 
@@ -177,6 +167,17 @@ void addEntry() {
 
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
+
+    // To view notifications must be logged in
+    if (!CurrentUser.getInstance().isAuthenticated()) {
+        new Credentials().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
+      } else { // User is authenticated
+        // TODO: Display the add bike widget ..
+      
+      }
+
+
+
 
     print("notification hit ${_topics[index]['content']}");
 

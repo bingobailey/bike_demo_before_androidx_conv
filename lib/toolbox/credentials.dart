@@ -195,14 +195,14 @@ Future<String> signInWithGoogle() async {
 
 
 // This dialog alerts the user they need to login, create or create an account
- void showAccessDialog({BuildContext context}) {
+ void showAccountAccess({BuildContext context, String title}) {
 
    showDialog( context: context, 
     builder: (BuildContext context) {
 
       return new SimpleDialog(
          contentPadding: EdgeInsets.all(20.0),
-         title: new Text("You must be logged in"),
+         title: new Text(title),
           children: <Widget>[
 
               // Login Button
@@ -211,6 +211,7 @@ Future<String> signInWithGoogle() async {
                 minWidth: 200.0,
                 child: new Text("Login", style: new TextStyle( fontSize: 20.0) ,),
                   onPressed: () {
+                    Navigator.of(context).pop(); // Remove the dialog box
                     Navigator.push(context, MaterialPageRoute(
                           builder: (context)=>new LoginWidget(),
                      ));
@@ -227,6 +228,7 @@ Future<String> signInWithGoogle() async {
                 minWidth: 150.0,
                  child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
                  onPressed: () {
+                     Navigator.of(context).pop(); // Remove the dialog box
                      Navigator.push(context, MaterialPageRoute(
                            builder: (context)=>new SignUpWidget(),
                       ));
@@ -242,7 +244,7 @@ Future<String> signInWithGoogle() async {
                 minWidth: 200.0,
                 child: new Text("Cancel", style: new TextStyle( fontSize: 20.0) ,),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(); // remove the dialog box
                   }, 
                   color: Colors.red[200],
               ),

@@ -4,8 +4,8 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
-import 'package:bike_demo/widgets/loginwidget.dart';
-import 'package:bike_demo/widgets/signupwidget.dart';
+
+import 'package:bike_demo/toolbox/credentials.dart';
 
 class BikesWidget extends StatefulWidget {
 
@@ -168,32 +168,13 @@ void _onClickedAdd(BuildContext context) {
   
   CurrentUser.getInstance().logout();
 
-
-
-
-
   if (!CurrentUser.getInstance().isAuthenticated()) {
-
-    // User is not logged in. 
-    CurrentUser.getInstance().showAccountAccess( 
-      context: context, 
-     response: "To add a bike you have to login or signup", 
-     title: "Add a bike" );
-
-
-    // Navigator.push(context, MaterialPageRoute(
-    //     builder: (context)=>new SignUpWidget(),
-    // ));
-
-
-
-
-  } else {
-    print("user is authenticated");
+    new Credentials().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
+  } else { // User is authenticated
+    // TODO: Display the add bike widget ..
+   
   }
 
-
-  print("add clicked");
 
 }
 

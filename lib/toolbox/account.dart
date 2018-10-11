@@ -18,7 +18,7 @@ import 'package:bike_demo/toolbox/currentuser.dart';
 
 
 
-class Credentials  {
+class Account  {
 
   // Attributes
   FirebaseUser user;

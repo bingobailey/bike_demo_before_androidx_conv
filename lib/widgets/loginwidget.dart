@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart'; 
-import 'package:bike_demo/toolbox/credentials.dart';
+import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
@@ -28,7 +28,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool _isLoading=false;
 
   _LoginData _loginData = new _LoginData();
-  Credentials _credentials = new Credentials();
+  Account _account = new Account();
 
   @override
     void initState() {
@@ -168,7 +168,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       print('Password: ${_loginData.password}');
 
       // Let's try to login
-      _credentials.signInWithEmailAndPassword( 
+      _account.signInWithEmailAndPassword( 
         email: _loginData.email, 
         password: _loginData.password).then((bool isSuccessful) {
 

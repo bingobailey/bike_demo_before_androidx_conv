@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:bike_demo/chat/chatlistwidget.dart';
-import 'package:bike_demo/widgets/accountprofilewidget.dart';
+import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/bikeswidget.dart';
 
@@ -50,7 +50,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new BikesWidget(),
               new NotificationListWidget(),
               new ChatListWidget(),
-              new AccountProfileWidget(),
+              new UserProfileWidget(),
             
             ]
           ),  

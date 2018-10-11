@@ -5,7 +5,7 @@ import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
 
-import 'package:bike_demo/toolbox/credentials.dart';
+import 'package:bike_demo/toolbox/account.dart';
 
 class BikesWidget extends StatefulWidget {
 
@@ -169,7 +169,7 @@ void _onClickedAdd(BuildContext context) {
   CurrentUser.getInstance().logout();
 
   if (!CurrentUser.getInstance().isAuthenticated()) {
-    new Credentials().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
+    new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
   } else { // User is authenticated
     // TODO: Display the add bike widget ..
    

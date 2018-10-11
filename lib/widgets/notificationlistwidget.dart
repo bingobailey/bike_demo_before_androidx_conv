@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';   // don't remove this if u are using Duration,
 
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/credentials.dart';
+import 'package:bike_demo/toolbox/account.dart';
 
 /*
 This class displays all the notifications associated with a topic(s)
@@ -170,7 +170,7 @@ void addEntry() {
 
     // To view notifications must be logged in
     if (!CurrentUser.getInstance().isAuthenticated()) {
-        new Credentials().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
+        new Account().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
       } else { // User is authenticated
         // TODO: Display the add bike widget ..
       

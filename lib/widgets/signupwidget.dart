@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart'; 
 
-import 'package:bike_demo/toolbox/credentials.dart';
+import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 
 class _AccountData {
@@ -28,7 +28,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _AccountData _accountData = new _AccountData();
-  Credentials _credentials = new Credentials();
+  Account _account = new Account();
   bool _isLoading=false;
 
 
@@ -191,7 +191,7 @@ Widget buildActionButton() {
       print('Password: ${_accountData.password}');
 
       // Create the Account
-      _credentials.createAccount( 
+      _account.createAccount( 
         email: _accountData.email, 
         password: _accountData.password, 
         username: _accountData.username).then( (value) {

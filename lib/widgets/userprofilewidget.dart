@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 
-class AccountProfileWidget extends StatefulWidget {
+class UserProfileWidget extends StatefulWidget {
 
 @override
   State<StatefulWidget> createState() {
-    return new _AccountProfileWidgetState();
+    return new _UserProfileWidgetState();
   }
 
 
 }
 
 
-class _AccountProfileWidgetState extends State<AccountProfileWidget> {
+class _UserProfileWidgetState extends State<UserProfileWidget> {
 
 
 @override

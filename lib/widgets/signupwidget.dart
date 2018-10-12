@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
-
+import 'package:geolocator/geolocator.dart';
 
 class _AccountData {
   String email = '';
@@ -32,6 +32,32 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   _AccountData _accountData = new _AccountData();
   Account _account = new Account();
   bool _isLoading=false;
+  double _latitude;
+  double _longitude;
+
+
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+
+      // Get the location of the device 
+      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.low).then((Position p) {
+        if (p==null) {
+          print("could not determine location");
+        } else {
+          _latitude = p.latitude;
+          _longitude = p.longitude;
+          print("location = $p");
+        }
+
+      });
+
+
+
+    }
+
+
 
 
 //                ********** Build Methods ************
@@ -196,8 +222,10 @@ Widget buildActionButton() {
       _account.createAccount( 
         email: _accountData.email, 
         password: _accountData.password, 
-        username: _accountData.username).then( ( bool success) {
-
+        username: _accountData.username,
+        latitude: _latitude,
+        longitude: _longitude,
+        ).then( ( bool success) { 
           
           // We've returned so set loading to false and refresh the screen
           setState(() {

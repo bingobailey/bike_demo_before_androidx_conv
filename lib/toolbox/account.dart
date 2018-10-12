@@ -8,6 +8,7 @@ import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 
 
+
 /*
  
  **************** N O T E **********
@@ -131,7 +132,7 @@ class Account  {
 
 
 // Create user Account with Email and Password
-  Future<bool> createAccount({String email, String username, String password}) async {
+  Future<bool> createAccount({String email, String username, String password, double latitude, double longitude}) async {
 
     bool createAccountStatus=false;
 
@@ -147,9 +148,10 @@ class Account  {
       CurrentUser.getInstance().user = user;
       CurrentUser.getInstance().tokenID = await user.getIdToken();
       _auth.updateProfile(userUpdateInfo); // this runs async (username used below)
-   
+  
+
       // Make the call to the SQL DB
-      var payload = {'uid':user.uid,'username':username, 'email': email, 'latitude':'-35.305', 'longitude':'149.114'};
+      var payload = {'uid':user.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
       new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {

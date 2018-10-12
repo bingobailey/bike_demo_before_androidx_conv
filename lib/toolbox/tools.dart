@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
+
+
+
 /*
   This class contains tools to help facilitate, UI and other tasks. 
+
+  - LaunchURL 
+  - showProgress Indicator
+  - validate an email address
+  - validate the password
+
+
 */
 
 class Tools {

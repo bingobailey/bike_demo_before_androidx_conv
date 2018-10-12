@@ -35,28 +35,23 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   double _latitude;
   double _longitude;
 
-
   @override
     void initState() {
-      // TODO: implement initState
       super.initState();
 
       // Get the location of the device 
-      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.low).then((Position p) {
+      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best).then((Position p) {
         if (p==null) {
+          // TODO:  If we cannot deterine location, probably need to display something 
           print("could not determine location");
         } else {
           _latitude = p.latitude;
           _longitude = p.longitude;
-          print("location = $p");
         }
 
       });
 
-
-
     }
-
 
 
 
@@ -217,6 +212,9 @@ Widget buildActionButton() {
       print('Printing account data.');
       print('Email: ${_accountData.email}');
       print('Password: ${_accountData.password}');
+
+      print("_latitude $_latitude  _longitude $_longitude");
+
 
       // Create the Account
       _account.createAccount( 

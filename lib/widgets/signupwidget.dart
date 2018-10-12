@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
+import 'package:bike_demo/toolbox/currentuser.dart';
+
 
 class _AccountData {
   String email = '';
@@ -194,16 +196,23 @@ Widget buildActionButton() {
       _account.createAccount( 
         email: _accountData.email, 
         password: _accountData.password, 
-        username: _accountData.username).then( (value) {
+        username: _accountData.username).then( ( bool success) {
 
-            // We've returned so set loading to false and refresh the screen
-            setState(() {
-              _isLoading=false;              
-            });
+          
+          // We've returned so set loading to false and refresh the screen
+          setState(() {
+            _isLoading=false;              
+          });
 
-            print("returned from create account: ${value.toString()}");
+              // User was successfully created in firebase authentication account
+          if (success) {
 
-            // TODO:  We should transition to another page from here
+            Navigator.of(context).pop(); // success so, remove this screen
+          }
+          else {
+              print("Error creating user account ${ CurrentUser.getInstance().e.toString()}");
+            }
+              
 
         });
 

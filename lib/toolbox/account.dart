@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/widgets/loginwidget.dart';
 import 'package:bike_demo/widgets/signupwidget.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/webservice.dart';
+
 
 /*
  
@@ -144,11 +146,22 @@ class Account  {
       assert( user !=null );
       CurrentUser.getInstance().user = user;
       CurrentUser.getInstance().tokenID = await user.getIdToken();
-      _auth.updateProfile(userUpdateInfo);
+      _auth.updateProfile(userUpdateInfo); // this runs async (username used below)
+   
+      // Make the call to the SQL DB
+      var payload = {'uid':user.uid,'username':username, 'email': email, 'latitude':'-35.305', 'longitude':'149.114'};
+      new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
+        // Status code 200 indicates we had a succesful http call
+        if (sqldata.httpResponseCode == 200) {
+          print("sqldata = ${sqldata.toString()}");
+        // Something went wrong with the http call
+        } else {
+          print("Http Error: ${sqldata.toString()}");
+        }
+      }).catchError((e) {
+          print(" WebService error: $e");
+      });
 
-      // NOTE: This is where we would make the call the SQL DB to create the account there as well.
-      // The UID we could use in the MySQL db as a link between the user account in Firebase and
-      // the MySQL database.
 
       /* NOTE:  user.sendEmailVerification() will send an email with a link. If the user clicks the 
         link, the email will be verified. This means is the property isEmailVerified in the user

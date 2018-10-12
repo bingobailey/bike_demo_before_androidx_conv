@@ -84,6 +84,9 @@ AppBar buildAppBar(BuildContext context) {
   // Run the webservice and build the SQLData and set it to the bodyWidget
   void selectBikes({String service, String whereClause}) {
 
+    // TODO:  Latitude and longitude should not be hardcoded.  need to access where the user is
+    // geolocation and then pass that
+
     //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
     var payload = {'latitude':'-35.305', 'longitude':'149.114','radius':'13700', 'units':'km', 'whereClause':whereClause};
 

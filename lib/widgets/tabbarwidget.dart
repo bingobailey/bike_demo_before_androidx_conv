@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
-import 'package:bike_demo/widgets/bikeswidget.dart';
+import 'package:bike_demo/widgets/bikelistwidget.dart';
 
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/notification.dart';
@@ -47,7 +47,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[
-              new BikesWidget(),
+              new BikeListWidget(),
               new NotificationListWidget(),
               new ChatListWidget(),
               new UserProfileWidget(),

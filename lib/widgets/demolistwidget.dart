@@ -81,10 +81,10 @@ print("inside demolistwidget initstate");
              _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
           });
         
-          for (var row in sqldata.rows) {
-           // print(row.toString());
-           // print("username: ${row['username']} country:${row ['country']}"); 
-          }
+          // for (var row in sqldata.rows) {
+          //  print(row.toString());
+          //  print("username: ${row['username']} country:${row ['country']}"); 
+          // }
 
         // Something went wrong here with the http call
         } else {

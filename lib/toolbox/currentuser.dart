@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
-
-import 'package:bike_demo/widgets/loginwidget.dart';
-import 'package:bike_demo/widgets/signupwidget.dart';
 
  // This login class contains the attributes of the user logged in so we can access it
  // anywhere in the app.  It is implemented as a singleton. 

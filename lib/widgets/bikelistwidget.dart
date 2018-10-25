@@ -4,20 +4,20 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
-
 import 'package:bike_demo/toolbox/account.dart';
+import 'package:bike_demo/widgets/bikeaddwidget.dart';
 
-class BikesWidget extends StatefulWidget {
-
+class BikeListWidget extends StatefulWidget {
+ 
   @override
     State<StatefulWidget> createState() {
-      return new _BikesWidgetState();
+      return new _BikeListWidgetState();
     }
 
 }
 
 
-class _BikesWidgetState extends State<BikesWidget>  with SingleTickerProviderStateMixin {
+class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProviderStateMixin {
 
   SearchBar searchBar;
 
@@ -40,7 +40,7 @@ class _BikesWidgetState extends State<BikesWidget>  with SingleTickerProviderSta
     }
 
   // Constructor 
-  _BikesWidgetState() {
+  _BikeListWidgetState() {
     searchBar = new SearchBar(
           inBar: false,
           setState: setState,
@@ -169,12 +169,17 @@ void _onClickedAdd(BuildContext context) {
   // TODO:  Check if user is logged in or has an account, display the widget as necessary
 
   
-  CurrentUser.getInstance().logout();
+  //CurrentUser.getInstance().logout();
 
   if (!CurrentUser.getInstance().isAuthenticated()) {
     new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
   } else { // User is authenticated
-    // TODO: Display the add bike widget ..
+
+    // Display the add bike widget ..
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context)=>new BikeAddWidget(),
+    ));
+
    
   }
 

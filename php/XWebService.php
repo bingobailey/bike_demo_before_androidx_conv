@@ -156,8 +156,9 @@ class WebService {
         } else { 
             $rows=NULL;
             while( $row = $result->fetch_assoc() ){  // Load all the results into an assoc array
-                $rowData = array_merge($row,array("row_type"=>"dataRow"));
-                $rows[] = $rowData;
+              //  $rowData = array_merge($row,array("row_type"=>"dataRow"));
+             //   $rows[] = $rowData;
+                  $rows[] = $row;
             }
             
             $this->echoSQLResponse($rows, $sqlCode, $sqlMessage, $result->num_rows);  

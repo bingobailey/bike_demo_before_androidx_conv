@@ -59,7 +59,7 @@ class WebService {
     String url = wsLocation + service;
 
     // Associate the payload with the key, so we can pull it in the php files
-    Map<String,dynamic> payLoadWithKey= {'key':jsonPayload};;
+    Map<String,dynamic> payLoadWithKey= {'key':jsonPayload};
 
     // Lets set the headers
     var headers = {

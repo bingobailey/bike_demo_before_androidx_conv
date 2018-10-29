@@ -138,6 +138,7 @@ AppBar buildAppBar(BuildContext context) {
 
   }
 
+// TODO: Need to retrieve the proper image for each user
 
 // Get the image associated with the user( ie their avatar )
   Widget getImage({String uid, String image}) {
@@ -166,10 +167,7 @@ void _onSubmittedSearch(String value) {
 
 void _onClickedAdd(BuildContext context) {
 
-  // TODO:  Check if user is logged in or has an account, display the widget as necessary
-
-  
-  //CurrentUser.getInstance().logout();
+  //CurrentUser.getInstance().logout(); // for testing to force logout
 
   if (!CurrentUser.getInstance().isAuthenticated()) {
     new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");

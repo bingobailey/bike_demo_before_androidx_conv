@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
@@ -84,11 +85,13 @@ AppBar buildAppBar(BuildContext context) {
   // Run the webservice and build the SQLData and set it to the bodyWidget
   void selectBikes({String service, String whereClause}) {
 
-    // TODO:  Latitude and longitude should not be hardcoded.  need to access where the user is
-    // geolocation and then pass that
+    double latitude = CurrentUser.getInstance().latitude;
+    double longitude = CurrentUser.getInstance().longitude;
+
+    // TODO: radius should not be hardcoded here
 
     //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
-    var payload = {'latitude':'-35.305', 'longitude':'149.114','radius':'13700', 'units':'km', 'whereClause':whereClause};
+    var payload = {'latitude':latitude, 'longitude':longitude,'radius':'13700', 'units':'km', 'whereClause':whereClause};
 
      new WebService().run(service: service, jsonPayload: payload).then((sqldata){
 
@@ -102,9 +105,9 @@ AppBar buildAppBar(BuildContext context) {
              _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
           });
         
-          for (var row in sqldata.rows) {
-            print(row.toString());
-          }
+          // for (var row in sqldata.rows) {
+          //   print(row.toString());
+          // }
 
         // Something went wrong with the http call
         } else {
@@ -169,20 +172,18 @@ void _onClickedAdd(BuildContext context) {
 
   //CurrentUser.getInstance().logout(); // for testing to force logout
 
-  if (!CurrentUser.getInstance().isAuthenticated()) {
-    new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
-  } else { // User is authenticated
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user ==null) { // not logged in
+          new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
+        } else {
+          // Display the add bike widget ..
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context)=>new BikeAddWidget(),
+          ));
+        }
+      });
 
-    // Display the add bike widget ..
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context)=>new BikeAddWidget(),
-    ));
-
-   
   }
-
-
-}
 
 
   // user clicked on a list item

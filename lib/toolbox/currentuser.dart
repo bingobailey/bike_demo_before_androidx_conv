@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bike_demo/toolbox/account.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
@@ -18,35 +19,23 @@ import 'dart:async';
    Exception e;
    DatabaseReference _ref;  // reference to  update firebase with user, chat etc
 
-   String _uid;
-   String _displayName;
    String _email;
-   String _photoURL;
    String _password;  // TODO:  Need to save password to disk or save date to disk then if x
                       // amount of time has passed, force re-login. 
    String _fcmToken;    // this is the device token to send fcm messages
    String _units;     // KM or MI  for radius calc
    String _radius;    // The radius to conduct the location search 
+   double _latitude; 
+   double _longitude; 
 
 
   // This method should be called at the start of the app loading. Because it's async
   // it might take a few seconds to load
-  void loadSettings() {
-    // We load the parms from disk, if they exists
+  void loadDiskSettings() {
+    // We load the parms from disk, if they exists 
       SharedPreferences.getInstance().then((prefs) {
-        _uid = prefs.getString("uid"); 
-        print("uid = ${prefs.getString("uid")}");
-        _displayName = prefs.getString("displayName"); 
         _email = prefs.getString("email"); 
-        _photoURL = prefs.getString("photoURL"); 
-        _fcmToken = prefs.getString("fcmToken");
-        _units = prefs.getString("units"); 
-        _radius = prefs.getString("radius");
-
-        // If we have a UID, let's assign the reference
-        if(_uid !=null) {
-           _ref = new FirebaseDatabase().reference().child("users/$_uid"); 
-        }
+        _password = prefs.getString("password");
       });
 
   }
@@ -54,23 +43,23 @@ import 'dart:async';
 
   // *** GET and SET Methods ****
 
-  String get uid => _uid;
-  String get displayName => _displayName;
+  FirebaseUser get user => _user;
+  
   String get email => _email;
-  String get photoURL => _photoURL;
+  String get password => _password;
   String get units => _units;
   String get radius => _radius;
   String get fcmToken => _fcmToken;
-
-  FirebaseUser get user => _user;
-
-
+  double get latitude => _latitude;
+  double get longitude => _longitude;
 
 
   // The static method call or Singleton, to ensure we only have one instance of this in the app
   static CurrentUser getInstance() {
     if (_instance==null) {
       _instance = new CurrentUser();
+     // _instance.loadDiskSettings();
+     
     }
     return _instance;
   }
@@ -80,24 +69,43 @@ import 'dart:async';
   // User has been set after being authenticated, we store each
   // parm so we can access and save it to disk, until the next authentication
   set user(FirebaseUser user) {
-    _user = user; 
-    _uid = user.uid;
-    _displayName = user.displayName;
-    _email= user.email;
-    _photoURL = user.photoUrl;
+
+    _user = user;
+
     // We also get a reference to the firebase database where we store user parms. 
-    _ref = new FirebaseDatabase().reference().child("users/$_uid");
+    _ref = new FirebaseDatabase().reference().child("users/$user.uid");
 
   // Since we have the fresh data, Save it to disk
-  SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('uid', _uid);
-          prefs.setString('displayName', _displayName);
-          prefs.setString('email', _email);
-          prefs.setString('photoURL', _photoURL);
+  SharedPreferences.getInstance().then((prefs) {  
+          prefs.setString('email', user.email); 
       });
   }
 
 
+  void signInWithEmailAndPassword(){
+
+    new Account().signInWithEmailAndPassword( email: _email, password: _password).then((bool isSuccessful) {
+
+       if(isSuccessful) {
+        _instance._ref = new FirebaseDatabase().reference().child("users/$_instance._user.uid"); 
+        _instance.loadFirebaseSettings(); 
+         print("signin successful");
+       } else {
+         print("signin UNsucessful");
+       }
+
+    });
+
+
+  }
+
+  Future<void> loadFirebaseSettings() async {
+
+    DataSnapshot snapshot = await _ref.once();
+    print("snapshot = ${snapshot.value.toString()}");
+
+
+  }
 
 
 
@@ -107,11 +115,6 @@ import 'dart:async';
   // each users' device.  This allows peer to peer communication
   set fcmToken(String fcmToken) {
     _fcmToken = fcmToken;
-
-     // Save prefs to disk
-    SharedPreferences.getInstance().then((prefs) {
-        prefs.setString('fcmToken', _fcmToken);  // store it to disk
-    });
 
      if (_ref==null) return; // Need to ensure we have a valid ref before making the call
       _ref.update( 
@@ -134,20 +137,11 @@ import 'dart:async';
 
   // Update the user's profile with display name and photoURL
   set displayName(String displayName) {
-    // we use update so it won't overrite other fields.  if you use set() instead it will
-    // wipe out properties that are not being updated in this call. 
-    _displayName = displayName;
-  
-    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-      {
-        'displayName': _displayName,
-      });
+   
+    var userUpdateInfo = new UserUpdateInfo();
+    userUpdateInfo.displayName = displayName;
+    FirebaseAuth.instance.updateProfile(userUpdateInfo);
 
-      // since we updated database, save it to disk 
-      SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('displayName', _displayName);  // store it to disk
-      });
   }
 
 
@@ -159,11 +153,7 @@ import 'dart:async';
     // wipe out properties that are not being updated in this call. 
     _email = email;
 
-    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-      {
-        'email' : _email,
-      });
+    FirebaseAuth.instance.updateEmail( email: email);
 
       // since we updated database, save it to disk 
       SharedPreferences.getInstance().then((prefs) {
@@ -172,6 +162,56 @@ import 'dart:async';
   }
 
 
+  // Update the user's photo 
+  set photoURL(String photoURL){
+    var userUpdateInfo = new UserUpdateInfo();
+    userUpdateInfo.photoUrl = photoURL;
+    FirebaseAuth.instance.updateProfile(userUpdateInfo);
+  }
+
+
+
+
+  // Update the user's profile with display name and photoURL
+  set password(String password) {
+    // we use update so it won't overrite other fields.  if you use set() instead it will
+    // wipe out properties that are not being updated in this call. 
+    _password = password;
+
+      // since we updated database, save it to disk 
+      SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('password',_password);
+      });
+  }
+
+
+
+
+  // Update the user's latitude with display name and photoURL
+  set latitude (double latitude) {
+    
+    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+    _ref.update( 
+      {
+        'latitude' : _latitude,
+      });
+
+    _latitude = latitude;
+  }
+
+
+  // Update the user's longitude with display name and photoURL
+  set longitude (double longitude) {
+    
+    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
+    _ref.update( 
+      {
+        'longitude' : _longitude,
+      });
+
+    _longitude = longitude;
+     
+  }
 
 
 // Update the user's profile with display name and photoURL
@@ -179,11 +219,6 @@ import 'dart:async';
     // we use update so it won't overrite other fields.  if you use set() instead it will
     // wipe out properties that are not being updated in this call. 
     _units=units;
-
-    // Save prefs to disk
-      SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('units', _units);  // store it to disk
-      });
 
     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
     _ref.update( 
@@ -201,32 +236,11 @@ import 'dart:async';
     // wipe out properties that are not being updated in this call. 
     _radius = radius;
 
-    // Save prefs to disk
-      SharedPreferences.getInstance().then((prefs) {
-          prefs.setString('radius', _radius);  // store it to disk
-      });
-
     if (_ref==null) return; // Need to ensure we have a valid ref before making the call
     _ref.update( 
       {
         'radius' : _radius
       });
-  }
-
-
-  // Update the user's photo 
-  set photoURL(String photoURL){
-    _photoURL = photoURL;
-    // Save prefs to disk
-    SharedPreferences.getInstance().then((prefs) {
-        prefs.setString('photoURL', _photoURL);  // store it to disk
-    });
-
-    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-        {
-          'photoURL' : _photoURL,
-        });
   }
 
 
@@ -239,7 +253,7 @@ import 'dart:async';
 
     // We add the channel to the user so it will show up when we pull all the channels for this
     // user
-      String channelID = _uid + "_" + toUID; // creats the channel to communicate on
+      String channelID = _user.uid + "_" + toUID; // creats the channel to communicate on
       // .push inserts an auto key.  This makes it possible to get a list
       _ref.child('channels').push().set(
           {
@@ -257,7 +271,7 @@ import 'dart:async';
       DatabaseReference chatRef = new FirebaseDatabase().reference().child('chat/$channelID');
       chatRef.push().set(
         {
-            'name': CurrentUser.getInstance()._displayName,
+            'name': CurrentUser.getInstance()._user.uid,
             'content': msg,
             'datetime' : DateTime.now().toString(),
         });
@@ -278,37 +292,24 @@ import 'dart:async';
 
       snapshot.value.forEach( (k,v) {
         _list.add(v);
-        print("k = $k");
-        print("title = ${v['title']}");
       });
 
       return _list;
     }
 
 
-
-    // Does the user have a valid UID, if so we should be good, otherwise,
-    // they need to login or create an account
-    bool isAuthenticated() {
-      if (_uid != null) return true;
-      else return false;
-    }
-
-  String toString() {
-    return("displayName=$_displayName, uid=$_uid, email=$_email, photoURL=$_photoURL, fcmToken=$_fcmToken, tokenID=$tokenID, providers=${providers.toString()}, e=${e.toString()}");
-
-  }
-
-
-
   void logout() {
-      _uid=null;
-     SharedPreferences.getInstance().then((prefs) {
-        prefs.setString('uid', null); 
-    });
+
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user !=null) {
+          print("user signing out");
+          FirebaseAuth.instance.signOut();
+        } else {
+          print("user not signed in");
+        }
+      });
 
   }
-
 
 
 }

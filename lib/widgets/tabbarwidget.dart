@@ -4,8 +4,6 @@ import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/bikelistwidget.dart';
-
-import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/notification.dart';
 
 
@@ -23,9 +21,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   @override
   void initState() {
       super.initState();
-      
      _controller = new TabController( vsync: this, length: 4 );
-      CurrentUser.getInstance().loadSettings();  // Call the init method so we can load the user's data
       new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
 
     }

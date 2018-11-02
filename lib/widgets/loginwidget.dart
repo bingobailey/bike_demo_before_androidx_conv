@@ -163,9 +163,6 @@ class _LoginWidgetState extends State<LoginWidget> {
         _isLoading=true;
        });
 
-      print('Printing the login data.');
-      print('Email: ${_loginData.email}');
-      print('Password: ${_loginData.password}');
 
       // Let's try to login
       _account.signInWithEmailAndPassword( 
@@ -177,8 +174,13 @@ class _LoginWidgetState extends State<LoginWidget> {
               _isLoading=false;              
             });
 
-            // TODO: Login successful... This is where we would transition to another page
+           
             if(isSuccessful) {
+              // success, we store the email and password.  the user can be referenced
+              // using getinstance().user  (which is assigned after signin )
+              CurrentUser.getInstance().email = _loginData.email;
+              CurrentUser.getInstance().password = _loginData.password;
+
               Navigator.of(context).pop(); // Remove the login page, since we were successful            
             } else { // was unsuccessful, need to inform user
               print("login unsuccessful");

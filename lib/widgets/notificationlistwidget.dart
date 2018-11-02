@@ -3,9 +3,14 @@ import 'package:bike_demo/toolbox/topic.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/account.dart';
+
+
+
 
 /*
 This class displays all the notifications associated with a topic(s)
@@ -168,20 +173,16 @@ void addEntry() {
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
 
-    // To view notifications must be logged in
-    if (!CurrentUser.getInstance().isAuthenticated()) {
-        new Account().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
-      } else { // User is authenticated
-        // TODO: Display the add bike widget ..
-      
-      }
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user ==null) {
+             new Account().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
+         } else {
+            // TODO: display notifcation, user is logged in
+            print("notification hit ${_topics[index]['content']}");
+         }
 
-
-
-
-    print("notification hit ${_topics[index]['content']}");
-
-  
+        });
+    
 
     // //   //String topicName = 'bikeAdded';
     //   String topicName = 'reviewPosted';

@@ -45,8 +45,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           // TODO:  If we cannot deterine location, probably need to display something 
           print("could not determine location");
         } else {
+          
+          print("location = {$p.toString()");
+
           _latitude = p.latitude;
           _longitude = p.longitude;
+
+          print("_latitude = $_latitude");
         }
 
       });
@@ -208,10 +213,6 @@ Widget buildActionButton() {
       setState(() {
         _isLoading=true;
        });
-
-      print('Printing account data.');
-      print('Email: ${_accountData.email}');
-      print('Password: ${_accountData.password}');
 
       print("_latitude $_latitude  _longitude $_longitude");
 

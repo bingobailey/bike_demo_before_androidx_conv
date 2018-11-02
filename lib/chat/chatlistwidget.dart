@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 /*
 chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
@@ -36,21 +38,21 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     void initState() {
       super.initState();
 
-      // Only show list if logged in
-      if (CurrentUser.getInstance().isAuthenticated()) {
-        _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-        CurrentUser.getInstance().getChannelList().then((List channels){
-          _channels = channels; // We store it so we can access it when  user clicks
-          setState(() {
-            _bodyWidget = buildChannelListWidget( channels: channels );
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user !=null) {
+          _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+          CurrentUser.getInstance().getChannelList().then((List channels){
+            _channels = channels; // We store it so we can access it when  user clicks
+            setState(() {
+              _bodyWidget = buildChannelListWidget( channels: channels );
+            });
           });
-
-        });
-      } else {
-        _bodyWidget = new Text("not logged in");
-      }
-    
-
+        } else {
+            setState(() {
+             _bodyWidget = new Text("not logged in");
+            });
+        }
+      });
 
     }
 

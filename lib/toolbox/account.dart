@@ -146,6 +146,8 @@ class Account  {
 
       assert( user !=null );
       CurrentUser.getInstance().user = user;
+      CurrentUser.getInstance().password = password;
+      CurrentUser.getInstance().displayName = username;
       CurrentUser.getInstance().tokenID = await user.getIdToken();
       _auth.updateProfile(userUpdateInfo); // this runs async (username used below)
   
@@ -272,20 +274,6 @@ Future<String> signInWithGoogle() async {
  }
 
 
-
-
-  // SignOut
-  void signOut() {
-
-    _auth.signOut().then((user) {
-      print("User Signed Out"); 
-
-    }).catchError((e) {
-      print("Exception in signOut:$e");
-
-    });
-
-  }
 
 
 

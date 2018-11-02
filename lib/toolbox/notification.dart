@@ -1,6 +1,8 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 /*
   This class registers listening to topics. 
@@ -15,12 +17,12 @@ class Notificaton {
  
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {  // executes when the app is running
-            print("onMessage: ${message.toString()}");
+            // print("onMessage: ${message.toString()}");
 
-            // Pulling info out of the message
-            print("onMessage title = ${message['notification']['title']}");
-            print("onMessage body = ${message['notification']['body']}");
-            print("onMessage source = ${message['data']['source']}");
+            // // Pulling info out of the message
+            // print("onMessage title = ${message['notification']['title']}");
+            // print("onMessage body = ${message['notification']['body']}");
+            // print("onMessage source = ${message['data']['source']}");
 
           },
           onResume: (Map<String, dynamic> message) {  // executes when app is in background
@@ -40,11 +42,15 @@ class Notificaton {
             });
  
       // Get the fcm token from the device and set it (will ultimately insert it into fb)
-      if ( CurrentUser.getInstance().isAuthenticated()) {
-         _firebaseMessaging.getToken().then((String fcmToken){
-              CurrentUser.getInstance().fcmToken = fcmToken;
+
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user !=null) {
+            _firebaseMessaging.getToken().then((String fcmToken){
+            CurrentUser.getInstance().fcmToken = fcmToken;
          });
-      }
+        }
+      });
+
 
         // TODO:  Right now we have the topics hardcoded.  Should be based on the user's
         // profile.  The default could be turned on

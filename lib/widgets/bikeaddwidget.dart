@@ -141,7 +141,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
           width: 250.0,
          child:  new RaisedButton(
           color: Colors.blue,
-            child: new Text("Add", style: new TextStyle( fontSize: 20.0),),
+            child: new Text("Add Bike", style: new TextStyle( fontSize: 20.0),),
             onPressed: _onAddPressed,
         ),
          
@@ -164,14 +164,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
         _isLoading=true;
        });
 
-    String uid = CurrentUser.getInstance().uid;
-
-
-      print('Printing the bike data.');
-      print('descripton: ${_bikeData.description}');
-      print('framesize: ${_bikeData.framesize}');
-      print('uid : $uid');
-  
+    String uid = CurrentUser.getInstance().user.uid;
 
       // Make the call to the SQL DB
       var payload = {'uid':uid,'description':_bikeData.description, 'frame_size': _bikeData.framesize};

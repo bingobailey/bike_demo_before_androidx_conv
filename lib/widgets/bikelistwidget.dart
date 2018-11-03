@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
@@ -21,6 +23,8 @@ class BikeListWidget extends StatefulWidget {
 class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProviderStateMixin {
 
   SearchBar searchBar;
+  double _latitude;
+  double _longitude;
 
  // Webservice attributes
   String _service = 'XselectBikes.php';
@@ -34,10 +38,20 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
     void initState() {
       super.initState();
 
+      // get the location
+      SharedPreferences.getInstance().then((prefs) {
+          _latitude = prefs.getDouble('latitude');
+          _longitude = prefs.getDouble('longitude');
+
+// TODO: if latitude and longitude are null, might need to re-arrange this and call
+//       geolocation here
+
+           String whereClause = "status = 'WTD'";
+          selectBikes( service: _service, whereClause: whereClause);
+      });
+
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
 
-      String whereClause = "status = 'WTD'";
-      selectBikes( service: _service, whereClause: whereClause);
     }
 
   // Constructor 
@@ -85,13 +99,11 @@ AppBar buildAppBar(BuildContext context) {
   // Run the webservice and build the SQLData and set it to the bodyWidget
   void selectBikes({String service, String whereClause}) {
 
-    double latitude = CurrentUser.getInstance().latitude;
-    double longitude = CurrentUser.getInstance().longitude;
 
     // TODO: radius should not be hardcoded here
 
     //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
-    var payload = {'latitude':latitude, 'longitude':longitude,'radius':'13700', 'units':'km', 'whereClause':whereClause};
+    var payload = {'latitude':_latitude, 'longitude':_longitude,'radius':'13700', 'units':'km', 'whereClause':whereClause};
 
      new WebService().run(service: service, jsonPayload: payload).then((sqldata){
 

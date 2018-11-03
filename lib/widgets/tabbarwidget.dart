@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
@@ -23,6 +26,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
       super.initState();
      _controller = new TabController( vsync: this, length: 4 );
       new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
+      getGPSLocation(); // get the gps location
 
     }
 
@@ -66,6 +70,34 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
           );
      
     }
+
+
+  void getGPSLocation() {
+
+      // Get the location of the device 
+      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best).then((Position p) {
+        if (p==null) {
+          // TODO:  If we cannot deterine location, probably need to display something 
+          print("could not determine location");
+        } else {
+          
+          print("location = {$p.toString()");
+
+          // Save to disk
+          SharedPreferences.getInstance().then((prefs) {
+              prefs.setDouble('latitude',p.latitude);
+              prefs.setDouble('longitude',p.longitude);
+          });
+
+        }
+      });
+
+  }
+
+
+
+
+
 
 
 } // end of class

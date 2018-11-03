@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart'; 
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
-import 'package:geolocator/geolocator.dart';
+
 
 class _AccountData {
   String email = '';
@@ -39,22 +40,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     void initState() {
       super.initState();
 
-      // Get the location of the device 
-      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best).then((Position p) {
-        if (p==null) {
-          // TODO:  If we cannot deterine location, probably need to display something 
-          print("could not determine location");
-        } else {
-          
-          print("location = {$p.toString()");
+          SharedPreferences.getInstance().then((prefs) {
+              _latitude = prefs.getDouble('latitude');
+              _longitude = prefs.getDouble('longitude');
+          });
 
-          _latitude = p.latitude;
-          _longitude = p.longitude;
-
-          print("_latitude = $_latitude");
-        }
-
-      });
+          // TODO:  if latitude and longitdue are null, should call geolocation again.
 
     }
 

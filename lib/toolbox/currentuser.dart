@@ -25,10 +25,7 @@ import 'dart:async';
    String _fcmToken;    // this is the device token to send fcm messages
    String _units;     // KM or MI  for radius calc
    String _radius;    // The radius to conduct the location search 
-   double _latitude; 
-   double _longitude; 
-
-
+   
   // This method should be called at the start of the app loading. Because it's async
   // it might take a few seconds to load
   void loadDiskSettings() {
@@ -50,9 +47,7 @@ import 'dart:async';
   String get units => _units;
   String get radius => _radius;
   String get fcmToken => _fcmToken;
-  double get latitude => _latitude;
-  double get longitude => _longitude;
-
+ 
 
   // The static method call or Singleton, to ensure we only have one instance of this in the app
   static CurrentUser getInstance() {
@@ -182,35 +177,6 @@ import 'dart:async';
       SharedPreferences.getInstance().then((prefs) {
           prefs.setString('password',_password);
       });
-  }
-
-
-
-
-  // Update the user's latitude with display name and photoURL
-  set latitude (double latitude) {
-    
-    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-      {
-        'latitude' : _latitude,
-      });
-
-    _latitude = latitude;
-  }
-
-
-  // Update the user's longitude with display name and photoURL
-  set longitude (double longitude) {
-    
-    if (_ref==null) return; // Need to ensure we have a valid ref before making the call
-    _ref.update( 
-      {
-        'longitude' : _longitude,
-      });
-
-    _longitude = longitude;
-     
   }
 
 

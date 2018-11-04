@@ -26,16 +26,6 @@ import 'dart:async';
    String _units;     // KM or MI  for radius calc
    String _radius;    // The radius to conduct the location search 
    
-  // This method should be called at the start of the app loading. Because it's async
-  // it might take a few seconds to load
-  void loadDiskSettings() {
-    // We load the parms from disk, if they exists 
-      SharedPreferences.getInstance().then((prefs) {
-        _email = prefs.getString("email"); 
-        _password = prefs.getString("password");
-      });
-
-  }
 
 
   // *** GET and SET Methods ****
@@ -53,12 +43,9 @@ import 'dart:async';
   static CurrentUser getInstance() {
     if (_instance==null) {
       _instance = new CurrentUser();
-     // _instance.loadDiskSettings();
-     
     }
     return _instance;
   }
-
 
 
   // User has been set after being authenticated, we store each
@@ -66,14 +53,19 @@ import 'dart:async';
   set user(FirebaseUser user) {
 
     _user = user;
-
     // We also get a reference to the firebase database where we store user parms. 
-    _ref = new FirebaseDatabase().reference().child("users/$user.uid");
+    _ref = new FirebaseDatabase().reference().child("users/${user.uid}");
 
-  // Since we have the fresh data, Save it to disk
-  SharedPreferences.getInstance().then((prefs) {  
-          prefs.setString('email', user.email); 
-      });
+    // Lets get any parms associated with the user
+    _ref.once().then((DataSnapshot snapshot) { 
+          print("snapshot = ${snapshot.value.toString()}");
+          });
+
+
+    // Since we have the fresh data, Save it to disk
+    SharedPreferences.getInstance().then((prefs) {  
+            prefs.setString('email', user.email); 
+        });
   }
 
 
@@ -82,22 +74,13 @@ import 'dart:async';
     new Account().signInWithEmailAndPassword( email: _email, password: _password).then((bool isSuccessful) {
 
        if(isSuccessful) {
-        _instance._ref = new FirebaseDatabase().reference().child("users/$_instance._user.uid"); 
-        _instance.loadFirebaseSettings(); 
          print("signin successful");
        } else {
+         // TODO: show someting that it was not successful
          print("signin UNsucessful");
        }
 
     });
-
-
-  }
-
-  Future<void> loadFirebaseSettings() async {
-
-    DataSnapshot snapshot = await _ref.once();
-    print("snapshot = ${snapshot.value.toString()}");
 
 
   }

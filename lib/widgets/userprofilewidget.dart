@@ -36,10 +36,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
   Widget _buildDisplayWidget() {
 
-    return new Text("acount work needed here");
+    return new RaisedButton(child: new Text("sign out"), onPressed: _signOut,);
    
   }
 
+
+  void _signOut() {
+
+    CurrentUser.getInstance().logout(); 
+
+  }
 
 
 } // class

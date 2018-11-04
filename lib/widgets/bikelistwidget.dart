@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
 
@@ -181,8 +180,6 @@ void _onSubmittedSearch(String value) {
 }
 
 void _onClickedAdd(BuildContext context) {
-
-  //CurrentUser.getInstance().logout(); // for testing to force logout
 
       FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user ==null) { // not logged in

@@ -3,7 +3,6 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/account.dart';
@@ -42,10 +41,11 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
           _latitude = prefs.getDouble('latitude');
           _longitude = prefs.getDouble('longitude');
 
+
 // TODO: if latitude and longitude are null, might need to re-arrange this and call
 //       geolocation here
 
-           String whereClause = "status = 'WTD'";
+          String whereClause = "status = 'WTD'"; 
           selectBikes( service: _service, whereClause: whereClause);
       });
 
@@ -109,7 +109,7 @@ AppBar buildAppBar(BuildContext context) {
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
 
-          print("sqldata = ${sqldata.toString()}");
+        //  print("sqldata = ${sqldata.toString()}");
 
           setState(() {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
@@ -181,7 +181,7 @@ void _onSubmittedSearch(String value) {
 
 void _onClickedAdd(BuildContext context) {
 
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+     FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user ==null) { // not logged in
           new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
         } else {
@@ -191,6 +191,9 @@ void _onClickedAdd(BuildContext context) {
           ));
         }
       });
+
+
+
 
   }
 
@@ -206,6 +209,9 @@ void _onClickedAdd(BuildContext context) {
   }
 
 
+      
+      
+    
 
 
 

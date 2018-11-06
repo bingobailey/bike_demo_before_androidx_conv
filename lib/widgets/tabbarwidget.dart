@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
@@ -26,14 +28,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
       super.initState();
      _controller = new TabController( vsync: this, length: 4 );
 
-      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
-      getGPSLocation(); // get the gps location
-
-      // If we are logged in, set the user and the assoc parms
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user !=null) {
-          CurrentUser.getInstance().user = user;
-        }});
+      // starts up and initalizes
+      startUp();
 
     }
 
@@ -50,12 +46,17 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
       return new Scaffold( 
  
+
+// TODO: switched notificationlistwidget to be first in the tab sequence, so the bikelistwidget
+//       would have time to get the lat and lng, the first time the user loads the app.   There may be
+//       a better way to do this but for now this works. 
+
           resizeToAvoidBottomPadding: false,
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[
-              new BikeListWidget(),
               new NotificationListWidget(),
+              new BikeListWidget(),   
               new ChatListWidget(),
               new UserProfileWidget(),
             
@@ -68,8 +69,8 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
              child: new TabBar(  // This is the same code used above
              controller: _controller,
              tabs: <Tab>[
-              new Tab( icon: new Icon(Icons.directions_bike)),
               new Tab( icon: new Icon(Icons.notifications)),
+              new Tab( icon: new Icon(Icons.directions_bike)),
               new Tab( icon: new Icon(Icons.chat)),
               new Tab( icon: new Icon(Icons.person)),
            ]))
@@ -78,28 +79,46 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
      
     }
 
+  // Startsup and initializes
+  void startUp () {
 
-  void getGPSLocation() {
+     getGPSLocation(); // get the gps location
+
+     new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
+  
+     // If we are logged in, set the user and the assoc parms
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user !=null) {
+          CurrentUser.getInstance().user = user;
+        }});
+  }
+ 
+
+  Future<void> getGPSLocation() async {
 
       // Get the location of the device 
-      new Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best).then((Position p) {
-        if (p==null) {
-          // TODO:  If we cannot deterine location, probably need to display something 
+      Position p = await Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
+   
+      if (p==null) {
+        // TODO:  If we cannot deterine location, probably need to display something 
           print("could not determine location");
-        } else {
-          
-          print("location = {$p.toString()");
+      } else {
 
-          // Save to disk
-          SharedPreferences.getInstance().then((prefs) {
-              prefs.setDouble('latitude',p.latitude);
-              prefs.setDouble('longitude',p.longitude);
-          });
+       //print("location = ${p.toString()}");
 
-        }
-      });
+        // Save to disk
+        SharedPreferences.getInstance().then((prefs) {
+             prefs.setDouble('latitude',p.latitude);
+            prefs.setDouble('longitude',p.longitude);
+        });
 
-  }
+      }
+      
+      
+      
+   }
+
+  
 
 
 

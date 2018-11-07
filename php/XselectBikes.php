@@ -27,6 +27,9 @@
         $conversionConstant = $milesConstant;
     }
 
+
+    //( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ) AS distance 
+
     // For Pagination
     $rowsPaged = $ws->p('rowsPaged');
     $rowCount =  $ws->p('rowCount');
@@ -41,7 +44,7 @@
                     status,
                     terms,
                     category,
-                    ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ) AS distance 
+                   FORMAT(  ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ),1) AS distance 
              FROM   User
         INNER JOIN  Bike on User.uid = Bike.uid    
             WHERE   $whereClause

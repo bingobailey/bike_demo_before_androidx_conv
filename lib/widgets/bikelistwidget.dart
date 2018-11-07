@@ -21,8 +21,6 @@ class BikeListWidget extends StatefulWidget {
 class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProviderStateMixin {
 
   SearchBar searchBar;
-  double _latitude;
-  double _longitude;
 
  // Webservice attributes
   String _service = 'XselectBikes.php';
@@ -38,15 +36,14 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
 
       // get the location
       SharedPreferences.getInstance().then((prefs) {
-          _latitude = prefs.getDouble('latitude');
-          _longitude = prefs.getDouble('longitude');
-
+          double latitude = prefs.getDouble('latitude');
+          double longitude = prefs.getDouble('longitude');
 
 // TODO: if latitude and longitude are null, might need to re-arrange this and call
 //       geolocation here
 
           String whereClause = "status = 'WTD'"; 
-          selectBikes( service: _service, whereClause: whereClause);
+          selectBikes( service: _service, whereClause: whereClause, latitude: latitude, longitude: longitude);
       });
 
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
@@ -94,31 +91,36 @@ AppBar buildAppBar(BuildContext context) {
   }  
 
 
-
   // Run the webservice and build the SQLData and set it to the bodyWidget
-  void selectBikes({String service, String whereClause}) {
+  void selectBikes({String service, String whereClause, double latitude, double longitude}) {
 
 
-    // TODO: radius should not be hardcoded here
+    // TODO: radius should not be hardcoded here.  set by user parms
+    double radius = 25.0;
+
+    // TODO:  units should not be hardcoded here.  set by parms
+    //        acceptable values:  km   or  m   
+
+    String units = 'm';
 
     //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
-    var payload = {'latitude':_latitude, 'longitude':_longitude,'radius':'13700', 'units':'km', 'whereClause':whereClause};
+    var payload = {'latitude':latitude, 'longitude':longitude,'radius':radius, 'units':units, 'whereClause':whereClause};
 
      new WebService().run(service: service, jsonPayload: payload).then((sqldata){
 
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
 
-        //  print("sqldata = ${sqldata.toString()}");
+          //print("sqldata = ${sqldata.toString()}");
 
           setState(() {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
-             _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows);
+             _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows, units: units);
           });
         
-          // for (var row in sqldata.rows) {
-          //   print(row.toString());
-          // }
+           for (var row in sqldata.rows) {
+             print(row.toString());
+           }
 
         // Something went wrong with the http call
         } else {
@@ -134,15 +136,19 @@ AppBar buildAppBar(BuildContext context) {
 
 
   // Using the SQL Data build the list widget
-  Widget buildListWidget({List<dynamic> sqlDataRows}) {
+  Widget buildListWidget({List<dynamic> sqlDataRows, String units}) {
+
+
+     
 
     return new Center(
           child: new ListView.builder(
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
-              return new ListTile(
-                title: new Text(sqlDataRows[index]['description']),
-                subtitle: new Text(sqlDataRows[index]['frame_size']),
+              return  ListTile(
+                title:  Text(sqlDataRows[index]['description']),
+                subtitle:  Text(sqlDataRows[index]['frame_size']),
+                trailing: new Text(sqlDataRows[index]['distance'] + units),
                 leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
                 onTap: ()=> _onTapItem(context, index),
               );

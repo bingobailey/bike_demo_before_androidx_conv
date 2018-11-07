@@ -46,7 +46,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
       return new Scaffold( 
  
-
 // TODO: switched notificationlistwidget to be first in the tab sequence, so the bikelistwidget
 //       would have time to get the lat and lng, the first time the user loads the app.   There may be
 //       a better way to do this but for now this works. 
@@ -104,8 +103,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
           print("could not determine location");
       } else {
 
-       //print("location = ${p.toString()}");
-
         // Save to disk
         SharedPreferences.getInstance().then((prefs) {
              prefs.setDouble('latitude',p.latitude);
@@ -117,12 +114,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
       
       
    }
-
-  
-
-
-
-
 
 
 

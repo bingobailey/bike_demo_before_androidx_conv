@@ -7,6 +7,7 @@ import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
+import 'package:bike_demo/toolbox/notify.dart';
 
 class BikeListWidget extends StatefulWidget {
  
@@ -18,7 +19,7 @@ class BikeListWidget extends StatefulWidget {
 }
 
 
-class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProviderStateMixin {
+class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProviderStateMixin implements Notify {
 
   SearchBar searchBar;
 
@@ -33,22 +34,9 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   @override
     void initState() {
       super.initState();
-
-      // get the location
-      SharedPreferences.getInstance().then((prefs) {
-          double latitude = prefs.getDouble('latitude');
-          double longitude = prefs.getDouble('longitude');
-
-// TODO: if latitude and longitude are null, might need to re-arrange this and call
-//       geolocation here
-
-          String whereClause = "status = 'WTD'"; 
-          selectBikes( service: _service, whereClause: whereClause, latitude: latitude, longitude: longitude);
-      });
-
-      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-
+      refreshScreen();
     }
+
 
   // Constructor 
   _BikeListWidgetState() {
@@ -91,9 +79,27 @@ AppBar buildAppBar(BuildContext context) {
   }  
 
 
+  void refreshScreen() {
+
+      // get the location
+      SharedPreferences.getInstance().then((prefs) {
+          double latitude = prefs.getDouble('latitude');
+          double longitude = prefs.getDouble('longitude');
+
+// TODO: if latitude and longitude are null, might need to re-arrange this and call
+//       geolocation here
+          String whereClause = "status = 'WTD'"; 
+          selectBikes( service: _service, whereClause: whereClause, latitude: latitude, longitude: longitude);
+      });
+
+      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+
+  }
+
+
+
   // Run the webservice and build the SQLData and set it to the bodyWidget
   void selectBikes({String service, String whereClause, double latitude, double longitude}) {
-
 
     // TODO: radius should not be hardcoded here.  set by user parms
     double radius = 25.0;
@@ -193,7 +199,7 @@ void _onClickedAdd(BuildContext context) {
         } else {
           // Display the add bike widget ..
           Navigator.push(context, MaterialPageRoute(
-            builder: (context)=>new BikeAddWidget(),
+            builder: (context)=>new BikeAddWidget(this),
           ));
         }
       });
@@ -215,6 +221,9 @@ void _onClickedAdd(BuildContext context) {
   }
 
 
+ void callback(Object obj) {
+   refreshScreen();
+ }
       
       
     

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/notify.dart';
 
 class _BikeData {
   String description = '';
@@ -21,6 +22,12 @@ class _BikeData {
 
 class BikeAddWidget extends StatefulWidget {
  
+  
+  final Notify _notify;
+
+  BikeAddWidget(this._notify); // the constructory which we pass the object we want notified after the bike is added
+  
+
   @override
     State<StatefulWidget> createState() {
       return new _BikeAddWidgetState();
@@ -30,7 +37,6 @@ class BikeAddWidget extends StatefulWidget {
 
 
 class _BikeAddWidgetState extends State<BikeAddWidget>  {
-
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool _isLoading=false;
@@ -155,6 +161,11 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   // Login button
   void _onAddPressed() {
    
+
+    String status = "WTD";  // TODO status, terms and category should not be hardcoded here
+    String terms = "evening or weekends";
+    String category = "mountain biking";
+
     // First tools form, then save if OK
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
@@ -167,10 +178,20 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
     String uid = CurrentUser.getInstance().user.uid;
 
       // Make the call to the SQL DB
-      var payload = {'uid':uid,'description':_bikeData.description, 'frame_size': _bikeData.framesize};
+      var payload = {'uid':uid,
+          'description':_bikeData.description, 
+          'frame_size': _bikeData.framesize,
+          'status': status,
+          'terms': terms,
+          'category': category,
+          };
+
       new WebService().run(service: 'XinsertBike.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
+          
+          widget._notify.callback(this); // we call a referesh on the list screen before popping this one
+          
           Navigator.of(context).pop(); // Remove the add page, since we were successful 
 
           print("sqldata = ${sqldata.toString()}");

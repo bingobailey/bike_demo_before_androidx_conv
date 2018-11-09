@@ -8,6 +8,8 @@ import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/chat/chatwidget.dart';
+import 'package:bike_demo/toolbox/currentuser.dart';
 
 class BikeListWidget extends StatefulWidget {
  
@@ -214,6 +216,33 @@ void _onClickedAdd(BuildContext context) {
   void _onTapItem(BuildContext context, int index) {
 
     print(_sqlDataRows[index].toString());
+
+
+
+     FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user ==null) { // not logged in
+          new Account().showAccountAccess( context: context, title: "Must be signed in to contact user");
+        } else { // user is logged in, continue
+
+            String channelID = CurrentUser.getInstance().user.uid + "_"  +  _sqlDataRows[index]['uid'];
+            // TODO:  does channel need to be a map, or can we just pass the channelID
+            Map<dynamic,dynamic> channel = new Map();
+
+            channel['channelID'] = channelID;
+            channel['title'] = _sqlDataRows[index]['description'];
+            print("channelid = ${channel['channelID']}");
+
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context)=>new ChatWidget( channel: channel,
+                currentUserDisplayName: CurrentUser.getInstance().user.displayName,),
+              ));
+        }
+    });
+
+
+
+
+
 
     // Navigator.push(context, MaterialPageRoute(
     //   builder: (context)=>new MemberProfilePage( member: _sqlDataRows[index],),

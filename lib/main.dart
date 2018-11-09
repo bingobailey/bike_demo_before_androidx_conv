@@ -14,9 +14,9 @@ void main() {
 /*
 TODO:  
 
- - Add distance at the end of the bike list (ie  2m  or 2km etc)
- - test out a new signup user
- - add a bike and see if it shows up on list. 
-
+- Create screen to display bike after clicking on bike from bikelistwidget.  this screen should contain a 
+  'send a message' button to the user of the bike.  user must be logged in to use the 'send a message'.  
+  'send a message' button should display the chat screen with the associated user. 
+- When a user adds a bike, send the notification to firebase
 
 */

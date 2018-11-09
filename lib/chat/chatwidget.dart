@@ -44,7 +44,8 @@ Channel channel;
 @override
   void initState() {
     super.initState();
-    
+
+  
     // Create the channel and send this class to be notified of updates
     channel = new Channel( channelID: widget.channel['channelID'],notify: this);
 

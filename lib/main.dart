@@ -14,9 +14,15 @@ void main() {
 /*
 TODO:  
 
-- Create screen to display bike after clicking on bike from bikelistwidget.  this screen should contain a 
-  'send a message' button to the user of the bike.  user must be logged in to use the 'send a message'.  
-  'send a message' button should display the chat screen with the associated user. 
+- Change CurrentUser  to 'User' class without a singleton. 
+   store the signin user UID to disk. 
+   to get the current user, user use firebaseauth.currentuser() as in the rest of the code 
+   change methods to accept uid along with other methods.  such as setEmail(uid, email);
+   in this way, you will be able to use User class methods, on any user.
+   don't remove CurrentUser class.  create a new class User, and slowly add methods to this class and
+   replace the other methods using CurrentUser class. once everything is working with User, then you can remove
+   CurrentUser class.  
+
 - When a user adds a bike, send the notification to firebase
 
 */

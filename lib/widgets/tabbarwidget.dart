@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-
 
 import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/bikelistwidget.dart';
 import 'package:bike_demo/toolbox/notification.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
 
 class TabBarWidget extends StatefulWidget {
   @override
@@ -82,14 +79,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   void startUp () {
 
      getGPSLocation(); // get the gps location
-
      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
-  
-     // If we are logged in, set the user and the assoc parms
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user !=null) {
-          CurrentUser.getInstance().user = user;
-        }});
   }
  
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -29,6 +29,7 @@ class ChatListWidget extends StatefulWidget {
 class _ChatListWidgetState extends State<ChatListWidget> {
  
   List _channels; 
+  
 
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -38,10 +39,11 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     void initState() {
       super.initState();
 
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user !=null) {
+      FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
+        if (fbuser !=null) {
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-          CurrentUser.getInstance().getChannelList().then((List channels){
+
+          new User().getChannelList(uid: fbuser.uid).then((List channels){
             _channels = channels; // We store it so we can access it when  user clicks
             setState(() {
               _bodyWidget = buildChannelListWidget( channels: channels );

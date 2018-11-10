@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 
 class _BikeData {
@@ -41,6 +41,27 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool _isLoading=false;
   _BikeData _bikeData = new _BikeData();
+
+  String _uid;
+
+
+  @override
+    void initState() {
+      super.initState();
+     
+      // Get the UID of the user signed in
+      FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
+        if (fbuser !=null) {
+          _uid = fbuser.uid;
+        }
+      });
+
+
+    }
+
+
+
+
 
   // The main widget builder
    @override
@@ -175,10 +196,10 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
         _isLoading=true;
        });
 
-    String uid = CurrentUser.getInstance().user.uid;
+
 
       // Make the call to the SQL DB
-      var payload = {'uid':uid,
+      var payload = {'uid':_uid,
           'description':_bikeData.description, 
           'frame_size': _bikeData.framesize,
           'status': status,

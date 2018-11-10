@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/toolbox/topic.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
-
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bike_demo/toolbox/currentuser.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/account.dart';
 

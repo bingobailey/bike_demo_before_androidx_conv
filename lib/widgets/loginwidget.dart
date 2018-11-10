@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart'; 
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
 
 class _LoginData {
   String email = '';
@@ -173,18 +172,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             setState(() {
               _isLoading=false;              
             });
-
-           
             if(isSuccessful) {
-              // success, we store the email and password.  the user can be referenced
-              // using getinstance().user  (which is assigned after signin )
-              CurrentUser.getInstance().email = _loginData.email;
-              CurrentUser.getInstance().password = _loginData.password;
-
               Navigator.of(context).pop(); // Remove the login page, since we were successful            
             } else { // was unsuccessful, need to inform user
               print("login unsuccessful");
-                print("e = ${CurrentUser.getInstance().e}");
             }
       });
 

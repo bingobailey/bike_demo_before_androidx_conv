@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class UserProfileWidget extends StatefulWidget {
@@ -43,7 +43,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
   void _signOut() {
 
-    CurrentUser.getInstance().logout(); 
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user !=null) {
+          print("user signing out");
+          FirebaseAuth.instance.signOut();
+        } else {
+          print("user not signed in");
+        }
+      });
 
   }
 

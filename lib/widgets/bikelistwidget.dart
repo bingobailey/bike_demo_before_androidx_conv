@@ -9,7 +9,8 @@ import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/user.dart';
+
 
 class BikeListWidget extends StatefulWidget {
  
@@ -219,34 +220,34 @@ void _onClickedAdd(BuildContext context) {
 
 
 
-     FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user ==null) { // not logged in
+     FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
+        if (fbuser ==null) { // not logged in
           new Account().showAccountAccess( context: context, title: "Must be signed in to contact user");
         } else { // user is logged in, continue
 
-            String channelID = CurrentUser.getInstance().user.uid + "_"  +  _sqlDataRows[index]['uid'];
-            // TODO:  does channel need to be a map, or can we just pass the channelID
-            Map<dynamic,dynamic> channel = new Map();
+          // Get the user displayname that needs to be contacted, then add the channel
+          new User().getDisplayName(uid: _sqlDataRows[index]['uid']).then((String toDisplayName) {
+          new User().addChannel( signedInUID: fbuser.uid,
+                    title: _sqlDataRows[index]['description'],
+                    toDisplayName: toDisplayName,
+                    toUID: _sqlDataRows[index]['uid'],
+              );
+          });
 
+          // TODO: should have a cleaner way than to reproduce creating the channel again here
+            String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'];
+            Map<dynamic,dynamic> channel = new Map();
             channel['channelID'] = channelID;
             channel['title'] = _sqlDataRows[index]['description'];
             print("channelid = ${channel['channelID']}");
 
             Navigator.push(context, MaterialPageRoute(
                 builder: (context)=>new ChatWidget( channel: channel,
-                currentUserDisplayName: CurrentUser.getInstance().user.displayName,),
+                currentUserDisplayName: fbuser.displayName,),
               ));
         }
     });
 
-
-
-
-
-
-    // Navigator.push(context, MaterialPageRoute(
-    //   builder: (context)=>new MemberProfilePage( member: _sqlDataRows[index],),
-    // ));
   }
 
 

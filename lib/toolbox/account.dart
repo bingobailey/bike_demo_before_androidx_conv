@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:bike_demo/widgets/loginwidget.dart';
 import 'package:bike_demo/widgets/signupwidget.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/user.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 
 
@@ -31,39 +31,25 @@ class Account  {
   // Determine if current user is logged in.  If so, update the static vars
   // in the CurrentUser class
 
-// TODO:  The code below should be moved to another method upon startup of the app
-// to update CurrentUser().  should not be called from credentials
-  Future<bool> isLoggedIn() async {
+// // TODO:  The code below should be moved to another method upon startup of the app
+// // to update CurrentUser().  should not be called from credentials
+//   Future<bool> isLoggedIn() async {
 
-      bool loginStatus=false;
-      //CurrentUser CurrentUser = new CurrentUser();
-      FirebaseUser user = await _auth.currentUser();
-      if(user != null ) {
-        CurrentUser.getInstance().user = user;
-        CurrentUser.getInstance().tokenID = await user.getIdToken();
-        loginStatus=true;
-      }
-      return loginStatus;
-  } 
+//       bool loginStatus=false;
+//       //CurrentUser CurrentUser = new CurrentUser();
+//       FirebaseUser fbuser = await _auth.currentUser();
+//       if(fbuser != null ) {
 
+//         User user = new User();
+//         user.setDisplayName(fbuser.uid, )
 
+//         CurrentUser.getInstance().user = user;
+//         CurrentUser.getInstance().tokenID = await user.getIdToken();
+//         loginStatus=true;
+//       }
+//       return loginStatus;
+//   } 
 
-// Fetch the providers (ie how they logged in)
- Future<bool> fetchProvidersForEmail({String email}) async {
-   
-   // NOTE: if an email address is not found in firebase it will return a empty list
-   // a provider of "password" indicates the user signed in with email and password
-    bool fetchStatus=false;
-    try {
-      List<String> providers = await _auth.fetchProvidersForEmail( email: email);
-      CurrentUser.getInstance().providers = providers;
-      fetchStatus=true;
-    } catch (e) {
-      CurrentUser.getInstance().e = e;
-    }
-  
-    return fetchStatus;
- }
 
 
 
@@ -81,7 +67,9 @@ class Account  {
       wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
     */
       sendStatus=false;
-      CurrentUser.getInstance().e = e;
+
+      // TODO:  need to return a value null or the exception instead of boolean
+      print("Error in sendpasswordresetemail: ${e.toString()}");
     }
     return sendStatus; 
   }
@@ -97,8 +85,6 @@ class Account  {
     try { 
      FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
      assert( user !=null );
-     CurrentUser.getInstance().user = user;
-     CurrentUser.getInstance().tokenID = await user.getIdToken();
      signInStatus=true;
      
     } catch( e ){
@@ -107,7 +93,10 @@ class Account  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-      CurrentUser.getInstance().e = e;
+
+
+      // TODO: probably should return null or the exception instead of boolean
+      print("Error signing in: ${e.toString()}");
       signInStatus=false;
     }
     return signInStatus;
@@ -142,18 +131,15 @@ class Account  {
    // userUpdateInfo.photoUrl = "photo url goes here";
 
     try {
-      FirebaseUser user = await _auth.createUserWithEmailAndPassword( email: email, password: password);
+      FirebaseUser fbuser = await _auth.createUserWithEmailAndPassword( email: email, password: password);
 
-      assert( user !=null );
-      CurrentUser.getInstance().user = user;
-      CurrentUser.getInstance().password = password;
-      CurrentUser.getInstance().displayName = username;
-      CurrentUser.getInstance().tokenID = await user.getIdToken();
-      _auth.updateProfile(userUpdateInfo); // this runs async (username used below)
-  
+      assert( fbuser !=null );
 
+      User user = new User();
+      user.setDisplayName(uid: fbuser.uid, displayName: username);
+      
       // Make the call to the SQL DB
-      var payload = {'uid':user.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
+      var payload = {'uid':fbuser.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
       new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
@@ -182,7 +168,8 @@ class Account  {
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-        CurrentUser.getInstance().e = e; 
+      // TODO: probably should return null or exception instead of boolean
+        print("Error creating account: ${e.toString()}");
         createAccountStatus=false;
     }
     return createAccountStatus;

@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
 
 
 class _AccountData {
@@ -228,7 +227,7 @@ Widget buildActionButton() {
             Navigator.of(context).pop(); // success so, remove this screen
           }
           else {
-              print("Error creating user account ${ CurrentUser.getInstance().e.toString()}");
+              print("Error creating user account");
             }
               
 

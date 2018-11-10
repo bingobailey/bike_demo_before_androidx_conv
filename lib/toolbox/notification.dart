@@ -1,6 +1,6 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:bike_demo/toolbox/currentuser.dart';
+import 'package:bike_demo/toolbox/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -46,7 +46,7 @@ class Notificaton {
       FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user !=null) {
             _firebaseMessaging.getToken().then((String fcmToken){
-            CurrentUser.getInstance().fcmToken = fcmToken;
+            new User().setFCMToken(uid: user.uid, fcmToken: fcmToken);
          });
         }
       });

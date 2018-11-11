@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:bike_demo/widgets/loginwidget.dart';
 import 'package:bike_demo/widgets/signupwidget.dart';
 import 'package:bike_demo/toolbox/user.dart';
@@ -83,8 +85,15 @@ class Account  {
     // We use the try catch block here so we can push the results into CurrentUser,
     // so we don't have to catch the error on the calling program
     try { 
-     FirebaseUser user = await _auth.signInWithEmailAndPassword( password: password, email: email);
-     assert( user !=null );
+     FirebaseUser fbuser = await _auth.signInWithEmailAndPassword( password: password, email: email);
+     assert( fbuser !=null );
+
+      // get the token and assign it to the uid.  this is also called in create account, 
+      // but we also do it here in case there is a problem. 
+      new FirebaseMessaging().getToken().then((String fcmToken){
+            new User().setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
+      });
+
      signInStatus=true;
      
     } catch( e ){
@@ -135,10 +144,16 @@ class Account  {
 
       assert( fbuser !=null );
 
-      User user = new User();
+      User user = new User(); // create the user so we can do updates
+
+      // set the displayname, associated with the uid
       user.setDisplayName(uid: fbuser.uid, displayName: username);
-      
-      // Make the call to the SQL DB
+      // get the token and assign it to the uid 
+      new FirebaseMessaging().getToken().then((String fcmToken){
+            user.setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
+      });
+
+      // Make the call to the SQL DB and store the user
       var payload = {'uid':fbuser.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
       new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call

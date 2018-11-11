@@ -14,14 +14,16 @@ void main() {
 /*
 TODO:  
 
-- Change CurrentUser  to 'User' class without a singleton. 
-   store the signin user UID to disk. 
-   to get the current user, user use firebaseauth.currentuser() as in the rest of the code 
-   change methods to accept uid along with other methods.  such as setEmail(uid, email);
-   in this way, you will be able to use User class methods, on any user.
-   don't remove CurrentUser class.  create a new class User, and slowly add methods to this class and
-   replace the other methods using CurrentUser class. once everything is working with User, then you can remove
-   CurrentUser class.  
+* start a a refresh with new
+- delete database users and remove authenticatied users from fb, 
+- delete bikes and users from database 
+
+ -signup as chuppy and add a bike 
+ -signup as bailey and add a bike
+
+- Evaluate chuppy and bailey each 
+with one bike how the chat and chat list works
+- evaluate chuppy and bailey with one person having two bikes.  how does the chat work  
 
 - When a user adds a bike, send the notification to firebase
 

@@ -1,8 +1,5 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:bike_demo/toolbox/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 
 /*
   This class registers listening to topics. 
@@ -42,14 +39,6 @@ class Notificaton {
             });
  
       // Get the fcm token from the device and set it (will ultimately insert it into fb)
-
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user !=null) {
-            _firebaseMessaging.getToken().then((String fcmToken){
-            new User().setFCMToken(uid: user.uid, fcmToken: fcmToken);
-         });
-        }
-      });
 
 
         // TODO:  Right now we have the topics hardcoded.  Should be based on the user's

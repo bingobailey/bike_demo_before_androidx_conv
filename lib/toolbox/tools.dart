@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
-
+import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
 
 
 
@@ -67,6 +67,37 @@ class Tools {
         } else
           return null;  // returning null indicates the validation passed
       }
+
+
+
+  // Return the amount of min, or hours or days from the time the notifcation was posted until
+  // now
+  String getDuration({String datetime}) {
+
+      String timeElapsed;
+
+      DateTime dt = DateTime.parse(datetime);
+      Duration duration = DateTime.now().difference(dt);
+
+      if (duration.inHours < 1) {
+           timeElapsed = "${duration.inMinutes}m";
+           return timeElapsed;
+      }
+
+      if (duration.inHours < 24) {
+            timeElapsed = "${duration.inHours}h";
+           return timeElapsed;
+      }
+
+      if (duration.inHours > 24) {
+            timeElapsed = "${duration.inDays}d";
+           return timeElapsed;
+      }
+     
+      return timeElapsed;
+
+  }
+
 
 
 

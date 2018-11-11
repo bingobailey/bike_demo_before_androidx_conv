@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bike_demo/toolbox/topic.dart';
 import 'dart:async';
-import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/tools.dart';
@@ -67,7 +66,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     );
   }
 
-
+// TODO: need to get leading: image, see below
 
   // Using the SQL Data build the list widget
   Widget buildTopicListWidget({List<dynamic> topics}) {
@@ -79,7 +78,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
               return new ListTile(
                 title: new Text(topics[index]['content']),
                 subtitle: new Text(topics[index]['displayName']),
-                trailing: new Text(getDuration(datetime:topics[index]['datetime'] )),
+               trailing: new Text(new Tools().getDuration(datetime:topics[index]['datetime'])),
                // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );
@@ -109,34 +108,6 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
    // For some reason the sort method is sorting it in decending order.  so we reverse the list
    // to return the list in acsending order
     return topicList.reversed.toList();
-  }
-
-  // Return the amount of min, or hours or days from the time the notifcation was posted until
-  // now
-  String getDuration({String datetime}) {
-
-      String timeElapsed;
-
-      DateTime dt = DateTime.parse(datetime);
-      Duration duration = DateTime.now().difference(dt);
-
-      if (duration.inHours < 1) {
-           timeElapsed = "${duration.inMinutes}m";
-           return timeElapsed;
-      }
-
-      if (duration.inHours < 24) {
-            timeElapsed = "${duration.inHours}h";
-           return timeElapsed;
-      }
-
-      if (duration.inHours > 24) {
-            timeElapsed = "${duration.inDays}d";
-           return timeElapsed;
-      }
-     
-      return timeElapsed;
-
   }
 
 

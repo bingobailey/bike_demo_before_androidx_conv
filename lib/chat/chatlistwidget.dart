@@ -77,6 +77,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
   }
 
 
+// TODO: need to get leading: image. see below
 
   // Using the SQL Data build the list widget
   Widget buildChannelListWidget({List<dynamic> channels}) {
@@ -88,7 +89,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
               return new ListTile(
                 title: new Text(channels[index]['toDisplayName']),
                 subtitle: new Text(channels[index]['title']),
-                trailing: new Text(channels[index]['datetime']),
+                trailing: new Text(new Tools().getDuration(datetime:channels[index]['datetime'])),
                // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );

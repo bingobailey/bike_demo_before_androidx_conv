@@ -14,17 +14,13 @@ void main() {
 /*
 TODO:  
 
-* start a a refresh with new
-- delete database users and remove authenticatied users from fb, 
-- delete bikes and users from database 
+- when a user adds a bike, if they click on that bike in the bikelistwidget it brings up the chat 
+  screen which essentially allows them to chat with themselves.  Need to come up with a way that 
+  either displays a contact button or chat button if not the same user.  when the user clicks 
+  on the button it displays the chat screen.  Instead of photo in leading: maybe put the button
+  there.  
 
- -signup as chuppy and add a bike 
- -signup as bailey and add a bike
-
-- Evaluate chuppy and bailey each 
-with one bike how the chat and chat list works
-- evaluate chuppy and bailey with one person having two bikes.  how does the chat work  
-
+- need to look at passing Notify on ShowAccount,  after logging in, show it refreshes the screen. 
 - When a user adds a bike, send the notification to firebase
 
 */

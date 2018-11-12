@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/toolbox/topic.dart';
 
 class _BikeData {
   String description = '';
@@ -43,6 +44,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   _BikeData _bikeData = new _BikeData();
 
   String _uid;
+  String _displayName;
 
 
   @override
@@ -53,6 +55,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
           _uid = fbuser.uid;
+          _displayName = fbuser.displayName;
         }
       });
 
@@ -155,7 +158,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
 
 
-
   // Either returns the progress indicator (if loading) or the login button
   Widget buildActionButton() {
     return (_isLoading ? new CircularProgressIndicator():buildAddButton());
@@ -177,12 +179,9 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
 
 
-
-
   // Login button
   void _onAddPressed() {
-   
-
+  
     String status = "WTD";  // TODO status, terms and category should not be hardcoded here
     String terms = "evening or weekends";
     String category = "mountain biking";
@@ -197,8 +196,17 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
        });
 
 
+       // TODO: should not hardcode "bikeAdded" here
+     
+      // Add the notification to the Firebase, which will send to all users listening to that topic
+      String content = "Check it out ! " +  _bikeData.framesize + " " + _bikeData.description;
+      new Topic().addNotification( displayName: _displayName, 
+                                  content:content, 
+                                  topicName: "bikeAdded", 
+                                  uid: _uid);
+         
 
-      // Make the call to the SQL DB
+      // Add the bike to the SQL DB
       var payload = {'uid':_uid,
           'description':_bikeData.description, 
           'frame_size': _bikeData.framesize,

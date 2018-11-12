@@ -29,6 +29,7 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
  // Webservice attributes
   String _service = 'XselectBikes.php';
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
+  String _uid;
 
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -82,7 +83,17 @@ AppBar buildAppBar(BuildContext context) {
   }  
 
 
+
+// Refresh the screen, get user logged in, preferences, build where clause.  its called at 
+// beginning of program and after a bike has been added
   void refreshScreen() {
+
+    // assign the uid to the user logged in
+      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+        if (user!=null) {
+          _uid = user.uid;
+        }
+      });
 
       // get the location
       SharedPreferences.getInstance().then((prefs) {
@@ -96,7 +107,6 @@ AppBar buildAppBar(BuildContext context) {
       });
 
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-
   }
 
 
@@ -147,9 +157,6 @@ AppBar buildAppBar(BuildContext context) {
   // Using the SQL Data build the list widget
   Widget buildListWidget({List<dynamic> sqlDataRows, String units}) {
 
-
-     
-
     return new Center(
           child: new ListView.builder(
             itemCount: sqlDataRows.length,
@@ -157,9 +164,13 @@ AppBar buildAppBar(BuildContext context) {
               return  ListTile(
                 title:  Text(sqlDataRows[index]['description']),
                 subtitle:  Text(sqlDataRows[index]['frame_size']),
-                trailing: new Text(sqlDataRows[index]['distance'] + units),
-                leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
-                onTap: ()=> _onTapItem(context, index),
+                leading: new Text(sqlDataRows[index]['distance'] + units),
+
+                trailing: buildChatIcon(context: context, index: index),
+                //trailing: new IconButton(icon: new Icon(Icons.chat), onPressed: letsChat, ),
+
+                //leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
+                //onTap: ()=> _onTapItem(context, index),
               );
             } ,
           )
@@ -167,24 +178,13 @@ AppBar buildAppBar(BuildContext context) {
 
   }
 
-// TODO: Need to retrieve the proper image for each user
-
-// Get the image associated with the user( ie their avatar )
-  Widget getImage({String uid, String image}) {
-
-    image = 'elf.jpg';
-
-    String imageURL = "http://www.mtbphotoz.com/bikedemo/photos/" + uid + "/" + image;
-
-      return new SizedBox( 
-        child: Image.network(imageURL),
-         height: 60.0,
-          width: 60.0,
-        );
-  }
 
 
+Widget buildChatIcon({BuildContext context, int index}) {
 
+  if(_sqlDataRows[index]['uid'] == _uid) return null; // same user, not need to chat with themselves
+  else return new IconButton(icon: new Icon(Icons.chat), onPressed:()=>letsChat(context,index), );
+}
 
 
 // *** ACTION METHODS ****
@@ -207,19 +207,11 @@ void _onClickedAdd(BuildContext context) {
         }
       });
 
-
-
-
   }
 
 
-  // user clicked on a list item
-  void _onTapItem(BuildContext context, int index) {
-
-    print(_sqlDataRows[index].toString());
-
-
-
+  void letsChat(BuildContext context, int index) {
+   
      FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser ==null) { // not logged in
           new Account().showAccountAccess( context: context, title: "Must be signed in to contact user");
@@ -251,13 +243,13 @@ void _onClickedAdd(BuildContext context) {
   }
 
 
+
  void callback(Object obj) {
    refreshScreen();
  }
       
       
     
-
 
 
 

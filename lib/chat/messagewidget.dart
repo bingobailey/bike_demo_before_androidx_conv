@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/chat/message.dart';
 
 
-// MessageWidget CLASS
 ///  Note: this class holds the chat message (avatar and text message)
 class MessageWidget extends StatelessWidget {
   // Attributes
   final Message message;
   final AnimationController animationController;
-  
-  // Methods
 
   // Constructor
   MessageWidget({this.message, this.animationController});
+
 
   // Build method
   @override
@@ -53,4 +51,5 @@ class MessageWidget extends StatelessWidget {
 
   } // build method
 
-} // MessageWidget class
+
+} // End of MessageWidget class

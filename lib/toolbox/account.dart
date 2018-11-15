@@ -7,9 +7,7 @@ import 'package:bike_demo/toolbox/user.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 
 
-
 /*
- 
  **************** N O T E **********
 
  Using any of the FirebaseAuth methods (signinwithemail etc) you must run
@@ -18,38 +16,11 @@ import 'package:bike_demo/toolbox/webservice.dart';
 
 */
 
-
-
 class Account  {
 
   // Attributes
   FirebaseUser user;
   FirebaseAuth _auth = FirebaseAuth.instance;
-
- 
-  // Determine if current user is logged in.  If so, update the static vars
-  // in the CurrentUser class
-
-// // TODO:  The code below should be moved to another method upon startup of the app
-// // to update CurrentUser().  should not be called from credentials
-//   Future<bool> isLoggedIn() async {
-
-//       bool loginStatus=false;
-//       //CurrentUser CurrentUser = new CurrentUser();
-//       FirebaseUser fbuser = await _auth.currentUser();
-//       if(fbuser != null ) {
-
-//         User user = new User();
-//         user.setDisplayName(fbuser.uid, )
-
-//         CurrentUser.getInstance().user = user;
-//         CurrentUser.getInstance().tokenID = await user.getIdToken();
-//         loginStatus=true;
-//       }
-//       return loginStatus;
-//   } 
-
-
 
 
 // Send Password Reset email
@@ -99,7 +70,6 @@ class Account  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-
 
       // TODO: probably should return null or the exception instead of boolean
       print("Error signing in: ${e.toString()}");
@@ -206,11 +176,6 @@ Future<String> signInWithGoogle() async {
     print( 'signInWithGoogle succeeded: $user');
     return 'signInWithGoogle succeeded: $user';
   }
-
-
-
-
-
 
 
 

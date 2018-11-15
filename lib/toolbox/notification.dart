@@ -38,9 +38,6 @@ class Notificaton {
               print("Settings registered: $settings");
             });
  
-      // Get the fcm token from the device and set it (will ultimately insert it into fb)
-
-
         // TODO:  Right now we have the topics hardcoded.  Should be based on the user's
         // profile.  The default could be turned on
         _firebaseMessaging.subscribeToTopic("reviewPosted");
@@ -48,7 +45,6 @@ class Notificaton {
         _firebaseMessaging.subscribeToTopic("advertisement");
 
     }
-
 
 
 

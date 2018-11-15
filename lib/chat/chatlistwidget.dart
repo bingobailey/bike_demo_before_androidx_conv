@@ -5,17 +5,6 @@ import 'package:bike_demo/toolbox/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-/*
-chuppy  wV9aWBbmHgUySap10e1qgJrLMbv2    chuppy@gmail.com  aaaaaaaaa
-
-Stevie  ZgrSJsAjeVeA8i11QPmGcse0k0h2     stevie@gmail.com  aaaaaaaaa
-
-simonthetiger   Vx2GCPPs7AbnXb8hk8UTzo22UOw1   simon@yahoo.com   aaaaaaaaa
-*/
-
-
-
-
 class ChatListWidget extends StatefulWidget {
 
 @override
@@ -30,7 +19,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
  
   List _channels; 
   
-
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
   String currentUserDisplayName;
@@ -71,7 +59,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
          child: _bodyWidget,
       ),
      
-
     );
   }
 
@@ -111,7 +98,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
      ));
 
    }
-
 
 
 

@@ -19,16 +19,11 @@ class _BikeData {
 }
 
 
-
-
 class BikeAddWidget extends StatefulWidget {
- 
-  
   final Notify _notify;
 
   BikeAddWidget(this._notify); // the constructory which we pass the object we want notified after the bike is added
   
-
   @override
     State<StatefulWidget> createState() {
       return new _BikeAddWidgetState();
@@ -46,7 +41,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   String _uid;
   String _displayName;
 
-
   @override
     void initState() {
       super.initState();
@@ -59,11 +53,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
         }
       });
 
-
     }
-
-
-
 
 
   // The main widget builder
@@ -82,8 +72,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
         );
       
      } // build method
-
-
 
 
 
@@ -106,8 +94,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
           ),
         );
   }
-
-
 
 
 
@@ -154,7 +140,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
     );
     
   } 
-
 
 
 
@@ -232,9 +217,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
           print(" WebService error: $e");
       });
 
-
     }
-
 
   }
 

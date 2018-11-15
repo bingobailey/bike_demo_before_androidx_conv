@@ -27,7 +27,6 @@ class Channel {
       channelID = channelID.replaceAll('.', 'X'); // Firebase won't accept '.' in a link
       // Get a reference to the database and channel
       _reference = FirebaseDatabase.instance.reference().child(_baseTable).child(channelID);
-    
 
       // any time an entry is made in this channel execute this method
       _reference.onChildAdded.listen(_onEntryAdded); 
@@ -39,8 +38,6 @@ class Channel {
                   
   } // end onstructor
                   
-
-
       // NOTE: you can also just push a JSON object
       // var jsonMessage = {
       //   "name":"donna",
@@ -48,13 +45,18 @@ class Channel {
       //   "email":"donna@aol.com",
       // };
       // reference.push().set(jsonMessage); // Push the json object
+      
+
+
 
     // Push the message to the db and add it to our list
     void push(Message message) {
       _reference.push().set(message.toJson());
       _messages.insert(0,message); // Insert the message at the beginning of list
     }
-                  
+
+
+
     // Anytime an entry is made to the db, this method is called
     void _onEntryAdded(Event event) {
         _message = Message.fromSnapshot(event.snapshot);
@@ -75,12 +77,16 @@ class Channel {
 
     }
 
+
+
     // This method is called if any changes occur to the db.  In a chat app,
     // this won't really occur.  it is shown here for illustrative purposes. 
     void _onEntryChanged(Event event) {
         _message = Message.fromSnapshot(event.snapshot);
         notify.callback(_message);
     }
+
+
 
   // GetFBMessages function returns a sorted list of the messages from
   // Firebase specific to the channel
@@ -109,12 +115,10 @@ class Channel {
           _messages.add(msg);
          
       });
-      
 
       // We sort the list according to datetime
       _messages.sort((a,b) => a.datetime.compareTo(b.datetime));
-      
-
+    
       return _messages;
     
    }

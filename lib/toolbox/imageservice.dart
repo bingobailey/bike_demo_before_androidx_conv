@@ -8,8 +8,6 @@ import 'package:path/path.dart';
 
 class ImageService {
 
- 
-
   Future<Map> uploadImage({String uid, File imageFile}) async {
 
     // this is the service we call to upload the image
@@ -43,7 +41,6 @@ class ImageService {
        HttpHeaders.acceptHeader : "application/json",
       };  
 
-
     http.Response response = await http.post(url,
               headers: headers ,
               body: {
@@ -62,7 +59,6 @@ class ImageService {
           var result = {"statusCode":response.statusCode, "statusMessage":"HTTP Error"};
           return result;
       } 
-    
     }
 
 

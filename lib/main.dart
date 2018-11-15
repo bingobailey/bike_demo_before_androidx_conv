@@ -21,6 +21,6 @@ TODO:
   there.  
 
 - need to look at passing Notify on ShowAccount,  after logging in, show it refreshes the screen. 
-- When a user adds a bike, send the notification to firebase
+
 
 */

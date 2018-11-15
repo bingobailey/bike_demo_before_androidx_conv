@@ -12,7 +12,6 @@ class Topic {
   DatabaseReference _ref; 
   String rootNode = 'topics';
 
-
   Topic() {
     _ref = FirebaseDatabase.instance.reference().child(rootNode);
   }

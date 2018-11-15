@@ -71,18 +71,19 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
               new Tab( icon: new Icon(Icons.person)),
            ]))
 
-          );
+        );
      
     }
 
+
+
   // Startsup and initializes
   void startUp () {
-
      getGPSLocation(); // get the gps location
      new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
   }
  
-
+  // get the location
   Future<void> getGPSLocation() async {
 
       // Get the location of the device 
@@ -100,8 +101,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
         });
 
       }
-      
-      
       
    }
 

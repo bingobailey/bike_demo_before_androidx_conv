@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';   // don't remove this if u are using Duration,
 
 import 'package:bike_demo/widgets/loginwidget.dart';
 import 'package:bike_demo/widgets/signupwidget.dart';
-import 'package:bike_demo/toolbox/notify.dart';
 
 /*
   This class contains tools to help facilitate, UI and other tasks. 
@@ -15,6 +14,8 @@ import 'package:bike_demo/toolbox/notify.dart';
   - showProgress Indicator
   - validate an email address
   - validate the password
+  - getDuration (diff between times)
+  - showAccountAccess   (for logging in or signing up)
 
 
 */
@@ -22,7 +23,6 @@ import 'package:bike_demo/toolbox/notify.dart';
 class Tools {
 
   BuildContext context;
-
 
     // Show the progress indicator along with the title (optional)
     Widget showProgressIndicator({String title}) {
@@ -164,10 +164,6 @@ class Tools {
    });
 
  }
-
-
-
-
 
 
 

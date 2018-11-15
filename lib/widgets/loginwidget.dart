@@ -16,14 +16,11 @@ class _LoginData {
 
 class LoginWidget extends StatefulWidget {
 
-
-
   @override
     State<StatefulWidget> createState() {
       return new _LoginWidgetState();
     }
 
-  
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
@@ -43,7 +40,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 //                ********** Build Methods ************
 
   // build the main widget
-
    @override
      Widget build(BuildContext context) {
 
@@ -59,6 +55,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         );
       
      } // build method
+
 
 
   // Build the LoginForm
@@ -135,7 +132,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     return (_isLoading ? new CircularProgressIndicator():buildLoginButton());
   }
  
-
 
 
   // Build login button

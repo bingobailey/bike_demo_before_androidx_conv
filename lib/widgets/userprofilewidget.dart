@@ -8,8 +8,6 @@ class UserProfileWidget extends StatefulWidget {
   State<StatefulWidget> createState() {
     return new _UserProfileWidgetState();
   }
-
-
 }
 
 
@@ -19,14 +17,12 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 @override
   Widget build(BuildContext context) {
    
-
     return new Scaffold(
           appBar: new AppBar( title: new Text('Account'), centerTitle: true,
           ),
           body: new Center(
             child: _buildDisplayWidget(),
           ),
-        
         );
 
 
@@ -35,14 +31,12 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
 
   Widget _buildDisplayWidget() {
-
     return new RaisedButton(child: new Text("sign out"), onPressed: _signOut,);
    
   }
 
 
   void _signOut() {
-
       FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user !=null) {
           print("user signing out");

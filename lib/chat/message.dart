@@ -1,7 +1,6 @@
 
 import 'package:firebase_database/firebase_database.dart';
 
-
 // The data model class which holds the message contents etc. 
 class Message {
 
@@ -16,7 +15,6 @@ class Message {
   }
 
   //Message( {this.key, this.name,this.content,this.email,this.datetime});
-
 
   // Constructor creates the Message object from a snapshot
   Message.fromSnapshot(DataSnapshot snapshot) {
@@ -34,7 +32,6 @@ class Message {
         "content" : content,
         "datetime" : datetime.toString(),
     };
-
   }
 
 } // end of Message class

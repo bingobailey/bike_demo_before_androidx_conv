@@ -33,7 +33,6 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
 
-
   @override
     void initState() {
       super.initState();
@@ -63,17 +62,17 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
         body: new Center(
          child: _bodyWidget,
         ),
-        floatingActionButton: new FloatingActionButton(
-        tooltip: 'Add a bike', // used by assistive technologies
-        child: Icon(Icons.add),
-        onPressed: ()=>_onClickedAdd(context),
-      ),
-
-
+          floatingActionButton: new FloatingActionButton(
+          tooltip: 'Add a bike', // used by assistive technologies
+          child: Icon(Icons.add),
+          onPressed: ()=>_onClickedAdd(context),
+        ),
       );
 
     } // build method
 
+
+// build the app bar with the search capability
 AppBar buildAppBar(BuildContext context) {
     return new AppBar(
       title: new Center( child: new Text('Bikes Wanted !',)),
@@ -180,7 +179,6 @@ AppBar buildAppBar(BuildContext context) {
 
 
 Widget buildChatIcon({BuildContext context, int index}) {
-
   if(_sqlDataRows[index]['uid'] == _uid) return null; // same user, not need to chat with themselves
   else return new IconButton(icon: new Icon(Icons.chat), onPressed:()=>letsChat(context,index), );
 }
@@ -205,8 +203,8 @@ void _onClickedAdd(BuildContext context) {
           ));
         }
       });
-
   }
+
 
 // Open the chat if user is logged in
   void letsChat(BuildContext context, int index) {
@@ -242,14 +240,12 @@ void _onClickedAdd(BuildContext context) {
   }
 
 
-
- void callback(Object obj) {
-   refreshScreen();
- }
+    // used by notify on the calling object to refresh the screen after adding a bike
+  void callback(Object obj) {
+    refreshScreen();
+  }
       
       
-    
-
 
 
 } // end of class

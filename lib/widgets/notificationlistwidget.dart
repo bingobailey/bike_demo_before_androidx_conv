@@ -6,15 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 
 
-
-/*
-This class displays all the notifications associated with a topic(s)
-
-*/
-
-
 class NotificationListWidget extends StatefulWidget {
-
 @override
   State<StatefulWidget> createState() {
     return new _NotificationListWidgetState();
@@ -64,6 +56,8 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     );
   }
 
+
+
 // TODO: need to get leading: image, see below
 
   // Using the SQL Data build the list widget
@@ -112,31 +106,6 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
 // ********** ACTION Methods
 
-// for testing only..
-
-// TODO:  This method was used for testing but should be inserted into another class when the user
-// adds a bike, promotes an advertisement etc. 
-
-void addEntry() {
-
-
-      //String topicName = 'bikeAdded';
-      String topicName = 'advertisement';
-      String uid = 'xxxxzzzwww333';
-      String displayName = "Yeti Cycles";
-      String content = "See the new SB 150 !!";
-      new Topic().addNotification( topicName: topicName, 
-              displayName: displayName, 
-              uid: uid,
-              content: content,
-              photoURL : "https://www.yeti.com/avatar.jpg",
-              );
-
-}
-
-
-
-
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
 
@@ -149,31 +118,10 @@ void addEntry() {
          }
 
         });
-    
 
-    // //   //String topicName = 'bikeAdded';
-    //   String topicName = 'reviewPosted';
-    //   String uid = 'zzzxxx';
-    //   String displayName = "chuppy";
-    //   String content = "posted new review on primer";
-    //   new Topic().addTopicEntry( topicName: topicName, 
-    //           displayName: displayName, 
-    //           uid: uid, 
-    //           content: content);
-
-      
-
-
-      // //Create the add topic
-      // String displayName = "Yeti";
-      // String websiteURL = "https://www.yeticycles.com";
-      // String content = "New SB150 is here !";
-      // new Topic().addAdTopic( displayName: displayName, content: content, websiteURL: websiteURL);
 
    }
 
-
-   
 
 
 

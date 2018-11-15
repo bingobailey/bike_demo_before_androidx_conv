@@ -1,12 +1,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
-
 class User {
-
 
   // Update the users fcm-token (firebase cloud messaging), which is associated with
   // each users' device.  This allows peer to peer communication
@@ -60,25 +57,6 @@ class User {
     DataSnapshot snapshot = await ref.once();
     return snapshot.value['displayName'];
   }
-
-
-  // // SET the displayName in auth and the database
-  // void setEmail(String uid, String email) { 
-  //   DatabaseReference ref = new FirebaseDatabase().reference().child("users/$uid");
-  //     if (ref==null) return; // Need to ensure we have a valid ref before making the call
-  //       ref.update( 
-  //         {
-  //           'email': email,
-  //         });
-
-  //   // Also must update the authentication database
-  //   FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-  //     if (user != null) {
-  //       FirebaseAuth.instance.updateEmail( email: email);
-  //     }
-  //   });
-  // }
-
 
 
   // Set the Units (KM, or Miles)
@@ -169,9 +147,6 @@ class User {
 
       return _list;
     }
-
-
-
 
 
 

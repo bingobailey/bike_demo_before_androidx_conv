@@ -37,7 +37,7 @@ import 'dart:convert';
   List rows;   // The rows returned from the query
 
 
-  SQLData({this.serviceCalled});
+  SQLData({this.serviceCalled}); // so we know what service was called associated with these results
 
   String toString() {
     return "service: $serviceCalled,  httpResponseCode: ${httpResponseCode.toString()}, httpResponseReason: $httpResponseReason, SQLCode: ${sqlCode.toString()}, SQLMessage: $sqlMessage, Rows Returned: ${sqlRowsReturned.toString()}, Rows Affected: ${sqlRowsAffected.toString()} ";
@@ -107,69 +107,3 @@ class WebService {
 
 
 
-
-
-
-/*
-
-This is older code that used the Notify Interface
-
-  Future<http.Response> run({String service, Map<String,dynamic>jsonPayload}) async {
-
-    sqlData = new SQLData(serviceCalled: service);
-   
-    String url = wsLocation + service;
-    // Associate the payload with the key, so we can pull it in the php files
-    Map<String,dynamic> payLoadWithKey= {'key':jsonPayload};
-
-    // Lets set the headers
-    var headers = {
-       HttpHeaders.CONTENT_TYPE: 'application/json',
-       HttpHeaders.ACCEPT : 'application/json',
-      };  
-
-
-    // The logic hapens inside this post call, but we issue the return on http.post since it returns 
-    //  a response object, which matches the future in the definition.  I suppose we could also declare
-    // this function to return void and omit this return. 
-    return  http.post(url,
-              headers: headers ,
-              body:jsonEncode(payLoadWithKey)
-     ).then((http.Response response) {
-
-          if (response.statusCode==200) { // Server returned OK
-
-            // We should get back a list. Decode it 
-            List returnedRows = jsonDecode(response.body);
-
-            // The last entry contains the sql code
-            var sqlStatusCodes = returnedRows[returnedRows.length-1]; 
-          
-            // Lets pull the remaining rows leaving off the sqlcode row
-            List rows = returnedRows.sublist(0,returnedRows.length-1); 
-      
-            // Populate the sqldata object with the results then notify the callback
-            sqlData.httpResponseCode = response.statusCode;
-            sqlData.httpResponseReason = response.reasonPhrase;
-            sqlData.sqlCode = sqlStatusCodes['SQLCode'];
-            sqlData.sqlMessage = sqlStatusCodes['SQLMessage'];
-            sqlData.sqlRowsAffected = sqlStatusCodes['sqlRows'];
-            sqlData.sqlRowsReturned = rows.length;
-            sqlData.rows = rows;
-
-            //print("SQLdata ${sqlData.toString()}");
-
-            // Notify the callback with the results
-            notify.callback( object: sqlData );
-
-          } else {  // Server Did NOT return OK, We may have a problem... 
-            sqlData.httpResponseCode = response.statusCode;
-            sqlData.httpResponseReason = response.reasonPhrase; 
-            notify.callback( object: sqlData);
-          } 
-          
-     });  // End of http.post call 
-    
-    }
-
-  */

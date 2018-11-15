@@ -71,6 +71,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
      } // build method
 
 
+
   // Build the Account Form
   Widget buildAccountForm() {
    return new Form(
@@ -144,7 +145,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
 
 
-
   // Build Password Field
   Widget buildPasswordField() {
     return new Container(
@@ -169,11 +169,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   }
 
+
+
 // We call this the action button, it either returns the signup button or the progress indicator
 Widget buildActionButton() {
   return (_isLoading ? new CircularProgressIndicator():buildSignUpButton());
 }
             
+
+
  // Build SignUp button
   Widget buildSignUpButton() {
     return new Container(
@@ -191,7 +195,6 @@ Widget buildActionButton() {
 
   //                    ********  Action Methods *********
 
-
   // Sign Up button
   void _onSignUpPressed() {
 
@@ -203,9 +206,6 @@ Widget buildActionButton() {
       setState(() {
         _isLoading=true;
        });
-
-      print("_latitude $_latitude  _longitude $_longitude");
-
 
       // Create the Account
       _account.createAccount( 
@@ -230,9 +230,7 @@ Widget buildActionButton() {
               print("Error creating user account");
             }
               
-
         });
-
     }
   }
   

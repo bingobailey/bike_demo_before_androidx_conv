@@ -16,7 +16,6 @@ class ChatWidget extends StatefulWidget {
  final Map<dynamic,dynamic> channel;
  final String currentUserDisplayName;
 
-
   // channel property is coming from the Chat List
   ChatWidget({this.channel, this.currentUserDisplayName});
 
@@ -45,7 +44,6 @@ Channel channel;
   void initState() {
     super.initState();
 
-  
     // Create the channel and send this class to be notified of updates
     channel = new Channel( channelID: widget.channel['channelID'],notify: this);
 
@@ -76,6 +74,7 @@ Channel channel;
       
     );
  }
+
 
 
 // this builds the screen with the message list and the textfield for entering messages
@@ -155,6 +154,7 @@ void callback(Object obj) {
     buildMessageWidget( message: obj);
   }
 } // END of callback method
+
 
 
 // Builds the message widget and prepares it for animation

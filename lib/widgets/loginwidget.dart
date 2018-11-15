@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 
+
 class _LoginData {
   String email = '';
   String password = '';
@@ -14,10 +15,15 @@ class _LoginData {
  
 
 class LoginWidget extends StatefulWidget {
+
+
+
   @override
     State<StatefulWidget> createState() {
       return new _LoginWidgetState();
     }
+
+  
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
@@ -115,7 +121,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   onSaved: (String value) { _loginData.password=value; },
-                  style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                  style: new TextStyle( fontSize: 20.0, color: Colors.black,), 
                   validator: _loginData.tools.validatePassword,
                 ),
 

@@ -4,8 +4,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/account.dart';
-
 
 
 
@@ -144,7 +142,7 @@ void addEntry() {
 
       FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user ==null) {
-             new Account().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
+             new Tools().showAccountAccess( context: context, title: "To view notifications you have to be logged in");
          } else {
             // TODO: display notifcation, user is logged in
             print("notification hit ${_topics[index]['content']}");

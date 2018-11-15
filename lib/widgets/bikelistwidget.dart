@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
@@ -198,7 +197,7 @@ void _onClickedAdd(BuildContext context) {
 
      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
         if (user ==null) { // not logged in
-          new Account().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
+          new Tools().showAccountAccess( context: context, title: "To add a bike you have to be logged in");
         } else {
           // Display the add bike widget ..
           Navigator.push(context, MaterialPageRoute(
@@ -209,12 +208,12 @@ void _onClickedAdd(BuildContext context) {
 
   }
 
-
+// Open the chat if user is logged in
   void letsChat(BuildContext context, int index) {
    
      FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser ==null) { // not logged in
-          new Account().showAccountAccess( context: context, title: "Must be signed in to contact user");
+          new Tools().showAccountAccess( context: context, title: "Must be signed in to contact user");
         } else { // user is logged in, continue
 
           // Get the user displayname that needs to be contacted, then add the channel

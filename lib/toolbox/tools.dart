@@ -4,7 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
 
-
+import 'package:bike_demo/widgets/loginwidget.dart';
+import 'package:bike_demo/widgets/signupwidget.dart';
+import 'package:bike_demo/toolbox/notify.dart';
 
 /*
   This class contains tools to help facilitate, UI and other tasks. 
@@ -97,6 +99,73 @@ class Tools {
       return timeElapsed;
 
   }
+
+
+
+
+// This dialog alerts the user they need to login, create or create an account
+ void showAccountAccess({BuildContext context, String title}) {
+
+   showDialog( context: context, 
+    builder: (BuildContext context) {
+
+      return new SimpleDialog(
+         contentPadding: EdgeInsets.all(20.0),
+         title: new Text(title),
+          children: <Widget>[
+
+              // Login Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 200.0,
+                child: new Text("Login", style: new TextStyle( fontSize: 20.0) ,),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Remove the dialog box
+                    Navigator.push(context, MaterialPageRoute(
+                          builder: (context)=>new LoginWidget(),
+                     ));
+
+                  },
+                  color: Colors.blue[200],
+              ),
+                  
+              new SizedBox( height: 30.0,),
+
+              // Sign Up Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 150.0,
+                 child: new Text("Sign Up", style: new TextStyle( fontSize: 20.0) ,),
+                 onPressed: () {
+                     Navigator.of(context).pop(); // Remove the dialog box
+                     Navigator.push(context, MaterialPageRoute(
+                           builder: (context)=>new SignUpWidget(),
+                      ));
+                  },
+                  color: Colors.green[200],
+              ),
+                  
+              new SizedBox( height: 30.0,),
+
+              // Cancel Button
+              new MaterialButton( 
+                height: 50.0,
+                minWidth: 200.0,
+                child: new Text("Cancel", style: new TextStyle( fontSize: 20.0) ,),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // remove the dialog box
+                  }, 
+                  color: Colors.red[200],
+              ),
+           ],
+                       
+      );
+
+   });
+
+ }
+
+
 
 
 

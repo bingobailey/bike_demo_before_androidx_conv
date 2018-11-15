@@ -42,8 +42,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-
-          new User().getChannelList(uid: fbuser.uid).then((List channels){
+           new User().getChannelList(uid: fbuser.uid).then((List channels){
             _channels = channels; // We store it so we can access it when  user clicks
             setState(() {
               _bodyWidget = buildChannelListWidget( channels: channels );

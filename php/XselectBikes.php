@@ -1,6 +1,5 @@
 <?php
 
-
     require 'XloginCredentials.php';
     require 'XWebService.php';
 
@@ -30,11 +29,11 @@
 
     //( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ) AS distance 
 
-    // For Pagination
-    $rowsPaged = $ws->p('rowsPaged');
-    $rowCount =  $ws->p('rowCount');
-    if($rowCount==NULL) $rowCount=0;
-    if($rowsPaged==NULL) $rowsPaged=10000;
+    // // For Pagination
+    // $rowsPaged = $ws->p('rowsPaged');
+    // $rowCount =  $ws->p('rowCount');
+    // if($rowCount==NULL) $rowCount=0;
+    // if($rowsPaged==NULL) $rowsPaged=10000;
      
     $sql = "SELECT  User.uid, 
                     User.username,
@@ -49,12 +48,16 @@
         INNER JOIN  Bike on User.uid = Bike.uid    
             WHERE   $whereClause
             HAVING  distance <= $radius
-          ORDER BY  distance ASC
-            LIMIT   $rowCount, $rowsPaged";
-
+          ORDER BY  distance ASC 
+           LIMIT    100";
+           
     
     $ws->select($sql);
     $ws->disconnect();
+
+
+
+
 
 
 ?>

@@ -30,12 +30,20 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
   String _uid;
 
+  double _latitude;
+  double _longitude; 
+
+
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
 
   @override
     void initState() {
       super.initState();
+
+
+
+
       refreshScreen();
     }
 
@@ -94,14 +102,16 @@ AppBar buildAppBar(BuildContext context) {
       });
 
       // get the location
-      SharedPreferences.getInstance().then((prefs) {
-          double latitude = prefs.getDouble('latitude');
-          double longitude = prefs.getDouble('longitude');
+        SharedPreferences.getInstance().then((prefs) {
+          _latitude = prefs.getDouble('latitude');
+          _longitude = prefs.getDouble('longitude');
+
+
 
 // TODO: if latitude and longitude are null, might need to re-arrange this and call
 //       geolocation here
           String whereClause = "status = 'WTD'"; 
-          selectBikes( service: _service, whereClause: whereClause, latitude: latitude, longitude: longitude);
+          selectBikes(whereClause: whereClause);
       });
 
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
@@ -110,7 +120,7 @@ AppBar buildAppBar(BuildContext context) {
 
 
   // Run the webservice and build the SQLData and set it to the bodyWidget
-  void selectBikes({String service, String whereClause, double latitude, double longitude}) {
+  void selectBikes({@required String whereClause }) {
 
     // TODO: radius should not be hardcoded here.  set by user parms
     double radius = 25.0;
@@ -120,15 +130,17 @@ AppBar buildAppBar(BuildContext context) {
 
     String units = 'm';
 
-    //var whereClause = "status = 'WTD' AND description LIKE '%dev%'";
-    var payload = {'latitude':latitude, 'longitude':longitude,'radius':radius, 'units':units, 'whereClause':whereClause};
+    var payload = {'latitude':_latitude, 'longitude':_longitude,'radius':radius, 'units':units, 'whereClause':whereClause};
 
-     new WebService().run(service: service, jsonPayload: payload).then((sqldata){
+     new WebService().run(service: _service, jsonPayload: payload).then((sqldata){
 
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
 
-          //print("sqldata = ${sqldata.toString()}");
+          print("sqldata = ${sqldata.toString()}");
+
+// TODO:  need to display something if no rows are found.  right now it just comes back 
+// with a blank screen. 
 
           setState(() {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
@@ -163,12 +175,7 @@ AppBar buildAppBar(BuildContext context) {
                 title:  Text(sqlDataRows[index]['description']),
                 subtitle:  Text(sqlDataRows[index]['frame_size']),
                 leading: new Text(sqlDataRows[index]['distance'] + units),
-
                 trailing: buildChatIcon(context: context, index: index),
-                //trailing: new IconButton(icon: new Icon(Icons.chat), onPressed: letsChat, ),
-
-                //leading: getImage( uid: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo_profile_name']),
-                //onTap: ()=> _onTapItem(context, index),
               );
             } ,
           )
@@ -188,7 +195,7 @@ Widget buildChatIcon({BuildContext context, int index}) {
 
 void _onSubmittedSearch(String value) {
   String whereClause = "status = 'WTD' AND description LIKE '%$value%'";
-  selectBikes( service: _service, whereClause: whereClause);
+  selectBikes(whereClause: whereClause);
 }
 
 void _onClickedAdd(BuildContext context) {

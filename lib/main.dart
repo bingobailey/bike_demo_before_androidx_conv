@@ -14,8 +14,8 @@ void main() {
 /*
 TODO:  
 
-- Chat List not sorting in ascending order by duration
 - Test with user selecting "do not allow" for location and determine if need to display dialog box
-
+- Remove extraneous Print statements
+- Review all TODO's. 
 
 */

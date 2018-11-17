@@ -30,10 +30,12 @@ class _ChatListWidgetState extends State<ChatListWidget> {
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+
            new User().getChannelList(uid: fbuser.uid).then((List channels){
-            _channels = channels; // We store it so we can access it when  user clicks
+            channels.sort((a,b) => a['datetime'].compareTo(b['datetime']));
+            _channels = channels.reversed.toList(); // We reverse it to sort asc, assign it for on click
             setState(() {
-              _bodyWidget = buildChannelListWidget( channels: channels );
+              _bodyWidget = buildChannelListWidget( channels: _channels );
             });
           });
         } else {
@@ -84,7 +86,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
         );
 
   }
-
 
 
 

@@ -14,13 +14,8 @@ void main() {
 /*
 TODO:  
 
-- when a user adds a bike, if they click on that bike in the bikelistwidget it brings up the chat 
-  screen which essentially allows them to chat with themselves.  Need to come up with a way that 
-  either displays a contact button or chat button if not the same user.  when the user clicks 
-  on the button it displays the chat screen.  Instead of photo in leading: maybe put the button
-  there.  
-
-- need to look at passing Notify on ShowAccount,  after logging in, show it refreshes the screen. 
+- Chat List not sorting in ascending order by duration
+- Test with user selecting "do not allow" for location and determine if need to display dialog box
 
 
 */

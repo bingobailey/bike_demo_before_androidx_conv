@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
-import 'package:bike_demo/toolbox/topic.dart';
+import 'package:bike_demo/toolbox/notification.dart';
 
 class _BikeData {
   String description = '';
@@ -185,10 +185,10 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
      
       // Add the notification to the Firebase, which will send to all users listening to that topic
       String content = "Check it out ! " +  _bikeData.framesize + " " + _bikeData.description;
-      new Topic().addNotification( displayName: _displayName, 
-                                  content:content, 
-                                  topicName: "bikeAdded", 
-                                  uid: _uid);
+      new Notificaton().add( displayName: _displayName, 
+                             content:content, 
+                             topicName: "bikeAdded", 
+                             uid: _uid);
          
 
       // Add the bike to the SQL DB

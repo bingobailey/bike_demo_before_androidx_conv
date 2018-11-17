@@ -1,5 +1,11 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+
+
+
 
 /*
   This class registers listening to topics. 
@@ -8,6 +14,60 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class Notificaton {
   
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
+  DatabaseReference _ref; 
+  String rootNode = 'topics';
+
+  Notificaton() {
+    _ref = FirebaseDatabase.instance.reference().child(rootNode);
+  }
+
+
+
+  // Add the notification to the topic. Note that photoURL and websiteURL are optional
+  void add({  @required String topicName, 
+                          @required String displayName, 
+                          @required String uid, 
+                          @required String content, 
+                          String photoURL, String websiteURL}) {
+      DatabaseReference topicRef = _ref.child(topicName);
+      topicRef.push().set(
+        {
+           'photoURL' : photoURL,
+           'websiteURL' : websiteURL,
+            'displayName': displayName,
+            'uid' : uid,
+            'content': content,
+            'datetime' : DateTime.now().toString(),
+        });
+  }
+
+
+
+
+    // Get the list of notifications associated with the topic
+    Future<List> pull({String topicName}) async {
+
+      if (_ref==null) return null; // Need to ensure we have a valid ref before making the call
+      List _list = [];
+      DatabaseReference _channelRef = _ref.child(topicName);
+      Query query = _channelRef.orderByKey();
+      DataSnapshot snapshot = await query.once(); // get the data
+
+      if (snapshot.value==null) return []; // return an empty list.  Nothing found
+
+      snapshot.value.forEach( (k,v) {
+        _list.add(v);
+        // print("k = $k");
+        // print("topic = $topicName");
+        // print("content = ${v['content']}");
+        // print("displayname = ${v['displayName']}");
+      });
+
+      return _list;
+    }
+
+
 
   // we call this method when we want to register for listening to fcm
   void listen() {
@@ -48,4 +108,4 @@ class Notificaton {
 
 
 
-  } // end of class
+} // end of class

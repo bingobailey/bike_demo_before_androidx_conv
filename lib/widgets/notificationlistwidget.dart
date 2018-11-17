@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:bike_demo/toolbox/topic.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/tools.dart';
-
+import 'package:bike_demo/toolbox/Notification.dart';
 
 class NotificationListWidget extends StatefulWidget {
 @override
@@ -90,9 +89,9 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
     // TODO:  topics are hardcoded here, but should be based on user's profile, whether they 
     // subscribe or not to a topic
-    reviewPostedList = await new Topic().getNotifications( topicName: "reviewPosted");
-    bikeAddedList = await new Topic().getNotifications( topicName: "bikeAdded");
-    advertisementList = await new Topic().getNotifications( topicName: "advertisement");
+    reviewPostedList = await new Notificaton().pull(topicName: "reviewPosted");
+    bikeAddedList = await new Notificaton().pull( topicName: "bikeAdded");
+    advertisementList = await new Notificaton().pull( topicName: "advertisement");
 
     List topicList = [reviewPostedList, bikeAddedList, advertisementList].expand((x) => x).toList();
     topicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));

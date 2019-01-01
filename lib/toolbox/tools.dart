@@ -169,11 +169,9 @@ class Tools {
 
 
   // Get the Location
-  Future<void> getGPSLocation() async {
+  Future<Position> getGPSLocation() async {
       // Get the location of the device 
       Position p = await Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-      print("position = ${p.toString()}");
-
       if (p==null) {
         // TODO:  If we cannot deterine location, probably need to display something 
           print("could not determine location");
@@ -185,7 +183,9 @@ class Tools {
             prefs.setDouble('longitude',p.longitude);
         });
       }
-      
+
+      return p;
+  
    }
 
 

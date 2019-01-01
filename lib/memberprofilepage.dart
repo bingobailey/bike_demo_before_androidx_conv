@@ -20,7 +20,6 @@ class MemberProfilePageState extends State<MemberProfilePage> {
 
   @override
     Widget build(BuildContext context) {
-      // TODO: implement build
       return new Scaffold(
          appBar: new AppBar( title: new Text(widget.member['username']),),
           body: new Center( child: Text(widget.member.toString())),

@@ -203,12 +203,8 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       new WebService().run(service: 'XinsertBike.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
-          
           widget._notify.callback(this); // we call a referesh on the list screen before popping this one
-          
           Navigator.of(context).pop(); // Remove the add page, since we were successful 
-
-          print("sqldata = ${sqldata.toString()}");
         // Something went wrong with the http call
         } else {
           print("Http Error: ${sqldata.toString()}");

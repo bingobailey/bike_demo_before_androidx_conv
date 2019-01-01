@@ -40,10 +40,6 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   @override
     void initState() {
       super.initState();
-
-
-
-
       refreshScreen();
     }
 

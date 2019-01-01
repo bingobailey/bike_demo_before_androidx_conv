@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:bike_demo/toolbox/account.dart';
 import 'package:bike_demo/toolbox/tools.dart';
@@ -36,7 +37,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   double _longitude;
 
   @override
-    void initState() {
+     initState()  {
       super.initState();
 
           SharedPreferences.getInstance().then((prefs) {
@@ -44,7 +45,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               _longitude = prefs.getDouble('longitude');
           });
 
+          print("_latitude = $_latitude");
+
           // TODO:  if latitude and longitdue are null, should call geolocation again.
+
+          if( _latitude == null || _longitude == null) {
+            new Tools().getGPSLocation().then((Position p){
+                  print(p.toString());
+            });
+
+          }
+
 
     }
 

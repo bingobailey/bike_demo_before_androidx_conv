@@ -14,8 +14,9 @@ void main() {
 /*
 TODO:  
 
-- Test with user selecting "do not allow" for location and determine if need to display dialog box
-- Remove extraneous Print statements
-- Review all TODO's. 
+- see signupwidget  do not allow signing up without latitude or longitude 
+- see bikelistwidget.  if lat and lng are null, call gps again and/or show a widget in the 
+_bodyWidget that contains a button to get the gps again.  with description why. 
+  
 
 */

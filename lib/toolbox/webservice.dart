@@ -89,8 +89,6 @@ class WebService {
         sqlData.sqlRowsAffected = sqlStatusCodes['sqlRows'];
         sqlData.sqlRowsReturned = rows.length;
         sqlData.rows = rows;
-
-        //print("SQLdata ${sqlData.toString()}");
   
       } else {  // Server Did NOT return OK, We may have a problem... 
         sqlData.httpResponseCode = response.statusCode;

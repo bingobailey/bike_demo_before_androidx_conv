@@ -31,6 +31,8 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   _LoginData _loginData = new _LoginData();
   Account _account = new Account();
+  TextEditingController _msgController = new TextEditingController();
+  double _fontSize =23.0;
 
   @override
     void initState() {
@@ -71,6 +73,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                   new SizedBox( height: 20.0,),
                   buildActionButton(),
                   new Text("Forgot Password ? "),
+                  new SizedBox(height: 40,),
+                  buildMessageField(),
                 ],
               ),
           ),
@@ -94,7 +98,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) { _loginData.email = value; },
-                style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                style: new TextStyle( fontSize: _fontSize, color: Colors.black, ),
                 validator: _loginData.tools.validateEmail,
                 
               ),
@@ -118,29 +122,45 @@ class _LoginWidgetState extends State<LoginWidget> {
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   onSaved: (String value) { _loginData.password=value; },
-                  style: new TextStyle( fontSize: 20.0, color: Colors.black,), 
+                  style: new TextStyle( fontSize: _fontSize, color: Colors.black,), 
                   validator: _loginData.tools.validatePassword,
                 ),
 
-     );
+     ); 
+
+  }
+
+  // Build Message Field
+  Widget buildMessageField() {
+    return new Container(
+            margin: EdgeInsets.only( left: 25.0, right: 25.0),
+                child: TextFormField(
+                textAlign: TextAlign.center,
+                controller: _msgController,
+                  keyboardType: TextInputType.text,
+                  style: new TextStyle( fontSize: _fontSize*.90, color: Colors.red,), 
+                ),
+
+     ); 
 
   }
 
 
+
   // Either returns the progress indicator (if loading) or the login button
-  Widget buildActionButton() {
+  Widget buildActionButton({BuildContext context}) {
     return (_isLoading ? new CircularProgressIndicator():buildLoginButton());
   }
  
 
 
   // Build login button
-  Widget buildLoginButton() {
+  Widget buildLoginButton({BuildContext context}) {
     return new Container(
           width: 250.0,
          child:  new RaisedButton(
           color: Colors.blue,
-            child: new Text("Sign In", style: new TextStyle( fontSize: 20.0),),
+            child: new Text("Sign In", style: new TextStyle( fontSize: _fontSize*.90),),
             onPressed: _onLoginPressed,
         ),
          
@@ -168,7 +188,11 @@ class _LoginWidgetState extends State<LoginWidget> {
       // Let's try to login
       _account.signInWithEmailAndPassword( 
         email: _loginData.email, 
-        password: _loginData.password).then((bool isSuccessful) {
+        password: _loginData.password).then((Map<String,dynamic> result) {
+
+           bool isSuccessful = result['status'];
+           String msg = result['msg'];
+
 
             // We've returned so set loading to false and refresh the screen
             setState(() {
@@ -178,6 +202,15 @@ class _LoginWidgetState extends State<LoginWidget> {
               Navigator.of(context).pop(); // Remove the login page, since we were successful            
             } else { // was unsuccessful, need to inform user
               print("login unsuccessful");
+              print("msg = $msg");
+    
+              if (msg.toLowerCase().contains('no user')) { // No user setup with that email address
+                Tools().showAccountAccess(context: context, title: 'No user found for that email address');
+              } else {
+                // display message incorrect password
+                _msgController.text = 'Incorrect Password';
+              }
+
             }
       });
 

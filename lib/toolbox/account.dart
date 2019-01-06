@@ -47,8 +47,9 @@ class Account  {
 
 
   // Sign in with Email and Password
-  Future<bool> signInWithEmailAndPassword({String email, String password}) async {
+  Future<Map<String,dynamic>> signInWithEmailAndPassword({String email, String password}) async {
 
+    String msg;
     bool signInStatus=false;
     // We use the try catch block here so we can push the results into CurrentUser,
     // so we don't have to catch the error on the calling program
@@ -74,8 +75,15 @@ class Account  {
       // TODO: probably should return null or the exception instead of boolean
       print("Error signing in: ${e.toString()}");
       signInStatus=false;
+      msg=e.toString();
     }
-    return signInStatus;
+
+    Map map =Map<String,dynamic>(); 
+    map['status'] = signInStatus;
+    map['msg'] =msg;
+
+
+    return map;
   }
 
 

@@ -43,7 +43,7 @@ class User {
           // Also must update the authentication database
           var userUpdateInfo = new UserUpdateInfo();
           userUpdateInfo.displayName = displayName;
-          FirebaseAuth.instance.updateProfile(userUpdateInfo);
+          user.updateProfile(userUpdateInfo);
         }
       });
   }

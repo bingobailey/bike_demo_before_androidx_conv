@@ -14,15 +14,6 @@ void main() {
 /*
 TODO:  
 
-LoginWidget
-- If user enters wrong email address "no user record"
-     (display access dialog, with title "no user associated with email address")
-      Tools.showAcountAccess()
-
-- If user enters wrong password (but valid email)  "password is invalid"
-      (display text in window that says "INCORRECT PASSWORD")
-
-
 - see signupwidget  do not allow signing up without latitude or longitude 
 - see bikelistwidget.  if lat and lng are null, call gps again and/or show a widget in the 
 _bodyWidget that contains a button to get the gps again.  with description why. 

@@ -225,19 +225,24 @@ Widget buildActionButton() {
         username: _accountData.username,
         latitude: _latitude,
         longitude: _longitude,
-        ).then( ( bool success) { 
+        ).then( ( Map<String,dynamic> result) { 
           
+          bool isSuccessful = result['status'];
+          String msg = result['msg'];
+
           // We've returned so set loading to false and refresh the screen
           setState(() {
             _isLoading=false;              
           });
 
               // User was successfully created in firebase authentication account
-          if (success) {
-
+          if (isSuccessful) {
             Navigator.of(context).pop(); // success so, remove this screen
           }
           else {
+
+            // TODO: determine if msg is email address already used, then display that
+            // otherwise display msg
               print("Error creating user account");
             }
               

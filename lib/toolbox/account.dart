@@ -24,24 +24,30 @@ class Account  {
 
 
 // Send Password Reset email
-  Future<bool> sendPasswordResetEmail({String email}) async {
+  Future<Map<String,dynamic>> sendPasswordResetEmail({String email}) async {
 
-    bool sendStatus = false; 
+    String msg;
+    bool status = false; 
     try {
       await _auth.sendPasswordResetEmail( email: email);
-      sendStatus=true;
+      status=true;
     } catch(e){
 
     /* Errors:
       no email address ->  Given String is empty or null
       wrong email address-->  There is no user record corresponding to this identifier. The user may have been deleted.
     */
-      sendStatus=false;
-
-      // TODO:  need to return a value null or the exception instead of boolean
+      status=false;
       print("Error in sendpasswordresetemail: ${e.toString()}");
+       msg=e.toString();
     }
-    return sendStatus; 
+
+    // Package up the result and return it 
+    Map result =Map<String,dynamic>(); 
+    result['status'] = status;
+    result['msg'] =msg;
+
+    return result; 
   }
 
 
@@ -50,7 +56,7 @@ class Account  {
   Future<Map<String,dynamic>> signInWithEmailAndPassword({String email, String password}) async {
 
     String msg;
-    bool signInStatus=false;
+    bool status=false;
     // We use the try catch block here so we can push the results into CurrentUser,
     // so we don't have to catch the error on the calling program
     try { 
@@ -63,7 +69,7 @@ class Account  {
             new User().setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
       });
 
-     signInStatus=true;
+     status=true;
      
     } catch( e ){
         /* 
@@ -71,19 +77,17 @@ class Account  {
         "There is no user record corresponding to this Identifier" - The email entered does not exist.
         "The user account has been disabled by administrator" - Admin disabled the user from loggin in. 
         */
-
-      // TODO: probably should return null or the exception instead of boolean
       print("Error signing in: ${e.toString()}");
-      signInStatus=false;
+      status=false;
       msg=e.toString();
     }
 
-    Map map =Map<String,dynamic>(); 
-    map['status'] = signInStatus;
-    map['msg'] =msg;
+    // Package up the result and return it 
+    Map result =Map<String,dynamic>(); 
+    result['status'] = status;
+    result['msg'] =msg;
 
-
-    return map;
+    return result;
   }
 
 
@@ -105,9 +109,10 @@ class Account  {
 
 
 // Create user Account with Email and Password
-  Future<bool> createAccount({String email, String username, String password, double latitude, double longitude}) async {
+  Future<Map<String,dynamic>> createAccount({String email, String username, String password, double latitude, double longitude}) async {
 
-    bool createAccountStatus=false;
+    bool status=false;
+    String msg;
 
     // An example of creating a displayname and photo url and updating in firebase
     var userUpdateInfo = new UserUpdateInfo();
@@ -133,12 +138,17 @@ class Account  {
       new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
-          print("sqldata = ${sqldata.toString()}");
-        // Something went wrong with the http call
-        } else {
+         // we should be good here
+           status=true;
+        
+        } else {// Something went wrong with the http call
+          status=false;
+          msg = sqldata.toString();
           print("Http Error: ${sqldata.toString()}");
         }
       }).catchError((e) {
+          status=false;
+          msg = e.toString();
           print(" WebService error: $e");
       });
 
@@ -153,16 +163,22 @@ class Account  {
       */
       //user.sendEmailVerification(); // Optional if u want the email verified. Does not effect logging in
 
-      createAccountStatus=true;
     } catch(e){
       /*
       "The email address is already in use by another account" - The email address entered is already setup
       */
-      // TODO: probably should return null or exception instead of boolean
         print("Error creating account: ${e.toString()}");
-        createAccountStatus=false;
+        status=false;
+        msg = e.toString();
     }
-    return createAccountStatus;
+
+
+    // Package up the result and return it 
+    Map result =Map<String,dynamic>(); 
+    result['status'] = status;
+    result['msg'] =msg;
+
+    return result;
        
   } // Create account method
 

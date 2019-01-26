@@ -17,7 +17,7 @@
     $email      = $ws->p('email');
      
     // formulate the sql
-    $sql = "INSERT INTO User (uid, username, email, latitude, longitude, joindate) 
+    $sql = "INSERT INTO user (uid, username, email, latitude, longitude, joindate) 
     VALUES ( '$uid', '$username', '$email', '$latitude', '$longitude', CURDATE() )"; 
     
     // insert and disconnect 

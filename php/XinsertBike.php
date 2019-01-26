@@ -20,7 +20,7 @@
 
      
     // formulate the sql
-    $sql = "INSERT INTO Bike (uid, description, frame_size, status, category, terms, photo) 
+    $sql = "INSERT INTO bike (uid, description, frame_size, status, category, terms, photo) 
     VALUES ( '$uid', '$description', '$frame_size', '$status', '$category','$terms','$photo')"; 
     
     // insert and disconnect 

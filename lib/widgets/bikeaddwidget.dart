@@ -61,6 +61,9 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
      Widget build(BuildContext context) {
 
       return new Scaffold(
+        appBar: new AppBar(
+                title: const Text('Add Bike'), centerTitle: true,
+                ),
          body: new Container(
                 margin: EdgeInsets.only( top: 100.0, bottom: 50.0,  left: 50.0, right: 50.0),
                 decoration: new BoxDecoration(
@@ -155,7 +158,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
           width: 250.0,
          child:  new RaisedButton(
           color: Colors.blue,
-            child: new Text("Add Bike", style: new TextStyle( fontSize: 20.0),),
+            child: new Text("Submit", style: new TextStyle( fontSize: 20.0),),
             onPressed: _onAddPressed,
         ),
          

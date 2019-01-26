@@ -35,23 +35,23 @@
     // if($rowCount==NULL) $rowCount=0;
     // if($rowsPaged==NULL) $rowsPaged=10000;
      
-    $sql = "SELECT  User.uid, 
-                    User.username,
-                    User.photo,
+    $sql = "SELECT  user.uid, 
+                    user.username,
+                    user.photo,
                     description,
                     frame_size,
                     status,
                     terms,
-                    category,
-                   FORMAT(  ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( User.latitude ) ) * cos( radians( User.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( User.latitude ) ) ) ),1) AS distance 
-             FROM   User
-        INNER JOIN  Bike on User.uid = Bike.uid    
+                    category.category_description,
+                   FORMAT(  ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( user.latitude ) ) * cos( radians( user.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( user.latitude ) ) ) ),1) AS distance 
+             FROM   user
+              JOIN  bike on user.uid = bike.uid  
+              JOIN  category on bike.category_id = category.category_id
             WHERE   $whereClause
             HAVING  distance <= $radius
           ORDER BY  distance ASC 
            LIMIT    100";
-           
-    
+
     $ws->select($sql);
     $ws->disconnect();
 

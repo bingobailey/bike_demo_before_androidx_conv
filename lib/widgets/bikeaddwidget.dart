@@ -4,19 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/toolbox/notification.dart';
-
-class _BikeData {
-  String description = '';
-  String framesize = '';
-  String category = '';
-  String password = '';
-  String username = '';
-  
-  String toString() {
-    return ("email=$description password=$password username=$username");
-  }
-
-}
+import 'package:bike_demo/toolbox/tables.dart';
 
 
 class BikeAddWidget extends StatefulWidget {
@@ -36,10 +24,17 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool _isLoading=false;
-  _BikeData _bikeData = new _BikeData();
-
+  
+  String _selectedType;
+  String _selectedSize;
+  String _selectedAction;
+  String _selectedModel;
+  String _selectedComments; 
+  bool _inCM=false;
+  double _fontSize=20;
   String _uid;
   String _displayName;
+
 
   @override
     void initState() {
@@ -65,7 +60,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
                 title: const Text('Add Bike'), centerTitle: true,
                 ),
          body: new Container(
-                margin: EdgeInsets.only( top: 100.0, bottom: 50.0,  left: 50.0, right: 50.0),
+                margin: EdgeInsets.only( top: 20.0, bottom: 20.0,  left: 20.0, right: 20.0),
                 decoration: new BoxDecoration(
                   color: Colors.white,
                     borderRadius: BorderRadius.circular(5.0),
@@ -85,12 +80,23 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
           child: new SingleChildScrollView(
               child: new Column(
                 children: <Widget>[
-                  buildDescriptionField(),
+
+                  buildTypeField(),
                   new SizedBox( height: 10.0,),
-                  buildFrameSizeField(),
-                  new SizedBox( height: 10.0,),
-                 // buildPasswordField(),
-                  new SizedBox( height: 20.0,),
+
+                  buildModelField(),
+                  new SizedBox( height:20.0,),
+
+                   buildCheckBox(),
+                   buildSizeField(),
+                   new SizedBox( height: 10.0,),
+
+                  buildActionField(),
+                  new SizedBox(height: 10.0,),
+
+                  buildCommentsField(),
+                  new SizedBox(height: 50.0,),
+
                   buildActionButton(), // this returns the add button or the progress indicator
                 ],
               ),
@@ -101,49 +107,169 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
 
   // Build Description Field
-  Widget buildDescriptionField() {
+  Widget buildModelField() {
     return new Container(
           margin: EdgeInsets.only( left: 25.0, right: 25.0),
            
             child: TextFormField(
               textAlign: TextAlign.left,
                 decoration: const InputDecoration(
-                  hintText: 'what bike',
+                  hintText: 'What bike?',
                   border: UnderlineInputBorder(),
-                  labelText: 'Bike Description',
+                  labelText: 'Model',
                   icon: Icon(Icons.directions_bike),
                 ),
                 keyboardType: TextInputType.text,
-                onSaved: (String value) { _bikeData.description = value; },
-                style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                onSaved: (String value) { _selectedModel = value; },
+                style: new TextStyle( fontSize: _fontSize, color: Colors.black, ),
               ),
     );
     
   } 
+
+
+
+  // Build type Field
+  Widget buildTypeField() {
+
+  // Drop down list for types
+  List<DropdownMenuItem <String>> typeMenuItems = []; 
+  typeMenuItems = new Tables().types.map((val)=> new DropdownMenuItem(
+      child: new Text(val), value: val,)).toList();
+
+    return new Container(
+          margin: EdgeInsets.only( left: 5.0, right: 10.0),
+           
+            child:  new ListTile(
+              title: new DropdownButton(
+                style: new TextStyle(fontSize: _fontSize, color: Colors.black),
+              items: typeMenuItems,
+              isExpanded: true,
+              value: _selectedType,
+              iconSize: _fontSize*2, // size of the drop arrow
+              hint: new Text("Select a type", style: new TextStyle(fontSize: _fontSize),),
+              onChanged: (value) {
+                setState(() {                   
+                  _selectedType=value;
+                });
+              }
+            ),
+              leading: new Icon(Icons.cast_connected),
+            ),
+
+    );
+    
+  } 
+
+
+  // Build type Field
+  Widget buildActionField() {
+
+ // Drop down list for actions
+  List<DropdownMenuItem <String>> actionMenuItems = []; 
+  actionMenuItems = new Tables().actions.map((val)=> new DropdownMenuItem(
+    child: new Text(val), value: val,)).toList();
+
+    return new Container(
+          margin: EdgeInsets.only( left: 5.0, right: 10.0),
+           
+            child:  new ListTile(
+              title: new DropdownButton(
+                style: new TextStyle(fontSize: _fontSize, color: Colors.black),
+              items: actionMenuItems,
+              isExpanded: true,
+              value: _selectedAction,
+              iconSize: _fontSize*2, // size of the drop arrow
+              hint: new Text("Select an action", style: new TextStyle(fontSize: _fontSize),),
+              onChanged: (value) {
+                setState(() {                   
+                  _selectedAction=value;
+                });
+              }
+            ),
+              leading: new Icon(Icons.cast_connected),
+            ),
+
+    );
+    
+  } 
+
+
+
+ Widget buildCheckBox() {
+
+   return new CheckboxListTile(
+                  title: Text('Frame size in CM', style: new TextStyle(fontSize: _fontSize)),  
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _inCM,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      _inCM = newValue;
+                      _selectedSize=null;
+                    });
+                  });
+ }
+
+
+ Widget buildSizeField() {
+
+   List<DropdownMenuItem <String>> sizeMenuItems = []; 
+  // Populate the list depending on whether in CM or regular classifcation
+   if(_inCM) {
+     sizeMenuItems = new Tables().sizeCM.map((val)=> new DropdownMenuItem(
+      child: new Text(val), value: val,)).toList();
+   } else {
+     sizeMenuItems = new Tables().sizeClassifications.map((val)=> new DropdownMenuItem(
+      child: new Text(val), value: val,)).toList();
+   }
+
+    return new Container(
+          margin: EdgeInsets.only( left: 5.0, right: 10.0),
+           
+            child:  new ListTile(
+              title: new DropdownButton(
+                style: new TextStyle(fontSize: _fontSize, color: Colors.black),
+              items: sizeMenuItems,
+              isExpanded: true,
+              value: _selectedSize,
+              iconSize: _fontSize*2, // size of the drop arrow
+              hint: new Text("Select a size", style: new TextStyle(fontSize: _fontSize),),
+              onChanged: (value) {
+                setState(() {                   
+                  _selectedSize=value;
+                });
+              }
+            ),
+              leading: new Icon(Icons.cast_connected),
+            ),
+
+    );
+    
+ }
 
 
 
   // Build Description Field
-  Widget buildFrameSizeField() {
+  Widget buildCommentsField() {
     return new Container(
           margin: EdgeInsets.only( left: 25.0, right: 25.0),
            
             child: TextFormField(
               textAlign: TextAlign.left,
+               maxLines: null,
                 decoration: const InputDecoration(
-                  hintText: 'Frame Size',
+                  hintText: 'Anything you want to add ?',
                   border: UnderlineInputBorder(),
-                  labelText: 'Frame Size',
-                  icon: Icon(Icons.format_size),
+                  labelText: 'Comments',
+                  icon: Icon(Icons.directions_bike),
                 ),
-                keyboardType: TextInputType.text,
-                onSaved: (String value) { _bikeData.framesize = value; },
-                style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
+                keyboardType:  TextInputType.multiline,
+                onSaved: (String value) { _selectedComments = value; },
+                style: new TextStyle( fontSize: _fontSize, color: Colors.black, ),
               ),
     );
     
   } 
-
 
 
   // Either returns the progress indicator (if loading) or the login button
@@ -156,9 +282,10 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   Widget buildAddButton() {
     return new Container(
           width: 250.0,
+          height: 75,
          child:  new RaisedButton(
           color: Colors.blue,
-            child: new Text("Submit", style: new TextStyle( fontSize: 20.0),),
+            child: new Text("Submit", style: new TextStyle( fontSize: _fontSize),),
             onPressed: _onAddPressed,
         ),
          
@@ -170,10 +297,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   // Login button
   void _onAddPressed() {
   
-    String status = "WTD";  // TODO status, terms and category should not be hardcoded here
-    String terms = "evening or weekends";
-    String category = "mountain biking";
-
     // First tools form, then save if OK
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save(); // This executes the onSave: methods on each field
@@ -187,7 +310,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
        // TODO: should not hardcode "bikeAdded" here
      
       // Add the notification to the Firebase, which will send to all users listening to that topic
-      String content = "Check it out ! " +  _bikeData.framesize + " " + _bikeData.description;
+      String content = "Check it out ! " +  _selectedSize + " " + _selectedModel;
       new Notificaton().add( displayName: _displayName, 
                              content:content, 
                              topicName: "bikeAdded", 
@@ -196,11 +319,11 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
       // Add the bike to the SQL DB
       var payload = {'uid':_uid,
-          'description':_bikeData.description, 
-          'frame_size': _bikeData.framesize,
-          'status': status,
-          'terms': terms,
-          'category': category,
+          'model':_selectedModel, 
+          'frame_size': _selectedSize,
+          'action': _selectedAction,
+          'type': _selectedType,
+          'comments': _selectedComments,
           };
 
       new WebService().run(service: 'XinsertBike.php', jsonPayload: payload).then((sqldata){

@@ -9,6 +9,7 @@ import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/user.dart';
+import 'package:bike_demo/toolbox/globals.dart' as globals;
 
 
 class BikeListWidget extends StatefulWidget {
@@ -33,6 +34,7 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   double _latitude;
   double _longitude; 
 
+  double _fontSize = globals.defaultFontSize;
 
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -106,7 +108,7 @@ AppBar buildAppBar(BuildContext context) {
 
 // TODO: if latitude and longitude are null, might need to re-arrange this and call
 //       geolocation here
-          String whereClause = "status = 'WTD'"; 
+          String whereClause = "action = 'Would like to demo'"; 
           selectBikes(whereClause: whereClause);
       });
 
@@ -168,10 +170,10 @@ AppBar buildAppBar(BuildContext context) {
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return  ListTile(
-                title:  Text(sqlDataRows[index]['description']),
-                subtitle:  Text(sqlDataRows[index]['frame_size']),
-                leading: new Text(sqlDataRows[index]['distance'] + units),
-                trailing: buildChatIcon(context: context, index: index),
+                title:  Text(sqlDataRows[index]['frame_size'] + '   ' + sqlDataRows[index]['model'], style: new TextStyle(fontSize: _fontSize),),
+                subtitle:  Text(sqlDataRows[index]['comments'], style:new TextStyle(fontSize: _fontSize*0.80)),
+                leading: new Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: _fontSize*0.80),),
+                trailing: buildChatIcon(context: context, index: index), 
               );
             } ,
           )
@@ -183,14 +185,14 @@ AppBar buildAppBar(BuildContext context) {
 
 Widget buildChatIcon({BuildContext context, int index}) {
   if(_sqlDataRows[index]['uid'] == _uid) return null; // same user, not need to chat with themselves
-  else return new IconButton(icon: new Icon(Icons.chat), onPressed:()=>letsChat(context,index), );
+  else return new IconButton(icon: new Icon(Icons.chat, size: 40.0, color: Colors.green,), onPressed:()=>letsChat(context,index), );
 }
 
 
 // *** ACTION METHODS ****
 
 void _onSubmittedSearch(String value) {
-  String whereClause = "status = 'WTD' AND description LIKE '%$value%'";
+  String whereClause = "action = 'WTD' AND model LIKE '%$value%'";
   selectBikes(whereClause: whereClause);
 }
 
@@ -220,7 +222,7 @@ void _onClickedAdd(BuildContext context) {
           // Get the user displayname that needs to be contacted, then add the channel
           new User().getDisplayName(uid: _sqlDataRows[index]['uid']).then((String toDisplayName) {
           new User().addChannel( signedInUID: fbuser.uid,
-                    title: _sqlDataRows[index]['description'],
+                    title: _sqlDataRows[index]['model'],
                     toDisplayName: toDisplayName,
                     toUID: _sqlDataRows[index]['uid'],
               );
@@ -230,7 +232,7 @@ void _onClickedAdd(BuildContext context) {
             String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'];
             Map<dynamic,dynamic> channel = new Map();
             channel['channelID'] = channelID;
-            channel['title'] = _sqlDataRows[index]['description'];
+            channel['title'] = _sqlDataRows[index]['model'];
             print("channelid = ${channel['channelID']}");
 
             Navigator.push(context, MaterialPageRoute(

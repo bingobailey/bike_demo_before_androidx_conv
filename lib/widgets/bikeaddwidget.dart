@@ -5,6 +5,7 @@ import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/toolbox/notification.dart';
 import 'package:bike_demo/toolbox/tables.dart';
+import 'package:bike_demo/toolbox/globals.dart' as globals;
 
 
 class BikeAddWidget extends StatefulWidget {
@@ -31,7 +32,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   String _selectedModel;
   String _selectedComments; 
   bool _inCM=false;
-  double _fontSize=20;
+  double _fontSize=globals.defaultFontSize;
   String _uid;
   String _displayName;
 

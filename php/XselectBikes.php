@@ -38,15 +38,13 @@
     $sql = "SELECT  user.uid, 
                     user.username,
                     user.photo,
-                    description,
+                    model,
                     frame_size,
-                    status,
-                    terms,
-                    category.category_description,
+                    action,
+                    comments,
                    FORMAT(  ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( user.latitude ) ) * cos( radians( user.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( user.latitude ) ) ) ),1) AS distance 
              FROM   user
               JOIN  bike on user.uid = bike.uid  
-              JOIN  category on bike.category_id = category.category_id
             WHERE   $whereClause
             HAVING  distance <= $radius
           ORDER BY  distance ASC 

@@ -16,12 +16,12 @@
     $action        = $ws->p('action'); 
     $type          = $ws->p('type'); 
     $comments      = $ws->p('comments'); 
-    $photo         = $ws->p('photo'); //url
+    $photoURL      = $ws->p('photoURL');
 
      
     // formulate the sql
-    $sql = "INSERT INTO bike (uid, model, frame_size, action, type, comments, photo) 
-    VALUES ( '$uid', '$model', '$frame_size', '$action', '$type','$comments','$photo')"; 
+    $sql = "INSERT INTO bike (uid, model, frame_size, action, type, comments, photoURL) 
+    VALUES ( '$uid', '$model', '$frame_size', '$action', '$type','$comments','$photoURL')"; 
     
     // insert and disconnect 
     $ws->insert($sql);

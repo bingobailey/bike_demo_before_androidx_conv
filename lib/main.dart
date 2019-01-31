@@ -14,16 +14,10 @@ void main() {
 /*
 TODO:  
 
- - Modify SQL tables and remove category table,  change category field to 'type' (DONE)
- - remove 'mfg' field and keep model   (DONE)
- - add model and comments to bikeaddwidget (DONE)
- - Test out submit button to ensure it saves it in db (DONE)
-
- - let the user determine. Maybe a check box ?  Size in CM ?  if checked, populate dropdown with cm, if not
- populate with classifications. Maybe just use one dropdown box and then just populate the box depending on
-the selection. 
-- Once this is working, make a checkpoint and sync
-
+- Chat and chat list not working correctly (duplicating channels & target chats not showing up in chat list)
+  - initiate a chat with baily (logged in as chuppy) and verify that one channel is created in FB
+  - log in as baily and see if the chat shows up in the chat list  (before it wasn't)
+  
 
 - see signupwidget  do not allow signing up without latitude or longitude 
 - see bikelistwidget.  if lat and lng are null, call gps again and/or show a widget in the 

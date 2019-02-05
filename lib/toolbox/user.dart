@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
+import 'package:bike_demo/toolbox/webservice.dart';
+
 class User {
 
   // Update the users fcm-token (firebase cloud messaging), which is associated with
@@ -105,6 +107,54 @@ class User {
 
   // *** Chat  Methods ***
 
+
+  Future<Map<String,dynamic>> addChannel( {String signedInUID, String toUID, String bikeID}) async {
+
+   String channelID = signedInUID + '_' + toUID + '_' + bikeID.toString();
+
+    bool status=false;
+    String msg;
+
+      // Make the call to the SQL DB and store the user
+      var payload = {
+        'uid_from':signedInUID,
+        'uid_to':toUID, 
+        'bike_id': bikeID, 
+        'channel_id':channelID
+         };
+      // NOTE: We place the await in front of the webservice because it is an async function located within
+      // another async function. 
+      await new WebService().run(service: 'XinsertChannel.php', jsonPayload: payload).then((sqldata){
+        // Status code 200 indicates we had a succesful http call
+        if (sqldata.httpResponseCode == 200) {
+         // we should be good here
+           status=true;
+        
+        } else {// Something went wrong with the http call
+          status=false;
+          msg = sqldata.toString();
+          print("Http Error: ${sqldata.toString()}");
+        }
+      }).catchError((e) {
+          status=false;
+          msg = e.toString();
+          print(" WebService error: $e");
+      });
+
+
+    // Package up the result and return it 
+    Map result = Map<String,dynamic>();
+    result['status'] = status;
+    result['msg'] =msg;
+
+    return result;
+       
+
+ }
+
+/*
+   NOTE:  Code kept here for example.  Channels no longer kept in FB.  Moved to SQL db
+
   // This associates a channel with the user and links the chatee. 
   void addChannel({String signedInUID, String toUID, String toDisplayName, String title }) {
 
@@ -125,8 +175,33 @@ class User {
           });
 
     }
+*/
 
 
+    // Get the list of channels associated with this user
+    Future<List> getChannelList({String uid}) async {
+
+      List list=[];
+      var payload = {'uid':uid};
+      SQLData sqlData = await new WebService().run(service: 'XselectChannels.php', jsonPayload: payload);
+       if (sqlData.httpResponseCode == 200) {
+            list = sqlData.rows;
+            for (var row in sqlData.rows) {
+              print(row.toString());
+            }
+          // Something went wrong with the http call
+        } else {
+            print("Http Error: ${sqlData.toString()}");
+        }
+
+      return list;
+    
+    }
+
+
+/*
+    NOTE:  Keeping this code here for example.  Channels are not longer kept in FB but in 
+    SQL Database
 
     // Get the list of channels associated with this user
     Future<List> getChannelList({String uid}) async {
@@ -148,6 +223,7 @@ class User {
 
       return _list;
     }
+*/
 
 
 

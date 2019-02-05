@@ -135,7 +135,10 @@ class Account  {
 
       // Make the call to the SQL DB and store the user
       var payload = {'uid':fbuser.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
-      new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
+      
+      // NOTE:  We place await in front of the webservice because it is also async, placed within an 
+      // async function. we must have this code complete before the outer async finishes.
+      await new WebService().run(service: 'XinsertUser.php', jsonPayload: payload).then((sqldata){
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
          // we should be good here

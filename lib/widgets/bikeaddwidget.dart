@@ -5,7 +5,7 @@ import 'package:bike_demo/toolbox/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/toolbox/notification.dart';
 import 'package:bike_demo/toolbox/tables.dart';
-import 'package:bike_demo/toolbox/globals.dart' as globals;
+import 'package:bike_demo/toolbox/globals.dart';
 
 
 class BikeAddWidget extends StatefulWidget {
@@ -32,7 +32,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   String _selectedModel;
   String _selectedComments; 
   bool _inCM=false;
-  double _fontSize=globals.defaultFontSize;
+  double _fontSize=baseFont;
   String _uid;
   String _displayName;
 
@@ -58,7 +58,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
       return new Scaffold(
         appBar: new AppBar(
-                title: const Text('Add Bike'), centerTitle: true,
+                title: Text('Add Bike', style: TextStyle(fontSize: baseFontLarger),), centerTitle: true,
                 ),
          body: new Container(
                 margin: EdgeInsets.only( top: 20.0, bottom: 20.0,  left: 20.0, right: 20.0),

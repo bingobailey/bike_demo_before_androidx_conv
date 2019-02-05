@@ -9,7 +9,7 @@ import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/user.dart';
-import 'package:bike_demo/toolbox/globals.dart' as globals;
+import 'package:bike_demo/toolbox/globals.dart';
 
 
 class BikeListWidget extends StatefulWidget {
@@ -33,8 +33,6 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
 
   double _latitude;
   double _longitude; 
-
-  double _fontSize = globals.defaultFontSize;
 
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -81,7 +79,7 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
 // build the app bar with the search capability
 AppBar buildAppBar(BuildContext context) {
     return new AppBar(
-      title: new Center( child: new Text('Bikes Wanted !',)),
+      title: new Center( child: new Text('Bikes', style: TextStyle(fontSize: baseFontLarger),)),
       actions: [searchBar.getSearchAction(context)]
     );
   }  
@@ -170,9 +168,9 @@ AppBar buildAppBar(BuildContext context) {
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return  ListTile(
-                title:  Text(sqlDataRows[index]['frame_size'] + '   ' + sqlDataRows[index]['model'], style: new TextStyle(fontSize: _fontSize),),
-                subtitle:  Text(sqlDataRows[index]['comments'], style:new TextStyle(fontSize: _fontSize*0.80)),
-                leading: new Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: _fontSize*0.80),),
+                title:  Text(sqlDataRows[index]['frame_size'] + '   ' + sqlDataRows[index]['model'], style: new TextStyle(fontSize: baseFont),),
+                subtitle:  Text(sqlDataRows[index]['comments'], style:new TextStyle(fontSize: baseFontSmaller)),
+                leading: new Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: baseFontSmaller),),
                 trailing: buildChatIcon(context: context, index: index), 
               );
             } ,
@@ -219,22 +217,22 @@ void _onClickedAdd(BuildContext context) {
           new Tools().showAccountAccess( context: context, title: "Must be signed in to contact user");
         } else { // user is logged in, continue
 
-          // Get the user displayname that needs to be contacted, then add the channel
-          new User().getDisplayName(uid: _sqlDataRows[index]['uid']).then((String toDisplayName) {
-          new User().addChannel( signedInUID: fbuser.uid,
-                    title: _sqlDataRows[index]['model'],
-                    toDisplayName: toDisplayName,
+          // Add the channel to SQL DB
+          new User().addChannel( 
+                    signedInUID: fbuser.uid,
+                    bikeID: _sqlDataRows[index]['bike_id'],
                     toUID: _sqlDataRows[index]['uid'],
-              );
-          });
+              ).then((Map<String,dynamic> result) {
+                print('sqlmessage from addchannel ${result['msg']}');
+              });
 
-          // TODO: should have a cleaner way than to reproduce creating the channel again here
-            String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'];
+
+            // Create the channel_ID and pass it to the chat widget so discussion can begin
+            String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'] + '_' + _sqlDataRows[index]['bike_id'];
             Map<dynamic,dynamic> channel = new Map();
             channel['channelID'] = channelID;
             channel['title'] = _sqlDataRows[index]['model'];
-            print("channelid = ${channel['channelID']}");
-
+            
             Navigator.push(context, MaterialPageRoute(
                 builder: (context)=>new ChatWidget( channel: channel,
                 currentUserDisplayName: fbuser.displayName,),

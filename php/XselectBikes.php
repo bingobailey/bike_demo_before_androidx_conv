@@ -39,6 +39,7 @@
                     user.username,
                     user.photo,
                     model,
+                    bike_id,
                     frame_size,
                     action,
                     comments,

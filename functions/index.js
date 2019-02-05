@@ -98,7 +98,7 @@ exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}
 // indicates peer to peer communication, so we must retrieve the fcm token
 // NOTE:  when this notfication table is updated from the app, it should also store
 //       the datetime, so that can be accessed as well. 
-exports.sendChatNotification = functions.database.ref('chat/{uidChannel}/{key}').onWrite((data, context) => {
+exports.sendChatNotification = functions.database.ref('channels/{uidChannel}/{key}').onWrite((data, context) => {
 
     const datetime = context.timestamp;
    

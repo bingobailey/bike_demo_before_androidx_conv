@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/Notification.dart';
+import 'package:bike_demo/toolbox/globals.dart';
 
 class NotificationListWidget extends StatefulWidget {
 @override
@@ -46,7 +47,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
     Widget build(BuildContext context) {
 
       return new Scaffold(
-      appBar: new AppBar( title: new Text("Notifications"), centerTitle: true,
+      appBar: new AppBar( title: new Text("Notifications", style: TextStyle(fontSize: baseFontLarger ),), centerTitle: true,
       ),
       body: new Center(
          child: _bodyWidget,
@@ -67,9 +68,10 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
             itemCount: topics.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                title: new Text(topics[index]['content']),
-                subtitle: new Text(topics[index]['displayName']),
-               trailing: new Text(new Tools().getDuration(datetime:topics[index]['datetime'])),
+                title: new Text(topics[index]['content'], style: TextStyle(fontSize: baseFont),  ),
+                subtitle: new Text(topics[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),    ),
+               trailing: new Text(new Tools().getDuration(UTCdatetime:topics[index]['datetime']),
+                              style: TextStyle(fontSize: baseFontSmaller),   ),
                // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );

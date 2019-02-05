@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:bike_demo/toolbox/globals.dart';
 
 class UserProfileWidget extends StatefulWidget {
 
@@ -18,7 +19,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   Widget build(BuildContext context) {
    
     return new Scaffold(
-          appBar: new AppBar( title: new Text('Account'), centerTitle: true,
+          appBar: new AppBar( title: new Text('Account',style:TextStyle(fontSize:baseFontLarger),), centerTitle: true,
           ),
           body: new Center(
             child: _buildDisplayWidget(),

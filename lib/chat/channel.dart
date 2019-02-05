@@ -6,7 +6,7 @@ import 'package:bike_demo/chat/message.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 
 
-final String _baseTable = "chat";
+final String _baseTable = "channels";
 
 // The channel Class which manages communication with Firebase sending
 // and listening for messages

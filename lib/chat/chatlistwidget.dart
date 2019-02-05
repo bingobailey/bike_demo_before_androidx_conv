@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bike_demo/toolbox/globals.dart';
 
 
 class ChatListWidget extends StatefulWidget {
@@ -30,7 +32,14 @@ class _ChatListWidgetState extends State<ChatListWidget> {
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+           new User().getChannelList(uid: fbuser.uid).then((List channels){
+             _channels = channels; // We need to assign this so we can detect the user selection
+            setState(() {
+              _bodyWidget = buildChannelListWidget( channels: _channels );
+            });
+          });
 
+/*
            new User().getChannelList(uid: fbuser.uid).then((List channels){
             channels.sort((a,b) => a['datetime'].compareTo(b['datetime']));
             _channels = channels.reversed.toList(); // We reverse it to sort asc, assign it for on click
@@ -38,6 +47,11 @@ class _ChatListWidgetState extends State<ChatListWidget> {
               _bodyWidget = buildChannelListWidget( channels: _channels );
             });
           });
+
+*/
+
+
+
         } else {
             setState(() {
              _bodyWidget = new Text("not logged in");
@@ -55,7 +69,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     Widget build(BuildContext context) {
 
       return new Scaffold(
-      appBar: new AppBar( title: new Text("Chat List"), centerTitle: true,
+      appBar: new AppBar( title: new Text("Messages", style: TextStyle( fontSize: baseFontLarger),), centerTitle: true,
       ),
       body: new Center(
          child: _bodyWidget,
@@ -75,15 +89,16 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemCount: channels.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                 title: new Text(channels[index]['title']),
-                subtitle: new Text(channels[index]['toDisplayName']),
-                trailing: new Text(new Tools().getDuration(datetime:channels[index]['datetime'])),
+                 title: new Text(channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
+                subtitle: new Text('unknown',style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
+                trailing: new Text(new Tools().getDuration(UTCdatetime:channels[index]['datetime']),
+                                style: TextStyle(fontSize: baseFontSmaller),   ),
                // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photoURL']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
           )
-        );
+        );  
 
   }
 

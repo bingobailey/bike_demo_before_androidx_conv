@@ -16,6 +16,7 @@
                     channel.uid_to,
                     channel.bike_id,
                     channel.datetime,
+                    channel.channel_id,
                     bike.model
              FROM   channel
              JOIN   bike ON channel.bike_id = bike.bike_id

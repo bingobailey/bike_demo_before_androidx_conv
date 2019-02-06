@@ -8,8 +8,10 @@ import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
+import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/user.dart';
 import 'package:bike_demo/toolbox/globals.dart';
+
 
 
 class BikeListWidget extends StatefulWidget {
@@ -224,19 +226,32 @@ void _onClickedAdd(BuildContext context) {
                     toUID: _sqlDataRows[index]['uid'],
               ).then((Map<String,dynamic> result) {
                 print('sqlmessage from addchannel ${result['msg']}');
+
+                // If we got true, then we added the channel successfully, where channel_id will be returned in result
+                if (result['status']==true) {
+                    
+                      // Create the channelheader and pass it on to chat widget
+                      ChannelHeader channelHeader = new ChannelHeader(
+                                                channelID: result['channel_id'],
+                                                    title: _sqlDataRows[index]['model'], 
+                                              displayName: fbuser.displayName);
+
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context)=>new ChatWidget( channelHeader: channelHeader),
+                      ));
+                }
+
+                
               });
 
 
-            // Create the channel_ID and pass it to the chat widget so discussion can begin
-            String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'] + '_' + _sqlDataRows[index]['bike_id'];
-            Map<dynamic,dynamic> channel = new Map();
-            channel['channelID'] = channelID;
-            channel['title'] = _sqlDataRows[index]['model'];
+            // // Create the channel_ID and pass it to the chat widget so discussion can begin
+            // String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'] + '_' + _sqlDataRows[index]['bike_id'];
+            // Map<dynamic,dynamic> channel = new Map();
+            // channel['channel_id'] = channelID;
+            // channel['title'] = _sqlDataRows[index]['model'];
             
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context)=>new ChatWidget( channel: channel,
-                currentUserDisplayName: fbuser.displayName,),
-              ));
+           
         }
     });
 

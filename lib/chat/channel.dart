@@ -24,7 +24,7 @@ class Channel {
   //  pass it a class that implements notify, so we can call the method when the
   // db is updated
   Channel({this.channelID, this.notify}) {
-      channelID = channelID.replaceAll('.', 'X'); // Firebase won't accept '.' in a link
+
       // Get a reference to the database and channel
       _reference = FirebaseDatabase.instance.reference().child(_baseTable).child(channelID);
 

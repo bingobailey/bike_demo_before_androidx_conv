@@ -6,6 +6,7 @@ import 'package:bike_demo/chat/messagewidget.dart';
 import 'package:bike_demo/toolbox/platformconstants.dart';
 import 'package:bike_demo/chat/message.dart';
 import 'package:bike_demo/chat/channel.dart';
+import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 
 
@@ -13,11 +14,10 @@ import 'package:bike_demo/toolbox/notify.dart';
 class ChatWidget extends StatefulWidget {
 
 // attributed passed in
- final Map<dynamic,dynamic> channel;
- final String currentUserDisplayName;
+ final ChannelHeader channelHeader;
 
   // channel property is coming from the Chat List
-  ChatWidget({this.channel, this.currentUserDisplayName});
+  ChatWidget({this.channelHeader});
 
 
   @override
@@ -45,7 +45,7 @@ Channel channel;
     super.initState();
 
     // Create the channel and send this class to be notified of updates
-    channel = new Channel( channelID: widget.channel['channelID'],notify: this);
+    channel = new Channel( channelID: widget.channelHeader.channelID, notify: this);
 
     // We need to pull any previous messages that exist in the channel and re-display (ie
     // a person picking up a conversation after shutting down the app
@@ -67,7 +67,7 @@ Channel channel;
     return Scaffold(
       appBar: new AppBar(  
         centerTitle: true,
-        title: new Text(widget.channel['title']),
+        title: new Text(widget.channelHeader.title),
         elevation:  isIOS ? 0.0 : 4.0,
       ),
       body: buildChatWidget(context)
@@ -191,7 +191,7 @@ void buildMessageWidget({Message message}) {
 
     // Create the message and push it to db
    // Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
-    Message message = new Message( name: widget.currentUserDisplayName, content: text, );
+    Message message = new Message( name: widget.channelHeader.displayName, content: text, );
 
     channel.push(message); // send it to the db
 

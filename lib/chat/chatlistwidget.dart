@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/chat/chatwidget.dart';
+import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/user.dart';
 import 'package:bike_demo/toolbox/globals.dart';
@@ -23,7 +24,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
   
   // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
-  String currentUserDisplayName;
+  String _currentUserDisplayName;
 
   @override
     void initState() {
@@ -31,6 +32,8 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
+
+          _currentUserDisplayName = fbuser.displayName;
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
            new User().getChannelList(uid: fbuser.uid).then((List channels){
              _channels = channels; // We need to assign this so we can detect the user selection
@@ -108,12 +111,19 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
   // user clicked on a list item
   void _onTapItem(BuildContext context, int index) {
+
+    // We create the channel header and pass it on...
+  
+    ChannelHeader channelHeader = new ChannelHeader(
+                                  channelID: _channels[index]['channel_id'],
+                                      title: _channels[index]['model'], 
+                                displayName: _currentUserDisplayName);
+
      Navigator.push(context, MaterialPageRoute(
-       builder: (context)=>new ChatWidget( channel: _channels[index],
-       currentUserDisplayName:currentUserDisplayName,),
+       builder: (context)=>new ChatWidget( channelHeader:channelHeader,),
      ));
 
-   }
+    }
 
 
 

@@ -146,6 +146,7 @@ class User {
     Map result = Map<String,dynamic>();
     result['status'] = status;
     result['msg'] =msg;
+    result['channel_id'] = channelID;
 
     return result;
        

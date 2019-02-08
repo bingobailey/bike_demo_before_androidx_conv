@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:bike_demo/toolbox/user.dart';
-import 'package:bike_demo/toolbox/webservice.dart';
+import 'package:bike_demo/services/firebaseservice.dart';
+import 'package:bike_demo/services/webservice.dart';
 
 
 /*
@@ -66,7 +66,7 @@ class Account  {
       // get the token and assign it to the uid.  this is also called in create account, 
       // but we also do it here in case there is a problem. 
       new FirebaseMessaging().getToken().then((String fcmToken){
-            new User().setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
+            new FireBaseService().setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
       });
 
      status=true;
@@ -124,13 +124,13 @@ class Account  {
 
       assert( fbuser !=null );
 
-      User user = new User(); // create the user so we can do updates
+      FireBaseService fireBaseService = new FireBaseService(); // create the service so we can do updates
 
       // set the displayname, associated with the uid
-      user.setDisplayName(uid: fbuser.uid, displayName: username);
+      fireBaseService.setDisplayName(uid: fbuser.uid, displayName: username);
       // get the token and assign it to the uid 
       new FirebaseMessaging().getToken().then((String fcmToken){
-            user.setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
+            fireBaseService.setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
       });
 
       // Make the call to the SQL DB and store the user

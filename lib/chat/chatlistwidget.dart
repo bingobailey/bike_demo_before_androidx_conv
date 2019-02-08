@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/user.dart';
+import 'package:bike_demo/services/firebaseservice.dart';
 import 'package:bike_demo/toolbox/globals.dart';
 
 
@@ -35,25 +35,12 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
           _currentUserDisplayName = fbuser.displayName;
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-           new User().getChannelList(uid: fbuser.uid).then((List channels){
+           new FireBaseService().getChannelList(uid: fbuser.uid).then((List channels){
              _channels = channels; // We need to assign this so we can detect the user selection
             setState(() {
               _bodyWidget = buildChannelListWidget( channels: _channels );
             });
           });
-
-/*
-           new User().getChannelList(uid: fbuser.uid).then((List channels){
-            channels.sort((a,b) => a['datetime'].compareTo(b['datetime']));
-            _channels = channels.reversed.toList(); // We reverse it to sort asc, assign it for on click
-            setState(() {
-              _bodyWidget = buildChannelListWidget( channels: _channels );
-            });
-          });
-
-*/
-
-
 
         } else {
             setState(() {
@@ -93,10 +80,10 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
                  title: new Text(channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
-                subtitle: new Text('unknown',style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
+                subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
                 trailing: new Text(new Tools().getDuration(UTCdatetime:channels[index]['datetime']),
                                 style: TextStyle(fontSize: baseFontSmaller),   ),
-               // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photoURL']),
+               // leading: getImage( keystore: channels[index]['uid'], image: channels[index]['photoURL']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

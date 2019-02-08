@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
-import 'package:bike_demo/toolbox/webservice.dart';
+import 'package:bike_demo/services/webservice.dart';
 
-class User {
+class FireBaseService {
 
   // Update the users fcm-token (firebase cloud messaging), which is associated with
   // each users' device.  This allows peer to peer communication
@@ -106,7 +106,6 @@ class User {
 
 
   // *** Chat  Methods ***
-
 
   Future<Map<String,dynamic>> addChannel( {String signedInUID, String toUID, String bikeID}) async {
 

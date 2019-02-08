@@ -11,18 +11,43 @@
     
     // This is the user's location making the request, which is compared to lat and lng in the database
     $uid   = $ws->p('uid');
-     
-    $sql = "SELECT  channel.uid_from,
-                    channel.uid_to,
-                    channel.bike_id,
-                    channel.datetime,
-                    channel.channel_id,
-                    bike.model
-             FROM   channel
-             JOIN   bike ON channel.bike_id = bike.bike_id
-            WHERE   channel.uid_from ='$uid' OR channel.uid_to = '$uid'
-          ORDER BY  datetime DESC
-           LIMIT    100";
+
+    $sql = "SELECT * 
+              FROM (
+                SELECT  channel.uid_from,
+                        channel.uid_to,
+                        channel.bike_id,
+                        channel.datetime,
+                        channel.channel_id,
+                        user.username,
+                        user.photoURL,
+                        user.uid as keystore,
+                        bike.model
+                  FROM   channel
+                  JOIN   bike ON channel.bike_id = bike.bike_id
+                  JOIN   user ON channel.uid_to = user.uid
+                 WHERE   channel.uid_from ='$uid'
+      
+                 UNION ALL
+      
+                SELECT  channel.uid_from,
+                        channel.uid_to,
+                        channel.bike_id,
+                        channel.datetime,
+                        channel.channel_id,
+                        user.username,
+                        user.photoURL,
+                        user.uid as keystore,
+                        bike.model
+                  FROM   channel
+                  JOIN   bike ON channel.bike_id = bike.bike_id
+                  JOIN   user ON channel.uid_from = user.uid
+                 WHERE   channel.uid_to = '$uid'
+                ) channeltable
+      
+              ORDER BY  datetime DESC
+              LIMIT    100 ";
+
 
     $ws->select($sql);
     $ws->disconnect();

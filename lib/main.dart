@@ -14,7 +14,7 @@ void main() {
 /*
 TODO:  
 
-  - Retrieve username from SQL DB and display in Messages List (chat list widget)
+- channelist widget blowing up after modifications (adding username and photourl)
 
 - see signupwidget  do not allow signing up without latitude or longitude 
 - see bikelistwidget.  if lat and lng are null, call gps again and/or show a widget in the 

@@ -37,7 +37,7 @@
      
     $sql = "SELECT  user.uid, 
                     user.username,
-                    user.photo,
+                    user.photoURL,
                     model,
                     bike_id,
                     frame_size,

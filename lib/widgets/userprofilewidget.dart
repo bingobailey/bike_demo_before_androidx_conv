@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bike_demo/toolbox/globals.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 class UserProfileWidget extends StatefulWidget {
 

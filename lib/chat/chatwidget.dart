@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';   // for ios icons etc
 
 import 'package:bike_demo/chat/messagewidget.dart';
-import 'package:bike_demo/toolbox/platformconstants.dart';
+import 'package:bike_demo/constants/platformconstants.dart';
 import 'package:bike_demo/chat/message.dart';
 import 'package:bike_demo/chat/channel.dart';
 import 'package:bike_demo/chat/channelheader.dart';

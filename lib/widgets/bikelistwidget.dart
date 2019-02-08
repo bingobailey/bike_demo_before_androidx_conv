@@ -10,7 +10,7 @@ import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/services/firebaseservice.dart';
-import 'package:bike_demo/toolbox/globals.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 
 
@@ -108,7 +108,7 @@ AppBar buildAppBar(BuildContext context) {
 
 // TODO: if latitude and longitude are null, might need to re-arrange this and call
 //       geolocation here
-          String whereClause = "action = 'Would like to demo'"; 
+          String whereClause = "'1=1'"; // We use this to display all the bikes initially
           selectBikes(whereClause: whereClause);
       });
 
@@ -128,7 +128,13 @@ AppBar buildAppBar(BuildContext context) {
 
     String units = 'm';
 
-    var payload = {'latitude':_latitude, 'longitude':_longitude,'radius':radius, 'units':units, 'whereClause':whereClause};
+    var payload = {
+      'latitude':_latitude, 
+      'longitude':_longitude,
+      'radius':radius, 
+      'units':units, 
+      'whereClause':whereClause
+      };
 
      new WebService().run(service: _service, jsonPayload: payload).then((sqldata){
 
@@ -170,10 +176,11 @@ AppBar buildAppBar(BuildContext context) {
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
               return  ListTile(
-                title:  Text(sqlDataRows[index]['frame_size'] + '   ' + sqlDataRows[index]['model'], style: new TextStyle(fontSize: baseFont),),
+                title:  Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'] + '\n' + sqlDataRows[index]['action'], style: new TextStyle(fontSize: baseFont),),
                 subtitle:  Text(sqlDataRows[index]['comments'], style:new TextStyle(fontSize: baseFontSmaller)),
                 leading: new Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: baseFontSmaller),),
                 trailing: buildChatIcon(context: context, index: index), 
+                isThreeLine:true,
               );
             } ,
           )
@@ -192,7 +199,7 @@ Widget buildChatIcon({BuildContext context, int index}) {
 // *** ACTION METHODS ****
 
 void _onSubmittedSearch(String value) {
-  String whereClause = "action = 'WTD' AND model LIKE '%$value%'";
+  String whereClause = "model LIKE '%$value%'";
   selectBikes(whereClause: whereClause);
 }
 
@@ -233,7 +240,7 @@ void _onClickedAdd(BuildContext context) {
                       // Create the channelheader and pass it on to chat widget
                       ChannelHeader channelHeader = new ChannelHeader(
                                                 channelID: result['channel_id'],
-                                                    title: _sqlDataRows[index]['model'], 
+                                                    title: _sqlDataRows[index]['frame_size'] + ' - ' + _sqlDataRows[index]['year'] + ' ' +  _sqlDataRows[index]['model'], 
                                               displayName: fbuser.displayName);
 
                       Navigator.push(context, MaterialPageRoute(

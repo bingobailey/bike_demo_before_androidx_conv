@@ -5,7 +5,7 @@ import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/services/firebaseservice.dart';
-import 'package:bike_demo/toolbox/globals.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 
 class ChatListWidget extends StatefulWidget {
@@ -79,11 +79,11 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemCount: channels.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-                 title: new Text(channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
+                 title: new Text(channels[index]['frame_size'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
                 subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
                 trailing: new Text(new Tools().getDuration(UTCdatetime:channels[index]['datetime']),
                                 style: TextStyle(fontSize: baseFontSmaller),   ),
-               // leading: getImage( keystore: channels[index]['uid'], image: channels[index]['photoURL']),
+               // leading: getImage( keystore: channels[index]['uid'], image: channels[index]['photoName']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -103,7 +103,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
   
     ChannelHeader channelHeader = new ChannelHeader(
                                   channelID: _channels[index]['channel_id'],
-                                      title: _channels[index]['model'], 
+                                      title: _channels[index]['frame_size'] + ' - ' + _channels[index]['year'] + ' ' +  _channels[index]['model'], 
                                 displayName: _currentUserDisplayName);
 
      Navigator.push(context, MaterialPageRoute(

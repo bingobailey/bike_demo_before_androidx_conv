@@ -10,18 +10,19 @@
     $ws->connect(getHost(), getUser(), getPwrd(), getDB());
     
     // pull the data
-    $model   = $ws->p('model');
+    $model         = $ws->p('model');
+    $year          = $ws->p('year');
     $frame_size    = $ws->p('frame_size');
     $uid           = $ws->p('uid'); 
     $action        = $ws->p('action'); 
     $type          = $ws->p('type'); 
     $comments      = $ws->p('comments'); 
-    $photoURL      = $ws->p('photoURL');
+    $photoName     = $ws->p('photoName');
 
      
     // formulate the sql
-    $sql = "INSERT INTO bike (uid, model, frame_size, action, type, comments, photoURL) 
-    VALUES ( '$uid', '$model', '$frame_size', '$action', '$type','$comments','$photoURL')"; 
+    $sql = "INSERT INTO bike (uid, model, year, frame_size, action, type, comments, photoName) 
+    VALUES ( '$uid', '$model', '$year', '$frame_size', '$action', '$type','$comments','$photoName')"; 
     
     // insert and disconnect 
     $ws->insert($sql);

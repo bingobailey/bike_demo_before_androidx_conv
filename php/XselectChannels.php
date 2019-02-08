@@ -20,8 +20,10 @@
                         channel.datetime,
                         channel.channel_id,
                         user.username,
-                        user.photoURL,
+                        user.photoName,
                         user.uid as keystore,
+                        bike.frame_size,
+                        bike.year,
                         bike.model
                   FROM   channel
                   JOIN   bike ON channel.bike_id = bike.bike_id
@@ -36,8 +38,10 @@
                         channel.datetime,
                         channel.channel_id,
                         user.username,
-                        user.photoURL,
+                        user.photoName,
                         user.uid as keystore,
+                        bike.frame_size,
+                        bike.year,
                         bike.model
                   FROM   channel
                   JOIN   bike ON channel.bike_id = bike.bike_id

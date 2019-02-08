@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/toolbox/Notification.dart';
-import 'package:bike_demo/toolbox/globals.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 class NotificationListWidget extends StatefulWidget {
 @override

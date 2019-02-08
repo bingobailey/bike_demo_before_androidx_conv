@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bike_demo/services/webservice.dart';
 import 'package:bike_demo/toolbox/notify.dart';
 import 'package:bike_demo/toolbox/notification.dart';
-import 'package:bike_demo/toolbox/tables.dart';
-import 'package:bike_demo/toolbox/globals.dart';
+import 'package:bike_demo/constants/tables.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 
 class BikeAddWidget extends StatefulWidget {
@@ -30,6 +30,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   String _selectedSize;
   String _selectedAction;
   String _selectedModel;
+  String _selectedYear;
   String _selectedComments; 
   bool _inCM=false;
   double _fontSize=baseFont;
@@ -83,20 +84,23 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
                 children: <Widget>[
 
                   buildTypeField(),
-                  new SizedBox( height: 10.0,),
+                  //new SizedBox( height: 5.0,),
+
+                  buildYearField(),
+                  new SizedBox( height: 5.0,),
 
                   buildModelField(),
-                  new SizedBox( height:20.0,),
+                  new SizedBox( height: 5.0,),
 
-                   buildCheckBox(),
-                   buildSizeField(),
-                   new SizedBox( height: 10.0,),
+                  buildCheckBox(),
+                  buildSizeField(),
+                  new SizedBox( height: 5.0,),
 
                   buildActionField(),
-                  new SizedBox(height: 10.0,),
+                  new SizedBox(height: 5.0,),
 
                   buildCommentsField(),
-                  new SizedBox(height: 50.0,),
+                  new SizedBox(height: 25.0,),
 
                   buildActionButton(), // this returns the add button or the progress indicator
                 ],
@@ -107,7 +111,32 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
 
 
-  // Build Description Field
+
+
+  // Build Year Field
+  Widget buildYearField() {
+    return new Container(
+          margin: EdgeInsets.only( left: 25.0, right: 25.0),
+           
+            child: TextFormField(
+              textAlign: TextAlign.left,
+                decoration: const InputDecoration(
+                  hintText: 'Year?',
+                  border: UnderlineInputBorder(),
+                  labelText: 'Year',
+                  icon: Icon(Icons.directions_bike),
+                ),
+                keyboardType: TextInputType.text,
+                onSaved: (String value) { _selectedYear = value; },
+                style: new TextStyle( fontSize: _fontSize, color: Colors.black, ),
+              ),
+    );
+    
+  } 
+
+
+
+  // Build Model Field
   Widget buildModelField() {
     return new Container(
           margin: EdgeInsets.only( left: 25.0, right: 25.0),
@@ -115,7 +144,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
             child: TextFormField(
               textAlign: TextAlign.left,
                 decoration: const InputDecoration(
-                  hintText: 'What bike?',
+                  hintText: 'ex: Yeti 5.5c, Trek Domane SL 5 ',
                   border: UnderlineInputBorder(),
                   labelText: 'Model',
                   icon: Icon(Icons.directions_bike),
@@ -198,7 +227,6 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
 
  Widget buildCheckBox() {
-
    return new CheckboxListTile(
                   title: Text('Frame size in CM', style: new TextStyle(fontSize: _fontSize)),  
                   controlAffinity: ListTileControlAffinity.leading,
@@ -214,15 +242,15 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
 
  Widget buildSizeField() {
 
-   List<DropdownMenuItem <String>> sizeMenuItems = []; 
-  // Populate the list depending on whether in CM or regular classifcation
-   if(_inCM) {
-     sizeMenuItems = new Tables().sizeCM.map((val)=> new DropdownMenuItem(
-      child: new Text(val), value: val,)).toList();
-   } else {
-     sizeMenuItems = new Tables().sizeClassifications.map((val)=> new DropdownMenuItem(
-      child: new Text(val), value: val,)).toList();
-   }
+    List<DropdownMenuItem <String>> sizeMenuItems = []; 
+    // Populate the list depending on whether in CM or regular classifcation
+    if(_inCM) {
+       sizeMenuItems = new Tables().sizeCM.map((val)=> new DropdownMenuItem(
+        child: new Text(val), value: val,)).toList();
+    } else {
+       sizeMenuItems = new Tables().sizeClassifications.map((val)=> new DropdownMenuItem(
+        child: new Text(val), value: val,)).toList();
+    }
 
     return new Container(
           margin: EdgeInsets.only( left: 5.0, right: 10.0),
@@ -321,6 +349,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       // Add the bike to the SQL DB
       var payload = {'uid':_uid,
           'model':_selectedModel, 
+          'year':_selectedYear,
           'frame_size': _selectedSize,
           'action': _selectedAction,
           'type': _selectedType,

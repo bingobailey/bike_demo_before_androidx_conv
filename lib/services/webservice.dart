@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:bike_demo/constants/urllocation.dart';
 
 // NOTES:
 /*
@@ -48,15 +49,13 @@ import 'dart:convert';
 
 class WebService {
 
-  String wsLocation =  "http://www.mtbphotoz.com/bikedemo/php/"; // Location of the webservice (ie url)
   SQLData sqlData;   // the object that will contain all the sql results
-
 
   // This is the async call to call the Webservice
   Future<SQLData> run({String service, Map<String,dynamic>jsonPayload}) async {
 
     sqlData = new SQLData(serviceCalled: service);
-    String url = wsLocation + service;
+    String url = phpLocation + service;
 
     // Associate the payload with the key, so we can pull it in the php files
     Map<String,dynamic> payLoadWithKey= {'key':jsonPayload};

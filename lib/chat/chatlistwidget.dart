@@ -6,6 +6,7 @@ import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/tools.dart';
 import 'package:bike_demo/services/firebaseservice.dart';
 import 'package:bike_demo/constants/globals.dart';
+import 'package:bike_demo/services/imageservice.dart';
 
 
 class ChatListWidget extends StatefulWidget {
@@ -83,7 +84,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                 subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
                 trailing: new Text(new Tools().getDuration(UTCdatetime:channels[index]['datetime']),
                                 style: TextStyle(fontSize: baseFontSmaller),   ),
-               // leading: getImage( keystore: channels[index]['uid'], image: channels[index]['photoName']),
+                 leading: new ImageService().getImage( keystore: channels[index]['keystore'], image: channels[index]['photoName']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

@@ -1,12 +1,34 @@
 
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart';
+import 'package:bike_demo/constants/urllocation.dart';
 
 
 class ImageService {
+
+
+  // We wrap the image function here in case we need to change it out underneath
+  // with something more advanced (in another package etc)
+  Widget getImage({String keystore, String image}) {
+
+    String photoURL = photoLocation + "/" + keystore + "/" + image;
+    return Image.network(photoURL, height: 50, width: 50,);
+
+  }
+
+ 
+
+
+
+
+
+
+
+
 
   Future<Map> uploadImage({String uid, File imageFile}) async {
 
@@ -60,6 +82,11 @@ class ImageService {
           return result;
       } 
     }
+
+
+
+
+
 
 
 } // End of imageservice class

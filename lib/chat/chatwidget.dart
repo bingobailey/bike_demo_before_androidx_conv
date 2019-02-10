@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';   // for ios icons etc
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/chat/messagewidget.dart';
 import 'package:bike_demo/constants/platformconstants.dart';
@@ -37,6 +38,8 @@ final List<MessageWidget> _messagewidgets = <MessageWidget>[];   // this creates
 bool _isComposing=false; // used to disable the send button if not typing anything
 Channel channel;
 
+String _currentUsername;
+
 
 //  METHODS 
 
@@ -46,6 +49,12 @@ Channel channel;
 
     // Create the channel and send this class to be notified of updates
     channel = new Channel( channelID: widget.channelHeader.channelID, notify: this);
+
+    // We assign the current user to this chat widget so we can differeiante between messages and color appropriately
+    FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser){
+      _currentUsername = fbuser.displayName;
+    });
+
 
     // We need to pull any previous messages that exist in the channel and re-display (ie
     // a person picking up a conversation after shutting down the app
@@ -162,10 +171,12 @@ void buildMessageWidget({Message message}) {
 // Create the chat message and pass the text and the animation controller 
   MessageWidget messagewidget = new MessageWidget(
     message: message,
+    currentUsername: _currentUsername, // we send the person signed in
     animationController: new AnimationController(      
       duration: new Duration(milliseconds: 500),   // this floats the message up from the bottom
       vsync: this,   
     ),   
+  
   ); 
 
     setState(() {                
@@ -191,7 +202,8 @@ void buildMessageWidget({Message message}) {
 
     // Create the message and push it to db
    // Message message = new Message( name: widget.chatName, content: text,  email: widget.chatEmail);
-    Message message = new Message( name: widget.channelHeader.displayName, content: text, );
+   // Since this message is being pushed from the UI, it must be the owner or sender
+    Message message = new Message( name: widget.channelHeader.displayName, content: text,);
 
     channel.push(message); // send it to the db
 

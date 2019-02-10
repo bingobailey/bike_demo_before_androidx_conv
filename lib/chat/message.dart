@@ -1,6 +1,7 @@
 
 import 'package:firebase_database/firebase_database.dart';
 
+
 // The data model class which holds the message contents etc. 
 class Message {
 
@@ -18,10 +19,10 @@ class Message {
 
   // Constructor creates the Message object from a snapshot
   Message.fromSnapshot(DataSnapshot snapshot) {
-    key = snapshot.key;
-    name = snapshot.value['name'];
-    content = snapshot.value['content'];
-    datetime = DateTime.parse(snapshot.value['datetime']) ; // convert from string
+      key = snapshot.key;
+      name = snapshot.value['name'];
+      content = snapshot.value['content'];
+      datetime = DateTime.parse(snapshot.value['datetime']) ; // convert from string
   }
 
 

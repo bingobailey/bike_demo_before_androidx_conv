@@ -6,7 +6,7 @@ class ChannelHeader {
   final String channelID;
   final String title;
   final String displayName;
-
+ 
   ChannelHeader({this.channelID, this.title, this.displayName});
 
   String toString() {

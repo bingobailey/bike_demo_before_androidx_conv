@@ -70,8 +70,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
   }
 
 
-// TODO: need to get leading: image. see below
-
   // Using the SQL Data build the list widget
   Widget buildChannelListWidget({List<dynamic> channels}) {
 

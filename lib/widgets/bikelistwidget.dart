@@ -226,6 +226,7 @@ void _onClickedAdd(BuildContext context) {
           new Tools().showAccountAccess( context: context, title: "Must be signed in to contact user");
         } else { // user is logged in, continue
 
+
           // Add the channel to SQL DB
           new FireBaseService().addChannel( 
                     signedInUID: fbuser.uid,

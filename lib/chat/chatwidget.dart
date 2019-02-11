@@ -9,6 +9,7 @@ import 'package:bike_demo/chat/message.dart';
 import 'package:bike_demo/chat/channel.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 
 /// Chat Screen CLASS
@@ -120,6 +121,7 @@ return new Column(
         children: <Widget>[                                      
           new Flexible(                                          
             child: new TextField(
+              style: new TextStyle(fontSize: baseFont, color: Colors.black),
               controller: _textController,
               onChanged: (String text) {          
                 setState(() {                    

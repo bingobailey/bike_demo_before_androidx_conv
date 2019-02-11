@@ -80,9 +80,9 @@ class _ChatListWidgetState extends State<ChatListWidget> {
               return new ListTile(
                  title: new Text(channels[index]['frame_size'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
                 subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
-                trailing: new Text(new Tools().getDuration(UTCdatetime:channels[index]['datetime']),
-                                style: TextStyle(fontSize: baseFontSmaller),   ),
-                 leading: new ImageService().getImage( keystore: channels[index]['keystore'], image: channels[index]['photoName']),
+                trailing: new Text(new Tools().getDuration(utcDatetime:channels[index]['datetime']),
+                               style: TextStyle(fontSize: baseFontSmaller),   ),
+                 leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['photoName']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

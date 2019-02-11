@@ -21,7 +21,7 @@
                         channel.channel_id,
                         user.username,
                         user.photoName,
-                        user.uid as keystore,
+                        user.uid,
                         bike.frame_size,
                         bike.year,
                         bike.model
@@ -39,7 +39,7 @@
                         channel.channel_id,
                         user.username,
                         user.photoName,
-                        user.uid as keystore,
+                        user.uid,
                         bike.frame_size,
                         bike.year,
                         bike.model

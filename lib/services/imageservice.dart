@@ -13,19 +13,12 @@ class ImageService {
 
   // We wrap the image function here in case we need to change it out underneath
   // with something more advanced (in another package etc)
-  Widget getImage({String keystore, String image}) {
+  Widget getImage({String key, String image}) {
 
-    String photoURL = photoLocation + "/" + keystore + "/" + image;
+    String photoURL = photoLocation + "/" + key + "/" + image;
     return Image.network(photoURL, height: 50, width: 50,);
 
   }
-
- 
-
-
-
-
-
 
 
 

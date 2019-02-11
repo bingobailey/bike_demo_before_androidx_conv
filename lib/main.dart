@@ -14,12 +14,19 @@ void main() {
 /*
 TODO:  
 
-- Code in message.dart to determine user is not working.  it's async.  need to remove it
-  and use something that is more static.  look at Message.dart and MessageWidget.dart
+- Test everything then sync up. 
 
-- create another widget within listtile for bikelistwidget that includes photo and username.  would be like adding
-  a row in the title. the row would contiain two widgets; (1) one widget with two columes (photo and name), second widget
-  with two columns  (model & action) action would be in smaller font. 
+- Start work on User Profile tab.  
+  add radius
+  allow to select photo 
+  add units (miles /km)
+  bikes you have listed
+    allow capability to delete. 
+  
+- Start work on charging explore;
+    in app purchases
+
+
 
 - Create an algorithm that deletes channels in SQLDb and FB based on date (ie delete all <= date)
 

@@ -70,9 +70,9 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
               return new ListTile(
                 title: new Text(topics[index]['content'], style: TextStyle(fontSize: baseFont),  ),
                 subtitle: new Text(topics[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),    ),
-               trailing: new Text(new Tools().getDuration(UTCdatetime:topics[index]['datetime']),
+               trailing: new Text(new Tools().getDuration(utcDatetime:topics[index]['datetime']),
                               style: TextStyle(fontSize: baseFontSmaller),   ),
-               // leading: getImage( keystore: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
+               // leading: getImage( key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

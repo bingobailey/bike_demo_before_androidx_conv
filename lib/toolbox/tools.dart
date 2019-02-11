@@ -76,10 +76,10 @@ class Tools {
 
   // Return the amount of min, or hours or days from the time the notification was posted until
   // now.  We use UTC datetime here so we can convert it to local time and get the correct difference in time
-  String getDuration({String UTCdatetime}) {
+  String getDuration({String utcDatetime}) {
 
     // Coming from the server, which should be in UTC format
-    DateTime dts = DateTime.parse(UTCdatetime); 
+    DateTime dts = DateTime.parse(utcDatetime); 
     // We now convert it to an actual UTC format in dart
     DateTime dtUTC = DateTime.utc(dts.year,
                                   dts.month,
@@ -105,7 +105,7 @@ class Tools {
            return timeElapsed;
       }
 
-      if (duration.inHours > 24) {
+      if (duration.inHours >= 24) {
             timeElapsed = "${duration.inDays}d";
            return timeElapsed;
       }

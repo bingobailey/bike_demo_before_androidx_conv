@@ -29,10 +29,13 @@ class MessageWidget extends StatelessWidget {
         child: new Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Container(
-              margin: const EdgeInsets.only(right: 16.0),
-              child: new CircleAvatar(child: new Text(message.name[0])),  // The avatar
-            ),
+            
+            // NOTE: The commented code below creates an avatar which is not necessarily needed since
+            //       we are changing the color of the text, which should be faster
+            // new Container(
+            //   margin: const EdgeInsets.only(right: 16.0),
+            //   child: new CircleAvatar(child: new Text(message.name[0])),  // The avatar
+            // ),
 
           // Expanded widget allows the column to wrap the text if too long
            new Expanded( 
@@ -69,15 +72,16 @@ class MessageWidget extends StatelessWidget {
     // If the current username is equal to the msg.name, then we found the owner, change the color 
     if( currentUsername == msg.name) {
       textStyle= new TextStyle(color: Colors.white, fontSize:baseFont);
-      boxDecoration = new BoxDecoration(color: Colors.blue);
+      boxDecoration = new BoxDecoration(color: Colors.blue, borderRadius: new BorderRadius.all(Radius.elliptical(10.0, 10.0)));
      } else {
       textStyle= new TextStyle(color: Colors.black, fontSize:baseFont);
-      boxDecoration = new BoxDecoration(color: Colors.grey);
+      boxDecoration = new BoxDecoration(color: Colors.grey[200],   borderRadius: new BorderRadius.all(Radius.elliptical(10.0, 10.0)));
      }
     
     return Container( 
               child: new Text(message.content, style: textStyle),
          decoration: boxDecoration,
+         padding: EdgeInsets.all(10.0),
                     
                 
      );

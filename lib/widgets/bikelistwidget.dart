@@ -11,6 +11,7 @@ import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/services/firebaseservice.dart';
 import 'package:bike_demo/constants/globals.dart';
+import 'package:bike_demo/services/imageservice.dart';
 
 
 
@@ -175,13 +176,32 @@ AppBar buildAppBar(BuildContext context) {
           child: new ListView.builder(
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
-              return  ListTile(
-                title:  Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'] + '\n' + sqlDataRows[index]['action'], style: new TextStyle(fontSize: baseFont),),
-                subtitle:  Text(sqlDataRows[index]['comments'], style:new TextStyle(fontSize: baseFontSmaller)),
-                leading: new Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: baseFontSmaller),),
-                trailing: buildChatIcon(context: context, index: index), 
-                isThreeLine:true,
-              );
+
+            return Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+
+                  ListTile( 
+                    leading: Column(children: <Widget>[
+                              new ImageService().getImage(key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photoName']),
+                              new Text(sqlDataRows[index]['username']),
+                              ],
+                            ),
+                    title: Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'], style: TextStyle(fontSize: baseFont),),
+                    subtitle: Text(sqlDataRows[index]['action'], style:new TextStyle(fontSize: baseFontSmaller)),
+                    trailing: Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: baseFontSmaller),),
+                  ),
+
+                  ListTile(
+                    title: Text(sqlDataRows[index]['comments'], style: TextStyle(fontSize: baseFontSmaller),),
+                    trailing: buildContactButton(index: index, context: context),
+                  )
+
+                ],
+              ),
+            );
+
             } ,
           )
         );
@@ -189,10 +209,15 @@ AppBar buildAppBar(BuildContext context) {
   }
 
 
+ 
+Widget buildContactButton({BuildContext context, int index}) {
 
-Widget buildChatIcon({BuildContext context, int index}) {
-  if(_sqlDataRows[index]['uid'] == _uid) return null; // same user, not need to chat with themselves
-  else return new IconButton(icon: new Icon(Icons.chat, size: 40.0, color: Colors.green,), onPressed:()=>letsChat(context,index), );
+ if(_sqlDataRows[index]['uid'] == _uid) return SizedBox(height: 1, width: 1,); // same user, not need to chat with themselves
+  else return  RaisedButton(
+                           child: const Text('CONTACT', style: TextStyle( color: Colors.white),),
+                           onPressed:()=>letsChat(context,index),
+                           color: Colors.green[300],
+                         );
 }
 
 
@@ -250,15 +275,7 @@ void _onClickedAdd(BuildContext context) {
                 }
 
                 
-              });
-
-
-            // // Create the channel_ID and pass it to the chat widget so discussion can begin
-            // String channelID = fbuser.uid + "_"  +  _sqlDataRows[index]['uid'] + '_' + _sqlDataRows[index]['bike_id'];
-            // Map<dynamic,dynamic> channel = new Map();
-            // channel['channel_id'] = channelID;
-            // channel['title'] = _sqlDataRows[index]['model'];
-            
+              }); 
            
         }
     });

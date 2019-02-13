@@ -3,10 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
-import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/services/firebaseservice.dart';
+import 'package:bike_demo/utils/tools.dart';
+import 'package:bike_demo/utils/user.dart';
 import 'package:bike_demo/constants/globals.dart';
-import 'package:bike_demo/services/imageservice.dart';
 
 
 class ChatListWidget extends StatefulWidget {
@@ -36,7 +35,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
 
           _currentUserDisplayName = fbuser.displayName;
           _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-           new FireBaseService().getChannelList(uid: fbuser.uid).then((List channels){
+           new User().getChannelList(uid: fbuser.uid).then((List channels){
              _channels = channels; // We need to assign this so we can detect the user selection
             setState(() {
               _bodyWidget = buildChannelListWidget( channels: _channels );
@@ -78,11 +77,18 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemCount: channels.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
+                 contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 20.0, 10.0) ,
                  title: new Text(channels[index]['frame_size'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
-                subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), // new Text(channels[index]['toDisplayName']),
-                trailing: new Text(new Tools().getDuration(utcDatetime:channels[index]['datetime']),
-                               style: TextStyle(fontSize: baseFontSmaller),   ),
-                 leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['photoName']),
+                //subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), 
+                trailing: Row(children: <Widget>[
+                            new Text(new Tools().getDuration(utcDatetime:channels[index]['datetime']),
+                                 style: TextStyle(fontSize: baseFontSmaller),   ),
+                            new Icon(Icons.chevron_right),
+                ],
+                mainAxisSize:MainAxisSize.min ,
+                ),         
+                leading:new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), 
+                // leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['photoName']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

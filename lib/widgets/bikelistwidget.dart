@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/services/webservice.dart';
-import 'package:bike_demo/toolbox/tools.dart';
+import 'package:bike_demo/utils/tools.dart';
 import 'package:bike_demo/widgets/bikeaddwidget.dart';
-import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/utils/notify.dart';
 import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
-import 'package:bike_demo/services/firebaseservice.dart';
+import 'package:bike_demo/utils/user.dart';
 import 'package:bike_demo/constants/globals.dart';
 import 'package:bike_demo/services/imageservice.dart';
 
@@ -253,7 +253,7 @@ void _onClickedAdd(BuildContext context) {
 
 
           // Add the channel to SQL DB
-          new FireBaseService().addChannel( 
+          new User().addChannel( 
                     signedInUID: fbuser.uid,
                     bikeID: _sqlDataRows[index]['bike_id'],
                     toUID: _sqlDataRows[index]['uid'],

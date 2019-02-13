@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 
 import 'package:bike_demo/chat/message.dart';
-import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/utils/notify.dart';
 
 
 final String _baseTable = "channels";

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bike_demo/toolbox/tools.dart';
-import 'package:bike_demo/toolbox/Notification.dart';
+import 'package:bike_demo/utils/tools.dart';
 import 'package:bike_demo/constants/globals.dart';
+import 'package:bike_demo/utils/topic.dart';
+
 
 class NotificationListWidget extends StatefulWidget {
 @override
@@ -29,7 +30,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
       // display the notifications
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
-      getTopics().then((List topics){
+      getTopicNotifications().then((List topics){
         _topics = topics; // We store it so we can access it when  user clicks
         setState(() {
           _bodyWidget = buildTopicListWidget( topics: topics );
@@ -72,7 +73,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                 subtitle: new Text(topics[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),    ),
                trailing: new Text(new Tools().getDuration(utcDatetime:topics[index]['datetime']),
                               style: TextStyle(fontSize: baseFontSmaller),   ),
-               // leading: getImage( key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
+               // leading: new ImageService().getImage( key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -84,16 +85,16 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
 
   // Retrieve all the  topics
-  Future<List> getTopics() async {
+  Future<List> getTopicNotifications() async {
     List bikeAddedList;
     List reviewPostedList; 
     List advertisementList;
 
     // TODO:  topics are hardcoded here, but should be based on user's profile, whether they 
     // subscribe or not to a topic
-    reviewPostedList = await new Notificaton().pull(topicName: "reviewPosted");
-    bikeAddedList = await new Notificaton().pull( topicName: "bikeAdded");
-    advertisementList = await new Notificaton().pull( topicName: "advertisement");
+    reviewPostedList = await new Topic().pullNotifcations(topicName: "reviewPosted");
+    bikeAddedList = await new Topic().pullNotifcations( topicName: "bikeAdded");
+    advertisementList = await new Topic().pullNotifcations( topicName: "advertisement");
 
     List topicList = [reviewPostedList, bikeAddedList, advertisementList].expand((x) => x).toList();
     topicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));

@@ -14,12 +14,16 @@ void main() {
 /*
 TODO:  
 
-- Test everything then sync up. 
+- Incorporate getting topics from FB (see firebaseservice.gettopics)
+  and not hard coding the topics anwywhere.  
+- Implement a feature in the user fb, where they can subsribe or unscribe to topics. 
+  include "topics" and the topic list under each user (if exist it's subscribed to by that user)
 
 - Start work on User Profile tab.  
   add radius
   allow to select photo 
   add units (miles /km)
+  allow topics to be subscribed to
   bikes you have listed
     allow capability to delete. 
   

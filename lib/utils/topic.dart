@@ -1,35 +1,26 @@
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-
-
-
-/*
-  This class registers listening to topics. 
-*/
-
-class Notificaton {
-  
-  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+class Topic {
 
   DatabaseReference _ref; 
   String rootNode = 'topics';
 
-  Notificaton() {
+  Topic() {
     _ref = FirebaseDatabase.instance.reference().child(rootNode);
   }
 
 
 
   // Add the notification to the topic. Note that photoURL and websiteURL are optional
-  void add({  @required String topicName, 
-                          @required String displayName, 
-                          @required String uid, 
-                          @required String content, 
-                          String photoURL, String websiteURL}) {
+  void addNotification({  
+              String topicName, 
+              String displayName, 
+              String uid, 
+              String content, 
+              String photoURL, 
+              String websiteURL}) {
       DatabaseReference topicRef = _ref.child(topicName);
       topicRef.push().set(
         {
@@ -46,7 +37,7 @@ class Notificaton {
 
 
     // Get the list of notifications associated with the topic
-    Future<List> pull({String topicName}) async {
+    Future<List> pullNotifcations({String topicName}) async {
 
       if (_ref==null) return null; // Need to ensure we have a valid ref before making the call
       List _list = [];
@@ -69,9 +60,29 @@ class Notificaton {
 
 
 
-  // we call this method when we want to register for listening to fcm
+
+  // Get a list of all the topics
+  Future<List> getTopicList() async {
+    List list=[];
+    DatabaseReference ref = new FirebaseDatabase().reference().child("topics");
+    if (ref==null) return null; // Need to ensure we have a valid ref before making the call
+    DataSnapshot snapshot = await ref.once();
+    snapshot.value.forEach((k,v) {
+      list.add(k); // k is the top level items (it the topic names).  v would be the data/items associated with each k
+    });
+
+    return list;
+
+  }
+
+
+
+
+  // Subsribe to listening to the topics
   void listen() {
  
+      FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {  // executes when the app is running
             // print("onMessage: ${message.toString()}");
@@ -108,4 +119,6 @@ class Notificaton {
 
 
 
-} // end of class
+
+ 
+}

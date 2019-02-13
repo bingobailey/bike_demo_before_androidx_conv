@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/services/webservice.dart';
-import 'package:bike_demo/toolbox/notify.dart';
-import 'package:bike_demo/toolbox/notification.dart';
+import 'package:bike_demo/utils/notify.dart';
+import 'package:bike_demo/utils/topic.dart';
 import 'package:bike_demo/constants/tables.dart';
 import 'package:bike_demo/constants/globals.dart';
 
@@ -336,14 +336,14 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
        });
 
 
-       // TODO: should not hardcode "bikeAdded" here
+  
      
       // Add the notification to the Firebase, which will send to all users listening to that topic
       String content = "Check it out ! " +  _selectedSize + " " + _selectedModel;
-      new Notificaton().add( displayName: _displayName, 
-                             content:content, 
-                             topicName: "bikeAdded", 
-                             uid: _uid);
+      new Topic().addNotification( displayName: _displayName, 
+                           content: content, 
+                         topicName: "bikeAdded", 
+                               uid: _uid);
          
 
       // Add the bike to the SQL DB

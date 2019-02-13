@@ -4,8 +4,8 @@ import 'package:bike_demo/chat/chatlistwidget.dart';
 import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/bikelistwidget.dart';
-import 'package:bike_demo/toolbox/notification.dart';
-import 'package:bike_demo/toolbox/tools.dart';
+import 'package:bike_demo/utils/topic.dart';
+import 'package:bike_demo/utils/tools.dart';
 
 class TabBarWidget extends StatefulWidget {
   @override
@@ -78,7 +78,7 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   // Startsup and initializes
   void startUp () {
      new Tools().getGPSLocation(); // get the gps location
-     new Notificaton().listen();  // We call the notification class to initiate listening for msg etc 
+     new Topic().listen();  // We call the notification class to initiate listening for msg etc 
   }
  
 

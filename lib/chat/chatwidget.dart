@@ -8,7 +8,7 @@ import 'package:bike_demo/constants/platformconstants.dart';
 import 'package:bike_demo/chat/message.dart';
 import 'package:bike_demo/chat/channel.dart';
 import 'package:bike_demo/chat/channelheader.dart';
-import 'package:bike_demo/toolbox/notify.dart';
+import 'package:bike_demo/utils/notify.dart';
 import 'package:bike_demo/constants/globals.dart';
 
 

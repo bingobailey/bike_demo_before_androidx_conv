@@ -23,6 +23,21 @@ class User {
   }
 
 
+  Future<void> setSubscribedTopics({String uid, List topicList}) async {
+
+      DatabaseReference ref = new FirebaseDatabase().reference().child("users/$uid");
+      if (ref==null) return; // Need to ensure we have a valid ref before making the call
+        ref.update( 
+          {
+            'topics': topicList,
+          });
+    }
+
+  
+
+  
+
+
   // GET the FCM Token
   Future<String> getFCMToken({String uid}) async {
     DatabaseReference ref = new FirebaseDatabase().reference().child("users/$uid");
@@ -151,7 +166,6 @@ class User {
 
     return result;
        
-
  }
 
 /*
@@ -228,6 +242,5 @@ class User {
 */
 
 
-
-
 }
+

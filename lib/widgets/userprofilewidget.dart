@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/constants/globals.dart';
+import 'package:bike_demo/utils/user.dart';
+import 'package:bike_demo/services/firebaseservice.dart';
+
+import 'package:bike_demo/utils/topic.dart';
 
 class UserProfileWidget extends StatefulWidget {
 
@@ -13,6 +17,61 @@ class UserProfileWidget extends StatefulWidget {
 
 
 class _UserProfileWidgetState extends State<UserProfileWidget> {
+
+
+@override
+  void initState() {
+    super.initState();
+
+  // TODO:  Testing purposes only 
+
+  String uid = "l2DAcHjx79VfwWfZyM4IUUjMKs72";
+
+     new Topic().getTopicList().then((List list){
+      
+      print('topiclist = $list');
+    });
+
+    new Topic().addNotification(uid: uid, content: 'my context', displayName: 'bingo baily', photoURL: 'kurlphoto', topicName: 'advertisement', websiteURL: 'myurl.com');
+
+  
+    // new FirebaseService().setProperty(rootDir: "users/$uid", propertyName: 'displayName', propertyValue: 'chuppy');
+
+    // new FirebaseService().getProperty(rootDir: "users/$uid", propertyName: 'displayName').then((dynamic name) {
+    //   print("name = $name");
+    // });
+
+    Map property =Map<String,dynamic>(); 
+    property.putIfAbsent('bikeAdded', ()=>true);
+    property.putIfAbsent('advertisement', ()=>false);
+    
+    new FirebaseService().setProperty(rootDir: "users/$uid",  propertyName: 'topics', propertyValue:property);
+
+    // new FirebaseService().getKeys(rootDir: "topics").then((List list) {
+    //   print("key list = $list");
+    // });
+
+    // new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'topics').then((dynamic value) {
+    //   print("value = $value");
+
+    // });
+
+
+    // new FirebaseService().getProperties(rootDir: "users/$uid/topics").then((List list){
+    //   list.forEach((item){
+    //     print("item = $item");
+    //   });
+
+    
+
+
+    //new User().setSubscribedTopics(uid:uid, topicList: list );
+
+
+
+
+  }
+
 
 
 @override

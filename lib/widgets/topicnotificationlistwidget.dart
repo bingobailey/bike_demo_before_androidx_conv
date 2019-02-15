@@ -7,16 +7,16 @@ import 'package:bike_demo/constants/globals.dart';
 import 'package:bike_demo/utils/topic.dart';
 
 
-class NotificationListWidget extends StatefulWidget {
+class TopicNotificationListWidget extends StatefulWidget {
 @override
   State<StatefulWidget> createState() {
-    return new _NotificationListWidgetState();
+    return new _TopicNotificationListWidgetState();
   }
 
 }
 
 
-class _NotificationListWidgetState extends State<NotificationListWidget> {
+class _TopicNotificationListWidgetState extends State<TopicNotificationListWidget> {
  
   List _topics;  // need this so we can associate which index the use clicks on
 
@@ -27,6 +27,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
   @override
     void initState() {
       super.initState();
+
 
       // display the notifications
       _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
@@ -70,7 +71,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
                 title: new Text(topics[index]['content'], style: TextStyle(fontSize: baseFont),  ),
-                subtitle: new Text(topics[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),    ),
+                subtitle: new Text(topics[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),),
                trailing: new Text(new Tools().getDuration(utcDatetime:topics[index]['datetime']),
                               style: TextStyle(fontSize: baseFontSmaller),   ),
                // leading: new ImageService().getImage( key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),
@@ -92,9 +93,9 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
 
     // TODO:  topics are hardcoded here, but should be based on user's profile, whether they 
     // subscribe or not to a topic
-    reviewPostedList = await new Topic().pullNotifcations(topicName: "reviewPosted");
-    bikeAddedList = await new Topic().pullNotifcations( topicName: "bikeAdded");
-    advertisementList = await new Topic().pullNotifcations( topicName: "advertisement");
+    reviewPostedList = await new Topic().pullNotifications(topicName: "reviewPosted");
+    bikeAddedList = await new Topic().pullNotifications( topicName: "bikeAdded");
+    advertisementList = await new Topic().pullNotifications( topicName: "advertisement");
 
     List topicList = [reviewPostedList, bikeAddedList, advertisementList].expand((x) => x).toList();
     topicList.sort((a,b) => a['datetime'].compareTo(b['datetime']));

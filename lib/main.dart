@@ -13,11 +13,13 @@ void main() {
 
 /*
 TODO:  
+- Add getSubscribedTopics method to User()
+- TEst out in userprofilewidget
+- on account create, set the default subscribed topics associated with the user
+- change listner of topics to listen to only topics associated with user. 
+- identify anwhere in app hardcoding is done with topics
+- start on userprofilewidet (see below)
 
-- Incorporate getting topics from FB (see firebaseservice.gettopics)
-  and not hard coding the topics anwywhere.  
-- Implement a feature in the user fb, where they can subsribe or unscribe to topics. 
-  include "topics" and the topic list under each user (if exist it's subscribed to by that user)
 
 - Start work on User Profile tab.  
   add radius

@@ -7,13 +7,14 @@ class Topic {
 
   // Add the notification to the topic. Note that photoURL and websiteURL are optional
   void addNotification({  
-              String topicName, 
+              String topic, 
               String displayName, 
               String uid, 
               String content, 
               String photoURL, 
               String websiteURL}) {
 
+      // we create a map object so we can send it to firebase to be added as a node
        Map node =  {
            'photoURL' : photoURL,
            'websiteURL' : websiteURL,
@@ -24,18 +25,18 @@ class Topic {
         };
 
 
-      new FirebaseService().addChild(rootDir: 'topics/$topicName', childNode: node); 
+      new FirebaseService().addChild(rootDir: 'topics/$topic', childNode: node); 
 
   }
 
 
-    // Get the list of notifications associated with the topic
-    Future<List> pullNotifications({String topicName}) async {
+  // Get the list of notifications associated with the topic
+   Future<List> pullNotifications({String topic}) async {
 
-      // The values associated with each topic (ie key), are the notifications
-      List topicNotifications = await new FirebaseService().getValues(rootDir: "topics/$topicName");
-      return topicNotifications;
-    }
+     // The values associated with each topic (ie key), are the notifications
+     List topicNotifications = await new FirebaseService().getValues(rootDir: "topics/$topic");
+     return topicNotifications;
+   }
 
 
   // Get a list of all the topics
@@ -80,13 +81,18 @@ class Topic {
               print("Settings registered: $settings");
             });
  
-        // TODO:  Right now we have the topics hardcoded.  Should be based on the user's
+        // TODO: filter out topics the user has not subscribed to
 
+        // Get a list of topics and subscribe to them. 
+        new Topic().getTopicList().then((List list){
+          
+          list.forEach((topic) {
+            _firebaseMessaging.subscribeToTopic(topic);
 
-        // profile.  The default could be turned on
-        _firebaseMessaging.subscribeToTopic("reviewPosted");
-        _firebaseMessaging.subscribeToTopic("bikeAdded");
-        _firebaseMessaging.subscribeToTopic("advertisement");
+          });
+    
+        });
+
 
     }
 

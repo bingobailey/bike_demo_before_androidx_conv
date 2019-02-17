@@ -135,7 +135,7 @@ class FirebaseService {
 
 
 
-  // Get a list of all the topics
+  // Get a list of all the keys
   Future<List> getKeys({String rootDir}) async {
     List list=[];
     DatabaseReference ref = new FirebaseDatabase().reference().child(rootDir);
@@ -149,29 +149,44 @@ class FirebaseService {
   }
 
 
+  // Setting the property to null, should remove it
+  void removeProperty({String rootDir, String propertyName}) {
+      this.setProperty(rootDir: rootDir, propertyName: propertyName, propertyValue: null );
+  }
+
+
+  // Remove a node
+  void removeNode({String rootDir, String node}) {
+
+    DatabaseReference ref = new FirebaseDatabase().reference().child(rootDir + '/' + node);
+    if (ref==null) return null; // Need to ensure we have a valid ref before making the call
+    ref.remove();
+
+  }
+
 
   // Get the list of values  associated with the root
   Future<List> getValues({String rootDir}) async {
 
-  DatabaseReference ref = new FirebaseDatabase().reference().child(rootDir);
-      if (ref==null) return null; // Need to ensure we have a valid ref before making the call
+    DatabaseReference ref = new FirebaseDatabase().reference().child(rootDir);
+    if (ref==null) return null; // Need to ensure we have a valid ref before making the call
 
-      List valueList =[];
-      Query query = ref.orderByKey();
-      DataSnapshot snapshot = await query.once(); // get the data
-      if (snapshot.value==null) return []; // return an empty list.  Nothing found
+    List valueList =[];
+    Query query = ref.orderByKey();
+    DataSnapshot snapshot = await query.once(); // get the data
+    if (snapshot.value==null) return []; // return an empty list.  Nothing found
 
-      snapshot.value.forEach( (k,v) {
-        valueList.add(v);
-        //_list.add(v);
-        // print("k = $k");
-        // print("topic = $topicName");
-        // print("content = ${v['content']}");
-        // print("displayname = ${v['displayName']}");
-      });
+    snapshot.value.forEach( (k,v) {
+      valueList.add(v);
+      //_list.add(v);
+      // print("k = $k");
+      // print("topic = $topicName");
+      // print("content = ${v['content']}");
+      // print("displayname = ${v['displayName']}");
+    });
 
-      return valueList;
-    }
+    return valueList;
+  }
 
 
 

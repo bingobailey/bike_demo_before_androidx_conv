@@ -342,7 +342,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       String content = "Check it out ! " +  _selectedSize + " " + _selectedModel;
       new Topic().addNotification( displayName: _displayName, 
                            content: content, 
-                         topicName: "bikeAdded", 
+                             topic: "bikeAdded", 
                                uid: _uid);
          
 

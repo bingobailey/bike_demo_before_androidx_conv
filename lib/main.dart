@@ -13,13 +13,15 @@ void main() {
 
 /*
 TODO:  
-- Add getSubscribedTopics method to User()
-- TEst out in userprofilewidget
-- on account create, set the default subscribed topics associated with the user
-- change listner of topics to listen to only topics associated with user. 
+- In topic.dart, add in user method (getSubscribedTopics).  If no topics are found for the user,
+  by default the user is subscribed to all topics.  we want to do it this way because if not, we would
+  be required to store all the topics for each user, not necessary.  also anytime a new topic is added, the user w
+  will by default be subscribed to it without having to do anything.  If  topic exists, check to see if the property is true 
+  (subsribed) or false not subscribed.  the reason is, on the profile widget if the user turns the subscrption off,
+  then we well set the topic property to 'false'.  if they turn it back on again, it will be set to true.  
+  
 - identify anwhere in app hardcoding is done with topics
 - start on userprofilewidet (see below)
-
 
 - Start work on User Profile tab.  
   add radius

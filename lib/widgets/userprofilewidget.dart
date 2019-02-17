@@ -32,7 +32,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       print('topiclist = $list');
     });
 
-    new Topic().addNotification(uid: uid, content: 'my context', displayName: 'bingo baily', photoURL: 'kurlphoto', topicName: 'advertisement', websiteURL: 'myurl.com');
+    //new Topic().addNotification(uid: uid, content: 'my context', displayName: 'bingo baily', photoURL: 'kurlphoto', topic: 'advertisement', websiteURL: 'myurl.com');
 
   
     // new FirebaseService().setProperty(rootDir: "users/$uid", propertyName: 'displayName', propertyValue: 'chuppy');
@@ -41,11 +41,27 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     //   print("name = $name");
     // });
 
-    Map property =Map<String,dynamic>(); 
-    property.putIfAbsent('bikeAdded', ()=>true);
-    property.putIfAbsent('advertisement', ()=>false);
+    // Map property =Map<String,dynamic>(); 
+    // property.putIfAbsent('bikeAdded', ()=>true);
+    // property.putIfAbsent('advertisement', ()=>false);
     
-    new FirebaseService().setProperty(rootDir: "users/$uid",  propertyName: 'topics', propertyValue:property);
+    //new User().unsubscribeFromTopic(uid: uid, topic: 'advertisement');
+    //new User().unsubscribeFromTopic(uid: uid, topic: 'bikeAdded');
+
+    new User().subscribeToTopic(uid: uid, topic: 'advertisement');
+
+
+    new User().getTopicsSubscribed(uid:uid).then(( List list) {
+      print("unsubs topics = $list");
+
+    });
+
+
+     //new FirebaseService().setProperty(rootDir: "users/$uid",  propertyName: 'topics', propertyValue:property);
+
+    //new FirebaseService().removeProperty(rootDir: "users/$uid/topics", propertyName: 'advertisement' );
+
+    //new FirebaseService().removeNode(rootDir: "users/$uid", node: 'topics');
 
     // new FirebaseService().getKeys(rootDir: "topics").then((List list) {
     //   print("key list = $list");

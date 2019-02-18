@@ -1,16 +1,17 @@
 
-import 'package:flutter/material.dart'; 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/material.dart';
 
 import 'package:bike_demo/utils/account.dart';
 import 'package:bike_demo/utils/tools.dart';
+import 'package:bike_demo/services/locationservice.dart';
 
 
-class _AccountData {
+class AccountData {
   String email = '';
   String password = '';
   String username = '';
+  double latitude;
+  double longitude;
   Tools tools = new Tools();
 
   String toString() {
@@ -30,35 +31,26 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   // Attributes: 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  _AccountData _accountData = new _AccountData();
-  Account _account = new Account();
+ 
+  AccountData _accountData;
+  Account _account;
   bool _isLoading=false;
-  double _latitude;
-  double _longitude;
 
   @override
      initState()  {
       super.initState();
 
-          SharedPreferences.getInstance().then((prefs) {
-              _latitude = prefs.getDouble('latitude');
-              _longitude = prefs.getDouble('longitude');
-          });
+        _accountData = new AccountData();
+        _account = new Account();
 
-          print("_latitude = $_latitude");
+        new LocationService().getGPSLocation().then((Location location) {
+          _accountData.latitude =location.latitude;
+          _accountData.longitude =location.longitude;
+        });
 
           // TODO:  if latitude and longitdue are null, should call geolocation again.
 
-          if( _latitude == null || _longitude == null) {
-            new Tools().getGPSLocation().then((Position p){
-                  print(p.toString());
-            });
-
-          }
-
-
     }
-
 
 
 //                ********** Build Methods ************
@@ -223,8 +215,8 @@ Widget buildActionButton() {
         email: _accountData.email, 
         password: _accountData.password, 
         username: _accountData.username,
-        latitude: _latitude,
-        longitude: _longitude,
+        latitude: _accountData.latitude,
+        longitude: _accountData.longitude,
         ).then( ( Map<String,dynamic> result) { 
           
           bool isSuccessful = result['status'];

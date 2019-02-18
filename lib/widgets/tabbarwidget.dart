@@ -40,18 +40,14 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
   Widget build(BuildContext context) {
 
       return new Scaffold( 
- 
-// TODO: switched notificationlistwidget to be first in the tab sequence, so the bikelistwidget
-//       would have time to get the lat and lng, the first time the user loads the app.   There may be
-//       a better way to do this but for now this works. 
 
           resizeToAvoidBottomPadding: false,
           body: new TabBarView( // Create a TabView and place the pages inside.In order of tabs above
             controller: _controller,
             children: <Widget>[
-              new NotificationListWidget(),
-              new BikeListWidget(),   
+              new BikeListWidget(),
               new ChatListWidget(),
+              new NotificationListWidget(),
               new UserProfileWidget(),
             
             ]
@@ -63,9 +59,9 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
              child: new TabBar(  // This is the same code used above
              controller: _controller,
              tabs: <Tab>[
-              new Tab( icon: new Icon(Icons.notifications)),
               new Tab( icon: new Icon(Icons.directions_bike)),
               new Tab( icon: new Icon(Icons.chat)),
+              new Tab( icon: new Icon(Icons.notifications)),
               new Tab( icon: new Icon(Icons.person)),
            ]))
 
@@ -77,7 +73,6 @@ class _TabBarWidgetState extends State<TabBarWidget>  with SingleTickerProviderS
 
   // Startsup and initializes
   void startUp () {
-     new Tools().getGPSLocation(); // get the gps location
      new Topic().listen();  // We call the notification class to initiate listening for msg etc 
   }
  

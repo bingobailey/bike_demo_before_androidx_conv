@@ -2,6 +2,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:bike_demo/services/firebaseservice.dart';
+import 'package:bike_demo/utils/user.dart';
 
 class Topic {
 
@@ -81,18 +82,13 @@ class Topic {
               print("Settings registered: $settings");
             });
  
-        // TODO: filter out topics the user has not subscribed to
 
-        // Get a list of topics and subscribe to them. 
-        new Topic().getTopicList().then((List list){
-          
-          list.forEach((topic) {
+        // Get a list of all topics the user has subscribed and start listenting 
+        new User().getTopicsSubscribed().then((List list) {
+        list.forEach((topic) {
             _firebaseMessaging.subscribeToTopic(topic);
-
           });
-    
         });
-
 
     }
 

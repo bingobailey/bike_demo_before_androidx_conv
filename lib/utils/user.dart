@@ -44,10 +44,33 @@ class User {
 
   // GEt the Display Name
   Future<String> getDisplayName({String uid}) async {
-
     String displayName = await new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'displayName');
     return displayName;
   }
+
+
+  // Set the radius
+  Future<void> setRadius({String uid, double radius}) async {
+     new FirebaseService().setProperty(rootDir: 'users/$uid',propertyName: 'radius', propertyValue: radius);
+  }
+
+  // Get radius
+  Future<double> getRadius({String uid}) async {
+    double radius = await new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'radius');
+    return radius;
+  }
+
+  // Set the units (ie 'km'  or 'm')
+  Future<void> setUnits({String uid, String units}) async {
+     new FirebaseService().setProperty(rootDir: 'users/$uid',propertyName: 'units', propertyValue: units);
+  }
+
+  // GEt units
+  Future<String> getUnits({String uid}) async {
+    String units = await new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'units');
+    return units;
+  }
+
 
   // Return a list of the topics the user is not subscribed to 
   Future<List> getTopicsNotSubscribed({String uid}) async {
@@ -72,11 +95,6 @@ class User {
 
     return topics;
   }
-
-
-
-
-
 
 
   // Add the topic the user is not subscribed to 

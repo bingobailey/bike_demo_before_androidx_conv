@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bike_demo/constants/globals.dart';
 import 'package:bike_demo/utils/user.dart';
-import 'package:bike_demo/services/firebaseservice.dart';
 
 import 'package:bike_demo/utils/topic.dart';
 

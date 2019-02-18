@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';   // don't remove this if u are using Duration, otherwise will crash
-import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'package:bike_demo/widgets/loginwidget.dart';
 import 'package:bike_demo/widgets/signupwidget.dart';
@@ -177,30 +176,6 @@ class Tools {
    });
 
  }
-
-
-  // Get the Location
-  Future<Position> getGPSLocation() async {
-      // Get the location of the device 
-      Position p = await Geolocator().getCurrentPosition( desiredAccuracy: LocationAccuracy.best);
-      if (p==null) {
-        // TODO:  If we cannot deterine location, probably need to display something 
-          print("could not determine location");
-      } else {
-
-        // Save to disk
-        SharedPreferences.getInstance().then((prefs) {
-             prefs.setDouble('latitude',p.latitude);
-            prefs.setDouble('longitude',p.longitude);
-        });
-      }
-
-      return p;
-  
-   }
-
-
-
 
 
 

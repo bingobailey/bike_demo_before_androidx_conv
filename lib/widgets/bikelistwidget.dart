@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:bike_demo/services/webservice.dart';
 import 'package:bike_demo/utils/tools.dart';
@@ -12,6 +11,7 @@ import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/utils/user.dart';
 import 'package:bike_demo/constants/globals.dart';
 import 'package:bike_demo/services/imageservice.dart';
+import 'package:bike_demo/services/locationservice.dart';
 
 
 
@@ -33,9 +33,6 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   String _service = 'XselectBikes.php';
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
   String _uid;
-
-  double _latitude;
-  double _longitude; 
 
 // We use this widget to switch out the progress indicator
   Widget _bodyWidget; 
@@ -91,47 +88,40 @@ AppBar buildAppBar(BuildContext context) {
 
 // Refresh the screen, get user logged in, preferences, build where clause.  its called at 
 // beginning of program and after a bike has been added
-  void refreshScreen() {
+  Future<void> refreshScreen() async {
 
-    // assign the uid to the user logged in
-      FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-        if (user!=null) {
+      _bodyWidget = new Tools().showProgressIndicator();
+
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      if (user!=null) {
           _uid = user.uid;
-        }
-      });
+       }
 
-      // get the location
-        SharedPreferences.getInstance().then((prefs) {
-          _latitude = prefs.getDouble('latitude');
-          _longitude = prefs.getDouble('longitude');
-
-
-
-// TODO: if latitude and longitude are null, might need to re-arrange this and call
-//       geolocation here
-          String whereClause = "'1=1'"; // We use this to display all the bikes initially
-          selectBikes(whereClause: whereClause);
-      });
-
-      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+      String whereClause = "'1=1'"; // We use this to display all the bikes initially
+      selectBikes(whereClause: whereClause);
+      
   }
 
 
 
   // Run the webservice and build the SQLData and set it to the bodyWidget
-  void selectBikes({@required String whereClause }) {
+  Future<void> selectBikes({@required String whereClause }) async {
 
-    // TODO: radius should not be hardcoded here.  set by user parms
-    double radius = 25.0;
+      // Let's get the location and send it along with the query
+      Location location = await new LocationService().getGPSLocation();
+      double latitude = location.latitude;
+      double longitude = location.longitude;
 
-    // TODO:  units should not be hardcoded here.  set by parms
-    //        acceptable values:  km   or  m   
+      // Get the radius and unit from the user
+      double radius = await new User().getRadius(uid: _uid);
+      String units = await new User().getUnits(uid: _uid);
+      if (radius==null || radius==0.0) radius = cRadius;
+      if (units== null) units =cUnits;
 
-    String units = 'm';
 
     var payload = {
-      'latitude':_latitude, 
-      'longitude':_longitude,
+      'latitude':latitude, 
+      'longitude':longitude,
       'radius':radius, 
       'units':units, 
       'whereClause':whereClause
@@ -190,7 +180,7 @@ AppBar buildAppBar(BuildContext context) {
                             ),
                     title: Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'], style: TextStyle(fontSize: baseFont),),
                     subtitle: Text(sqlDataRows[index]['action'], style:new TextStyle(fontSize: baseFontSmaller)),
-                    trailing: Text(sqlDataRows[index]['distance'] + units , style: new TextStyle(fontSize: baseFontSmaller),),
+                    trailing: Text(sqlDataRows[index]['distance'] + ' ' + units , style: new TextStyle(fontSize: baseFontSmaller),),
                   ),
 
                   ListTile(

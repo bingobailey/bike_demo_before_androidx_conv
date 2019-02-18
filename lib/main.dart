@@ -13,13 +13,11 @@ void main() {
 
 /*
 TODO:  
-- In topic.dart, add in user method (getSubscribedTopics).  If no topics are found for the user,
-  by default the user is subscribed to all topics.  we want to do it this way because if not, we would
-  be required to store all the topics for each user, not necessary.  also anytime a new topic is added, the user w
-  will by default be subscribed to it without having to do anything.  If  topic exists, check to see if the property is true 
-  (subsribed) or false not subscribed.  the reason is, on the profile widget if the user turns the subscrption off,
-  then we well set the topic property to 'false'.  if they turn it back on again, it will be set to true.  
-  
+
+- Test out placing bikelistwidget first in the tab sequence and see if the gps works
+- display dialog box if lat and long are null, to retry getting position.  REtry Cancel etc. 
+
+
 - identify anwhere in app hardcoding is done with topics
 - start on userprofilewidet (see below)
 
@@ -34,7 +32,8 @@ TODO:
 - Start work on charging explore;
     in app purchases
 
-
+- Might need to store general location lat and long, instead of exact location.  or use a more relaxed accuracy 
+  method
 
 - Create an algorithm that deletes channels in SQLDb and FB based on date (ie delete all <= date)
 

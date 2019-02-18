@@ -30,7 +30,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
       super.initState();
 
       // display the notifications
-      _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+      _bodyWidget = new Tools().showProgressIndicator();
       getNotifications().then((List notifications){
         _notifications = notifications; // We store it so we can access it when  user clicks
         setState(() {

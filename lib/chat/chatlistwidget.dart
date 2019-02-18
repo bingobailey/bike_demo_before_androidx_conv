@@ -34,7 +34,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
         if (fbuser !=null) {
 
           _currentUserDisplayName = fbuser.displayName;
-          _bodyWidget = new Tools().showProgressIndicator( title: "Loading...");
+          _bodyWidget = new Tools().showProgressIndicator();
            new User().getChannelList(uid: fbuser.uid).then((List channels){
              _channels = channels; // We need to assign this so we can detect the user selection
             setState(() {

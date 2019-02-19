@@ -31,6 +31,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       print('topiclist = $list');
     });
 
+
+    //new User().setUnits(uid: uid, units: 'km' );
+
     //new Topic().addNotification(uid: uid, content: 'my context', displayName: 'bingo baily', photoURL: 'kurlphoto', topic: 'advertisement', websiteURL: 'myurl.com');
 
   
@@ -86,6 +89,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
 
   }
+
 
 
 

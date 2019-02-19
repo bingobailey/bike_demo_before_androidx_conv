@@ -14,11 +14,9 @@ void main() {
 /*
 TODO:  
 
-- Test out placing bikelistwidget first in the tab sequence and see if the gps works
-- display dialog box if lat and long are null, to retry getting position.  REtry Cancel etc. 
-
 
 - identify anwhere in app hardcoding is done with topics
+
 - start on userprofilewidet (see below)
 
 - Start work on User Profile tab.  
@@ -32,8 +30,6 @@ TODO:
 - Start work on charging explore;
     in app purchases
 
-- Might need to store general location lat and long, instead of exact location.  or use a more relaxed accuracy 
-  method
 
 - Create an algorithm that deletes channels in SQLDb and FB based on date (ie delete all <= date)
 

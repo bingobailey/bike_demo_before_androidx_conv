@@ -167,6 +167,40 @@ AppBar buildAppBar(BuildContext context) {
             itemCount: sqlDataRows.length,
             itemBuilder:(BuildContext context, int index) {
 
+              // If it's a different user, don't return a dismissable object (ie user can only delete their own)
+              if (sqlDataRows[index]['uid'] !=_uid) {
+
+                return buildListItem(context: context, index: index, sqlDataRows: sqlDataRows, units: units);
+              
+              } else { // This listing was by the user so they can delete it, we return dismissible
+
+                return Dismissible(
+                  key: Key(index.toString()), 
+                  background: Container(
+                    color: Colors.red, 
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: new Icon(Icons.delete, 
+                    color: Colors.white,), 
+                    alignment: Alignment.centerRight,),
+                  onDismissed: (direction) {
+                    setState(() {
+                      deleteBike(index: index,  bikeID: sqlDataRows[index]['bike_id']);
+                    });
+                  },
+                  child: buildListItem(context: context, index: index, sqlDataRows: sqlDataRows, units: units) ,
+                );
+              }
+
+          
+            } ,
+          )
+        );
+
+  }
+
+
+Widget buildListItem({BuildContext context, int index, List<dynamic> sqlDataRows, String units}) {
+
             return Card(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -192,12 +226,7 @@ AppBar buildAppBar(BuildContext context) {
               ),
             );
 
-            } ,
-          )
-        );
-
-  }
-
+}
 
  
 Widget buildContactButton({BuildContext context, int index}) {
@@ -279,6 +308,16 @@ void _onClickedAdd(BuildContext context) {
   }
       
       
+  void deleteBike({int index, String bikeID}) {
+
+    _sqlDataRows.removeAt(index);
+
+    print("delete the bike = $bikeID");
+
+  }
+
+
+
 
 
 } // end of class

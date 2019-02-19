@@ -307,12 +307,27 @@ void _onClickedAdd(BuildContext context) {
     refreshScreen();
   }
       
-      
+  // Remove bike from list and delete it from SQL DB
   void deleteBike({int index, String bikeID}) {
 
-    _sqlDataRows.removeAt(index);
+    _sqlDataRows.removeAt(index); // remove the item from the sqlrows, 
 
-    print("delete the bike = $bikeID");
+    // Call the delete bike service to delete the bike out of the SQL DB
+    var payload = {
+      'bike_id':bikeID,
+      };
+
+     new WebService().run(service: 'XdeleteBike.php', jsonPayload: payload).then((sqldata){
+
+        if (sqldata.httpResponseCode == 200) {
+         // Status code 200 indicates we had a succesful http call
+        } else {
+         // Something went wrong with the http call
+          print("Http Error: ${sqldata.toString()}");
+        }
+     }).catchError((e) {
+        print(" WebService error: $e");
+     });
 
   }
 

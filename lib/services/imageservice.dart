@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart';
+
 import 'package:bike_demo/constants/urllocation.dart';
 
 
@@ -13,13 +14,16 @@ class ImageService {
 
   // We wrap the image function here in case we need to change it out underneath
   // with something more advanced (in another package etc)
-  Widget getImage({String key, String image}) {
 
-    String photoURL = photoLocation + "/" + key + "/" + image;
+  Widget getImage({String uid, String imageName}) {
+    String photoURL = this.getImageURL(uid: uid, imageName: imageName);
     return Image.network(photoURL, height: 50, width: 50,);
-
   }
 
+  // Return the image location URL
+  String getImageURL({String uid, String imageName}) {
+    return photoLocation + "/" + uid + "/" + imageName;
+  }
 
 
 
@@ -75,11 +79,6 @@ class ImageService {
           return result;
       } 
     }
-
-
-
-
-
 
 
 } // End of imageservice class

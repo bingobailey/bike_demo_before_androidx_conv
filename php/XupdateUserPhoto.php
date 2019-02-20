@@ -10,18 +10,18 @@
     $ws->connect(getHost(), getUser(), getPwrd(), getDB());
     
     // pull the data
-    $latitude   = $ws->p('latitude');
-    $longitude  = $ws->p('longitude');
     $uid        = $ws->p('uid'); 
-    $displayName   = $ws->p('displayName'); 
-    $email      = $ws->p('email');
+    $imageName  = $ws-p>('imageName');
      
     // formulate the sql
-    $sql = "INSERT INTO user (uid, displayName, email, latitude, longitude, joindate) 
-    VALUES ( '$uid', '$displayName', '$email', '$latitude', '$longitude', CURDATE() )"; 
-    
+    $sql = "
+    UPDATE user
+    set imageName   = '$imageName'
+    WHERE uid = '$uid'
+    ";
+
     // insert and disconnect 
-    $ws->insert($sql);
+    $ws->update($sql);
     $ws->disconnect();
 
 

@@ -79,7 +79,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
               return new ListTile(
                  contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 20.0, 10.0) ,
                  title: new Text(channels[index]['frame_size'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
-                //subtitle: new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), 
+                //subtitle: new Text(channels[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),), 
                 trailing: Row(children: <Widget>[
                             new Text(new Tools().getDuration(utcDatetime:channels[index]['datetime']),
                                  style: TextStyle(fontSize: baseFontSmaller),   ),
@@ -87,8 +87,8 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                 ],
                 mainAxisSize:MainAxisSize.min ,
                 ),         
-                leading:new Text(channels[index]['username'],style: TextStyle(fontSize: baseFontSmaller),), 
-                // leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['photoName']),
+                leading:new Text(channels[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),), 
+                // leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['imageName']),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,

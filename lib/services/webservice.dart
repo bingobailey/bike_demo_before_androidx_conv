@@ -37,7 +37,6 @@ import 'package:bike_demo/constants/urllocation.dart';
   String serviceCalled;
   List rows;   // The rows returned from the query
 
-
   SQLData({this.serviceCalled}); // so we know what service was called associated with these results
 
   String toString() {

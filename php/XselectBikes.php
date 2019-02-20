@@ -36,8 +36,8 @@
     // if($rowsPaged==NULL) $rowsPaged=10000;
      
     $sql = "SELECT  user.uid, 
-                    user.username,
-                    user.photoName,
+                    user.displayName,
+                    user.imageName,
                     year,
                     model,
                     bike_id,

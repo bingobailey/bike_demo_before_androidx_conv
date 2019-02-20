@@ -39,7 +39,7 @@ final List<MessageWidget> _messagewidgets = <MessageWidget>[];   // this creates
 bool _isComposing=false; // used to disable the send button if not typing anything
 Channel channel;
 
-String _currentUsername;
+String _currentDisplayName;
 
 
 //  METHODS 
@@ -53,7 +53,7 @@ String _currentUsername;
 
     // We assign the current user to this chat widget so we can differeiante between messages and color appropriately
     FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser){
-      _currentUsername = fbuser.displayName;
+      _currentDisplayName = fbuser.displayName;
     });
 
 
@@ -173,7 +173,7 @@ void buildMessageWidget({Message message}) {
 // Create the chat message and pass the text and the animation controller 
   MessageWidget messagewidget = new MessageWidget(
     message: message,
-    currentUsername: _currentUsername, // we send the person signed in
+    currentDisplayName: _currentDisplayName, // we send the person signed in
     animationController: new AnimationController(      
       duration: new Duration(milliseconds: 500),   // this floats the message up from the bottom
       vsync: this,   

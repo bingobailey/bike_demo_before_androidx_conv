@@ -141,10 +141,6 @@ AppBar buildAppBar(BuildContext context) {
              _sqlDataRows = sqldata.rows;  // need to assign it, so we can identify which item is clicked
              _bodyWidget = buildListWidget( sqlDataRows: sqldata.rows, units: units);
           });
-        
-           for (var row in sqldata.rows) {
-             print(row.toString());
-           }
 
         // Something went wrong with the http call
         } else {
@@ -179,8 +175,7 @@ AppBar buildAppBar(BuildContext context) {
                   background: Container(
                     color: Colors.red, 
                     padding: EdgeInsets.only(right: 20.0),
-                    child: new Icon(Icons.delete, 
-                    color: Colors.white,), 
+                    child: new Icon(Icons.delete, color: Colors.white,), 
                     alignment: Alignment.centerRight,),
                   onDismissed: (direction) {
                     setState(() {
@@ -208,8 +203,8 @@ Widget buildListItem({BuildContext context, int index, List<dynamic> sqlDataRows
 
                   ListTile( 
                     leading: Column(children: <Widget>[
-                              new ImageService().getImage(key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photoName']),
-                              new Text(sqlDataRows[index]['username']),
+                              new ImageService().getImage(uid: sqlDataRows[index]['uid'],imageName: sqlDataRows[index]['imageName']),
+                              new Text(sqlDataRows[index]['displayName']),
                               ],
                             ),
                     title: Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'], style: TextStyle(fontSize: baseFont),),

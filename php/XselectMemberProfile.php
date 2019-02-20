@@ -10,14 +10,14 @@
     $ws->connect(getHost(), getUser(), getPwrd(), getDB());
 
     $requestor = $ws->p('requestor');
-    $username =  $ws->p('username');
+    $displayName =  $ws->p('displayName');
   
     // Construct SQL
     $sql = "SELECT  name, 
                     bike,
                     favorite_trail,
                     riding_category,
-                    username, 
+                    displayName, 
                     status,
                     photo_key_store,
                     photo_profile_name,
@@ -26,10 +26,10 @@
                     state,
                     receive_messages,
                     joindate,
-                    MemberBlock.blockee_username
+                    MemberBlock.blockee_displayName
             FROM    Member 
-       LEFT JOIN    MemberBlock ON (Member.username = MemberBlock.blocker_username AND MemberBlock.blockee_username = '$requestor')
-            WHERE   Member.username = '$username' LIMIT 1";
+       LEFT JOIN    MemberBlock ON (Member.displayName = MemberBlock.blocker_displayName AND MemberBlock.blockee_displayName = '$requestor')
+            WHERE   Member.displayName = '$displayName' LIMIT 1";
 
     $ws->select($sql);
     $ws->disconnect();

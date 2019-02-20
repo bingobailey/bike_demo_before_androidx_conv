@@ -9,11 +9,11 @@ class MessageWidget extends StatelessWidget {
   // Attributes
   final Message message;
   final AnimationController animationController;
-  final String currentUsername;
+  final String currentDisplayName;
 
 
   // Constructor
-  MessageWidget({this.message, this.animationController, this.currentUsername});
+  MessageWidget({this.message, this.animationController, this.currentDisplayName});
   
 
   // Build method
@@ -70,7 +70,7 @@ class MessageWidget extends StatelessWidget {
     BoxDecoration boxDecoration;
 
     // If the current username is equal to the msg.name, then we found the owner, change the color 
-    if( currentUsername == msg.name) {
+    if( currentDisplayName == msg.name) {
       textStyle= new TextStyle(color: Colors.white, fontSize:baseFont);
       boxDecoration = new BoxDecoration(color: Colors.blue, borderRadius: new BorderRadius.all(Radius.elliptical(10.0, 10.0)));
      } else {

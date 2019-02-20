@@ -9,13 +9,13 @@ import 'package:bike_demo/services/locationservice.dart';
 class AccountData {
   String email = '';
   String password = '';
-  String username = '';
+  String displayName = '';
   double latitude;
   double longitude;
   Tools tools = new Tools();
 
   String toString() {
-    return ("email=$email password=$password username=$username");
+    return ("email=$email password=$password displayName=$displayName");
   }
 
 }
@@ -82,7 +82,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           child: new SingleChildScrollView(
               child: new Column(
                 children: <Widget>[
-                  buildUsernameField(),
+                  builddisplayNameField(),
                   new SizedBox( height: 10.0,),
                   buildEmailField(),
                   new SizedBox( height: 10.0,),
@@ -122,8 +122,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
 
 
-  // Build Username Field
-  Widget buildUsernameField() {
+  // Build displayName Field
+  Widget builddisplayNameField() {
     return new Container(
           margin: EdgeInsets.only( left: 25.0, right: 25.0),
            
@@ -137,7 +137,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
                 ),
                 keyboardType: TextInputType.text,
-                onSaved: (String value) { _accountData.username = value; },
+                onSaved: (String value) { _accountData.displayName = value; },
                 style: new TextStyle( fontSize: 20.0, color: Colors.black, ),
                 validator: (String value) { if ( value.length < 3 ) return 'Must be at least 3 characters'; } ,
                 
@@ -214,7 +214,7 @@ Widget buildActionButton() {
       _account.createAccount( 
         email: _accountData.email, 
         password: _accountData.password, 
-        username: _accountData.username,
+        displayName: _accountData.displayName,
         latitude: _accountData.latitude,
         longitude: _accountData.longitude,
         ).then( ( Map<String,dynamic> result) { 

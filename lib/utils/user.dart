@@ -1,14 +1,56 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:bike_demo/services/webservice.dart';
 import 'package:bike_demo/services/firebaseservice.dart';
 import 'package:bike_demo/utils/topic.dart';
+import 'package:bike_demo/services/imageservice.dart';
+
 
 
 class User {
+
+
+  Widget getAvatar({String uid, String imageName, String displayName}) {
+
+    String imageURL =ImageService().getImageURL(uid: uid, imageName: imageName);
+    return  new Center(
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 190.0,
+                    height: 190.0,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: new NetworkImage(
+                                imageURL)
+                        )
+                    )),
+                new Text(displayName,
+                    textScaleFactor: 1.5)
+              ],
+            )
+            
+            );
+
+
+  }
+
+
+
+  // Retireive the current user logged in.  If user is not logged in, fbuser will be null
+  Future<FirebaseUser> getCurrentUser() async {
+    FirebaseUser fbuser = await FirebaseAuth.instance.currentUser();
+    return fbuser;
+  }
+
 
   // Update the users fcm-token (firebase cloud messaging), which is associated with
   // each users' device.  This allows peer to peer communication
@@ -70,6 +112,7 @@ class User {
     String units = await new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'units');
     return units;
   }
+
 
 
   // Return a list of the topics the user is not subscribed to 

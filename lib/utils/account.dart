@@ -109,14 +109,14 @@ class Account  {
 
 
 // Create user Account with Email and Password
-  Future<Map<String,dynamic>> createAccount({String email, String username, String password, double latitude, double longitude}) async {
+  Future<Map<String,dynamic>> createAccount({String email, String displayName, String password, double latitude, double longitude}) async {
 
     bool status=false;
     String msg;
 
     // An example of creating a displayname and photo url and updating in firebase
     var userUpdateInfo = new UserUpdateInfo();
-    userUpdateInfo.displayName = username;
+    userUpdateInfo.displayName = displayName;
    // userUpdateInfo.photoUrl = "photo url goes here";
 
     try {
@@ -127,14 +127,14 @@ class Account  {
       User user = new User(); // create the user object so we can perform updates
 
       // set the displayname, associated with the uid
-      user.setDisplayName(uid: fbuser.uid, displayName: username);
+      user.setDisplayName(uid: fbuser.uid, displayName: displayName);
       // get the token and assign it to the uid 
       new FirebaseMessaging().getToken().then((String fcmToken){
             user.setFCMToken(uid: fbuser.uid, fcmToken: fcmToken);
       });
 
       // Make the call to the SQL DB and store the user
-      var payload = {'uid':fbuser.uid,'username':username, 'email': email, 'latitude':latitude, 'longitude':longitude};
+      var payload = {'uid':fbuser.uid,'displayName':displayName, 'email': email, 'latitude':latitude, 'longitude':longitude};
       
       // NOTE:  We place await in front of the webservice because it is also async, placed within an 
       // async function. we must have this code complete before the outer async finishes.

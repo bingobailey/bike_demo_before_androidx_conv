@@ -36,6 +36,7 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
   double _fontSize=baseFont;
   String _uid;
   String _displayName;
+  String _imageName;
 
 
   @override
@@ -46,7 +47,21 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser) {
         if (fbuser !=null) {
           _uid = fbuser.uid;
-          _displayName = fbuser.displayName;
+
+          new WebService().run(service: 'XselectUser.php', jsonPayload: {'uid':_uid}).then((sqldata){
+              if (sqldata.httpResponseCode == 200) {
+                // Status code 200 indicates we had a succesful http call
+                  // Only one row is returned for the user, so we get can use the index [0]
+                  _displayName = sqldata.rows[0]['displayName'];
+                  _imageName = sqldata.rows[0]['imageName'];
+              } else {
+                // Something went wrong with the http call
+                print("Http Error: ${sqldata.toString()}");
+              }
+          }).catchError((e) {
+              print(" WebService error: $e");
+          });
+
         }
       });
 
@@ -334,23 +349,22 @@ class _BikeAddWidgetState extends State<BikeAddWidget>  {
       setState(() {
         _isLoading=true;
        });
-
-
-  
      
       // Add the notification to the Firebase, which will send to all users listening to that topic
       String content = "Check it out ! " +  _selectedSize + " " + _selectedModel;
-      new Topic().addNotification( displayName: _displayName, 
+      new Topic().addNotification( 
+                      displayName: _displayName, 
+                      imageName:_imageName,
                            content: content, 
                              topic: "bikeAdded", 
-                               uid: _uid);
+                               uid: _uid
+                               );
          
-
       // Add the bike to the SQL DB
       var payload = {'uid':_uid,
           'model':_selectedModel, 
           'year':_selectedYear,
-          'frame_size': _selectedSize,
+          'frameSize': _selectedSize,
           'action': _selectedAction,
           'type': _selectedType,
           'comments': _selectedComments,

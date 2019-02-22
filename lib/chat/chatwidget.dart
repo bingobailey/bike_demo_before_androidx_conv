@@ -10,6 +10,9 @@ import 'package:bike_demo/chat/channel.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/utils/notify.dart';
 import 'package:bike_demo/constants/globals.dart';
+import 'package:bike_demo/utils/user.dart';
+import 'package:bike_demo/services/webservice.dart';
+import 'package:bike_demo/utils/tools.dart';
 
 
 /// Chat Screen CLASS
@@ -40,6 +43,7 @@ bool _isComposing=false; // used to disable the send button if not typing anythi
 Channel channel;
 
 String _currentDisplayName;
+Widget _avatar;
 
 
 //  METHODS 
@@ -48,13 +52,18 @@ String _currentDisplayName;
   void initState() {
     super.initState();
 
+    _avatar = new Tools().showProgressIndicator();
+    assignAvatar(uid: widget.channelHeader.toUID);
+
+
     // Create the channel and send this class to be notified of updates
     channel = new Channel( channelID: widget.channelHeader.channelID, notify: this);
-
+    
     // We assign the current user to this chat widget so we can differeiante between messages and color appropriately
     FirebaseAuth.instance.currentUser().then((FirebaseUser fbuser){
       _currentDisplayName = fbuser.displayName;
     });
+
 
 
     // We need to pull any previous messages that exist in the channel and re-display (ie
@@ -76,6 +85,7 @@ String _currentDisplayName;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(  
+        leading: _avatar,
         centerTitle: true,
         title: new Text(widget.channelHeader.title),
         elevation:  isIOS ? 0.0 : 4.0,
@@ -223,5 +233,46 @@ void buildMessageWidget({Message message}) {
       messagewidget.animationController.dispose();      
     super.dispose();     
   } 
+
+
+
+  Future<void> assignAvatar({String uid}) async {
+
+    var payload = {
+      'uid':uid
+      };
+     new WebService().run(service: 'XselectUser.php', jsonPayload: payload).then((sqldata){
+        if (sqldata.httpResponseCode == 200) {
+          // Status code 200 indicates we had a succesful http call
+            setState(() {
+               // Only one row is returned for the user, so we get can use the index [0]
+                _avatar = new User().getAvatar(
+                          uid:sqldata.rows[0]['uid'],
+                          imageName: sqldata.rows[0]['imageName'],
+                          displayName: sqldata.rows[0]['displayName'],
+                          imageSize: 30.0,
+                          fontSize: baseFontSmaller,
+                          fontColor: Colors.white,
+                );
+            });
+        } else {
+          // Something went wrong with the http call
+          print("Http Error: ${sqldata.toString()}");
+        }
+     }).catchError((e) {
+        print(" WebService error: $e");
+     });
+
+
+
+  }
+
+
+
+
+
+
+
+
 
 } // end of class

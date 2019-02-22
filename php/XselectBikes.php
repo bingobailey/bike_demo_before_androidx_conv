@@ -41,7 +41,7 @@
                     year,
                     model,
                     bike_id,
-                    frame_size,
+                    frameSize,
                     action,
                     comments,
                    FORMAT(  ( $conversionConstant * acos( cos( radians($latitude) ) * cos( radians( user.latitude ) ) * cos( radians( user.longitude ) - radians($longitude) ) + sin( radians($latitude)) * sin( radians( user.latitude ) ) ) ),1) AS distance 

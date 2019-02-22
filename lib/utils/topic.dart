@@ -6,26 +6,26 @@ import 'package:bike_demo/utils/user.dart';
 
 class Topic {
 
-  // Add the notification to the topic. Note that photoURL and websiteURL are optional
+  // Add the notification to the topic. Note that imageName and websiteare optional
   void addNotification({  
               String topic, 
               String displayName, 
               String uid, 
               String content, 
-              String photoURL, 
-              String websiteURL}) {
+              String imageName, 
+              String website}) {
 
       // we create a map object so we can send it to firebase to be added as a node
        Map node =  {
-           'photoURL' : photoURL,
-           'websiteURL' : websiteURL,
+           'imageName': imageName,
+             'website': website,
             'displayName': displayName,
             'uid' : uid,
             'content': content,
             'datetime' : DateTime.now().toString(),
         };
-
-
+        
+      // add the node to fb
       new FirebaseService().addChild(rootDir: 'topics/$topic', childNode: node); 
 
   }

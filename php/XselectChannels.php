@@ -22,7 +22,7 @@
                         user.displayName,
                         user.imageName,
                         user.uid,
-                        bike.frame_size,
+                        bike.frameSize,
                         bike.year,
                         bike.model
                   FROM   channel
@@ -40,7 +40,7 @@
                         user.displayName,
                         user.imageName,
                         user.uid,
-                        bike.frame_size,
+                        bike.frameSize,
                         bike.year,
                         bike.model
                   FROM   channel

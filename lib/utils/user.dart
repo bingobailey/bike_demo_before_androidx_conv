@@ -13,18 +13,24 @@ import 'package:bike_demo/services/imageservice.dart';
 
 class User {
 
+  Widget getAvatar({String uid, String imageName, String displayName, double imageSize, double fontSize, Color fontColor}) {
 
-  Widget getAvatar({String uid, String imageName, String displayName}) {
+    if(fontColor==null) fontColor = Colors.grey;
 
+    // If imageName is null, then we must default to the default image.  we set uid to default which
+    // is the default folder.  the URL would look like/  .. photos/default/default.jpg 
+    if (imageName==null) imageName = 'default.jpg'; // this could be null coming from the notification. just in case
+    if (imageName=='default.jpg') uid = 'default';  //would be the default in sql databse if user has not uploaded an image
+    
     String imageURL =ImageService().getImageURL(uid: uid, imageName: imageName);
-    return  new Center(
+    return  new Container(
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Container(
-                    width: 190.0,
-                    height: 190.0,
+                    width: imageSize,
+                    height: imageSize,
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(
@@ -33,8 +39,8 @@ class User {
                                 imageURL)
                         )
                     )),
-                new Text(displayName,
-                    textScaleFactor: 1.5)
+                new Text(displayName, style:TextStyle(fontSize:fontSize, color: fontColor )),
+
               ],
             )
             
@@ -112,7 +118,6 @@ class User {
     String units = await new FirebaseService().getProperty(rootDir: 'users/$uid', propertyName: 'units');
     return units;
   }
-
 
 
   // Return a list of the topics the user is not subscribed to 

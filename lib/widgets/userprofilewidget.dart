@@ -6,6 +6,8 @@ import 'package:bike_demo/services/webservice.dart';
 import 'package:bike_demo/utils/user.dart';
 import 'package:bike_demo/utils/topic.dart';
 import 'package:bike_demo/services/imageservice.dart';
+import 'package:bike_demo/utils/tools.dart';
+import 'package:bike_demo/constants/globals.dart';
 
 class UserProfileWidget extends StatefulWidget {
 
@@ -23,12 +25,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   String _imageName;
   String _email;
   String _uid;
-
+  Widget _bodyWidget; 
 
 
 @override
   void initState() {
     super.initState();
+
+    _bodyWidget = new Tools().showProgressIndicator();
 
     new User().getCurrentUser().then((FirebaseUser fbuser) {
       if (fbuser !=null) {
@@ -47,9 +51,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     return new Scaffold(
           appBar: new AppBar( title: new Text('Account',style:TextStyle(fontSize:baseFontLarger),), centerTitle: true,
           ),
-          body: new Center(
-            child: buildUserProfileWidget(),
-          ),
+          body: _bodyWidget,
         );
 
 
@@ -57,9 +59,10 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
 
 
-  Widget buildUserProfileWidget() {
+  Widget buildBodyWidget() {
 
-    return Container(child: Column(children: <Widget>[
+    return Container(
+      child: Column(children: <Widget>[
 
       buildAvatar(uid: _uid, imageName: _imageName, displayName: _displayName),
 
@@ -67,19 +70,25 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         ],
     
       ),
-    
+      padding: EdgeInsets.all(30.0),
     );
 
 
 
-    return new RaisedButton(child: new Text("sign out"), onPressed: _signOut,);
+   // return new RaisedButton(child: new Text("sign out"), onPressed: _signOut,);
    
   }
 
 
   Widget buildAvatar({String uid, String imageName, String displayName}) {
 
-    return new User().getAvatar(uid: uid, imageName: imageName, displayName: displayName);
+    return new User().getAvatar(
+          uid: uid, 
+          imageName: imageName, 
+          displayName: displayName, 
+          imageSize: 150.0, 
+          fontSize: baseFont
+          );
 
   }
 
@@ -95,14 +104,15 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
         if (sqldata.httpResponseCode == 200) {
           // Status code 200 indicates we had a succesful http call
-
-          setState(() {
             // Only one row is returned for the user, so we get can use the index [0]
             _email = sqldata.rows[0]['email'];
             _displayName = sqldata.rows[0]['displayName'];
             _imageName = sqldata.rows[0]['imageName'];
-            _uid =sqldata.rows[0]['uid'];            
-          });
+            _uid =sqldata.rows[0]['uid'];    
+
+            setState(() {
+              _bodyWidget =buildBodyWidget();
+            });
 
         } else {
           // Something went wrong with the http call

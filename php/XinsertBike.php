@@ -12,7 +12,7 @@
     // pull the data
     $model         = $ws->p('model');
     $year          = $ws->p('year');
-    $frame_size    = $ws->p('frame_size');
+    $frameSize    = $ws->p('frameSize');
     $uid           = $ws->p('uid'); 
     $action        = $ws->p('action'); 
     $type          = $ws->p('type'); 
@@ -21,8 +21,8 @@
 
      
     // formulate the sql
-    $sql = "INSERT INTO bike (uid, model, year, frame_size, action, type, comments, imageName) 
-    VALUES ( '$uid', '$model', '$year', '$frame_size', '$action', '$type','$comments','$imageName')"; 
+    $sql = "INSERT INTO bike (uid, model, year, frameSize, action, type, comments, imageName) 
+    VALUES ( '$uid', '$model', '$year', '$frameSize', '$action', '$type','$comments','$imageName')"; 
     
     // insert and disconnect 
     $ws->insert($sql);

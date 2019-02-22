@@ -10,7 +10,6 @@ import 'package:bike_demo/chat/chatwidget.dart';
 import 'package:bike_demo/chat/channelheader.dart';
 import 'package:bike_demo/utils/user.dart';
 import 'package:bike_demo/constants/globals.dart';
-import 'package:bike_demo/services/imageservice.dart';
 import 'package:bike_demo/services/locationservice.dart';
 
 
@@ -132,8 +131,6 @@ AppBar buildAppBar(BuildContext context) {
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
 
-          print("sqldata = ${sqldata.toString()}");
-
 // TODO:  need to display something if no rows are found.  right now it just comes back 
 // with a blank screen. 
 
@@ -185,7 +182,6 @@ AppBar buildAppBar(BuildContext context) {
                   child: buildListItem(context: context, index: index, sqlDataRows: sqlDataRows, units: units) ,
                 );
               }
-
           
             } ,
           )
@@ -202,12 +198,16 @@ Widget buildListItem({BuildContext context, int index, List<dynamic> sqlDataRows
                 children: <Widget>[
 
                   ListTile( 
-                    leading: Column(children: <Widget>[
-                              new ImageService().getImage(uid: sqlDataRows[index]['uid'],imageName: sqlDataRows[index]['imageName']),
-                              new Text(sqlDataRows[index]['displayName']),
-                              ],
-                            ),
-                    title: Text(sqlDataRows[index]['frame_size'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'], style: TextStyle(fontSize: baseFont),),
+
+                  leading:  new User().getAvatar(
+                          uid:sqlDataRows[index]['uid'],
+                          imageName: sqlDataRows[index]['imageName'],
+                          displayName: sqlDataRows[index]['displayName'],
+                          imageSize: 50.0,
+                          fontSize: baseFontSmaller,
+                    ),
+
+                    title: Text(sqlDataRows[index]['frameSize'] + ' - ' + sqlDataRows[index]['year'] + ' ' + sqlDataRows[index]['model'], style: TextStyle(fontSize: baseFont),),
                     subtitle: Text(sqlDataRows[index]['action'], style:new TextStyle(fontSize: baseFontSmaller)),
                     trailing: Text(sqlDataRows[index]['distance'] + ' ' + units , style: new TextStyle(fontSize: baseFontSmaller),),
                   ),
@@ -286,11 +286,8 @@ void _onClickedAdd(BuildContext context) {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context)=>new ChatWidget( channelHeader: channelHeader),
                       ));
-                }
-
-                
+                }                
               }); 
-           
         }
     });
 

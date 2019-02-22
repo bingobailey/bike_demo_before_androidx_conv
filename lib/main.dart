@@ -9,20 +9,22 @@ void main() {
 }
 
 
-
-
 /*
 TODO:  
 
+
+- Apostrophe's in comments causing blow upop on insert bike
+- test if you can add emoji chars in comments on insert bike
+- After adding bike, it is not showing up on the notification list widget
+- avatar's on notificationlist widget or our of alignment
+
 - identify anwhere in app hardcoding is done with topics
 
-- on userprofilewiget
-   create xupdateUser.php
-   implement selectUser to update properties (ie _email, imageName, etc)
-   use progressLoaderINdicator()
-   once properties are updated, issue setstate()
+- Add more details about the user in the chatwidget title, maybe avatar, bike name details etc.
+
+- Continue work on userprofilewidget
+   implement feature to select photo
    add units
-   allow select photo
    allow which topics to subscribe to
 
 

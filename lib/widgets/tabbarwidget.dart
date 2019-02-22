@@ -5,7 +5,6 @@ import 'package:bike_demo/widgets/userprofilewidget.dart';
 import 'package:bike_demo/widgets/notificationListWidget.dart'; 
 import 'package:bike_demo/widgets/bikelistwidget.dart';
 import 'package:bike_demo/utils/topic.dart';
-import 'package:bike_demo/utils/tools.dart';
 
 class TabBarWidget extends StatefulWidget {
   @override

@@ -69,6 +69,15 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
             itemCount: notifications.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
+
+            leading:  new User().getAvatar(
+                          uid:notifications[index]['uid'],
+                          imageName: notifications[index]['imageName'],
+                          displayName: notifications[index]['displayName'],
+                          imageSize: 50.0,
+                          fontSize: baseFontSmaller,
+                    ), 
+
                 title: new Text(notifications[index]['content'], style: TextStyle(fontSize: baseFont),  ),
                 subtitle: new Text(notifications[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),),
                trailing: new Text(new Tools().getDuration(utcDatetime:notifications[index]['datetime']),

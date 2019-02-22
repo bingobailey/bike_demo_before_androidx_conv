@@ -78,7 +78,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
                  contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 20.0, 10.0) ,
-                 title: new Text(channels[index]['frame_size'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
+                 title: new Text(channels[index]['frameSize'] + ' - ' + channels[index]['year'] + ' ' +  channels[index]['model'], style: TextStyle(fontSize: baseFont,)),
                 //subtitle: new Text(channels[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),), 
                 trailing: Row(children: <Widget>[
                             new Text(new Tools().getDuration(utcDatetime:channels[index]['datetime']),
@@ -87,8 +87,13 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                 ],
                 mainAxisSize:MainAxisSize.min ,
                 ),         
-                leading:new Text(channels[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),), 
-                // leading: new ImageService().getImage(key:channels[index]['uid'], image: channels[index]['imageName']),
+                leading: new User().getAvatar(
+                          uid:channels[index]['uid'],
+                          imageName: channels[index]['imageName'],
+                          displayName: channels[index]['displayName'],
+                          imageSize: 40.0,
+                          fontSize: baseFontSmaller,
+                      ),
                 onTap: ()=> _onTapItem(context, index),
               );
             } ,
@@ -108,7 +113,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
   
     ChannelHeader channelHeader = new ChannelHeader(
                                   channelID: _channels[index]['channel_id'],
-                                      title: _channels[index]['frame_size'] + ' - ' + _channels[index]['year'] + ' ' +  _channels[index]['model'], 
+                                      title: _channels[index]['frameSize'] + ' - ' + _channels[index]['year'] + ' ' +  _channels[index]['model'], 
                                 displayName: _currentUserDisplayName);
 
      Navigator.push(context, MaterialPageRoute(

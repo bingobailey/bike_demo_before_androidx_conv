@@ -178,10 +178,10 @@ class User {
 
       // Make the call to the SQL DB and store the user
       var payload = {
-        'uid_from':signedInUID,
-        'uid_to':toUID, 
-        'bike_id': bikeID, 
-        'channel_id':channelID
+        'uidFrom':signedInUID,
+        'uidTo':toUID, 
+        'bikeID': bikeID, 
+        'channelID':channelID
          };
       // NOTE: We place the await in front of the webservice because it is an async function located within
       // another async function. 
@@ -207,7 +207,7 @@ class User {
     Map result = Map<String,dynamic>();
     result['status'] = status;
     result['msg'] =msg;
-    result['channel_id'] = channelID;
+    result['channelID'] = channelID;
 
     return result;
        

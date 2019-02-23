@@ -112,7 +112,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
     // We create the channel header and pass it on...
   
     ChannelHeader channelHeader = new ChannelHeader(
-                                  channelID: _channels[index]['channel_id'],
+                                  channelID: _channels[index]['channelID'],
                                       title: _channels[index]['frameSize'] + ' - ' + _channels[index]['year'] + ' ' +  _channels[index]['model'], 
                                 displayName: _currentUserDisplayName);
 

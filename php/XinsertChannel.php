@@ -10,13 +10,13 @@
     $ws->connect(getHost(), getUser(), getPwrd(), getDB());
     
     // pull the data
-    $uidFrom       = $ws->p('uid_from');
-    $uidTo         = $ws->p('uid_to');
-    $bikeID        = $ws->p('bike_id'); 
-    $channelID     = $ws->p('channel_id'); 
+    $uidFrom       = $ws->p('uidFrom');
+    $uidTo         = $ws->p('uidTo');
+    $bikeID        = $ws->p('bikeID'); 
+    $channelID     = $ws->p('channelID'); 
      
     // formulate the sql
-    $sql = "INSERT INTO channel (uid_from, uid_to, bike_id, channel_id, datetime) 
+    $sql = "INSERT INTO channel (uidFrom, uidTo, bikeID, channelID, datetime) 
     VALUES ( '$uidFrom', '$uidTo', '$bikeID', '$channelID', UTC_TIMESTAMP)"; 
     
     // insert and disconnect 

@@ -44,16 +44,14 @@ class WebService {
    // Returns an element from the property list (passed in via Json) and places escape chars
    // where necessary so it will work within a query. 
    public function p($p) {
-
-    return $this->data[$p];
-    //return $this->mysqli->real_escape_string($this->data[$p]);
+    return $this->mysqli->real_escape_string($this->data[$p]); // in case the result has apostrophe's
    }
 
 
     // Connect to the database
     public function connect($dbHost, $dbUser, $dbPwrd, $dbName) {
         
-        $this->mysqli = new mysqli($dbHost, $dbUser, $dbPwrd, $dbName);
+        $this->mysqli = new mysqli( $dbHost, $dbUser, $dbPwrd, $dbName, ini_get('mysqli.default_port'), ini_get('mysqli.default_socket'));
         
          if( $this->mysqli->connect_errno ) {
              $this->echoSQLResponse(array(), $this->mysqli->connect_errno, $this->mysqli->connect_error,0);

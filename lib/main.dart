@@ -12,9 +12,6 @@ void main() {
 /*
 TODO:  
 
-
-- Apostrophe's in comments causing blow upop on insert bike
-- test if you can add emoji chars in comments on insert bike
 - After adding bike, it is not showing up on the notification list widget
 - avatar's on notificationlist widget or our of alignment
 

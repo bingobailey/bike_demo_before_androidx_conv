@@ -10,11 +10,11 @@
     $ws->connect(getHost(), getUser(), getPwrd(), getDB());
     
     // pull the data
-    $bike_id       = $ws->p('bike_id');
+    $bikeID       = $ws->p('bikeID');
      
     // formulate the sql
     $sql = "DELETE FROM bike 
-            WHERE bike_id = $bike_id";
+            WHERE bikeID = $bikeID";
            
     // delete and disconnect 
     $ws->delete($sql);

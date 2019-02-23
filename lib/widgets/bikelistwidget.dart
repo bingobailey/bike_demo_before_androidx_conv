@@ -29,7 +29,6 @@ class _BikeListWidgetState extends State<BikeListWidget>  with SingleTickerProvi
   SearchBar searchBar;
 
  // Webservice attributes
-  String _service = 'XselectBikes.php';
   List _sqlDataRows; // rows retrieved from query. must store it toaccess the correct row when user clicks onitem
   String _uid;
 
@@ -96,7 +95,7 @@ AppBar buildAppBar(BuildContext context) {
           _uid = user.uid;
        }
 
-      String whereClause = "'1=1'"; // We use this to display all the bikes initially
+      String whereClause = "1=1"; // We use this to display all the bikes initially
       selectBikes(whereClause: whereClause);
       
   }
@@ -126,11 +125,15 @@ AppBar buildAppBar(BuildContext context) {
       'whereClause':whereClause
       };
 
-     new WebService().run(service: _service, jsonPayload: payload).then((sqldata){
+
+
+     new WebService().run(service: 'XselectBikes.php', jsonPayload: payload).then((SQLData sqldata){
 
         // Status code 200 indicates we had a succesful http call
         if (sqldata.httpResponseCode == 200) {
 
+        // NOTE: response of 200 can indicate a successful sql call but it could come back with
+        // an error in the sql
 // TODO:  need to display something if no rows are found.  right now it just comes back 
 // with a blank screen. 
 
@@ -176,7 +179,7 @@ AppBar buildAppBar(BuildContext context) {
                     alignment: Alignment.centerRight,),
                   onDismissed: (direction) {
                     setState(() {
-                      deleteBike(index: index,  bikeID: sqlDataRows[index]['bike_id']);
+                      deleteBike(index: index,  bikeID: sqlDataRows[index]['bikeID']);
                     });
                   },
                   child: buildListItem(context: context, index: index, sqlDataRows: sqlDataRows, units: units) ,
@@ -269,18 +272,18 @@ void _onClickedAdd(BuildContext context) {
           // Add the channel to SQL DB
           new User().addChannel( 
                     signedInUID: fbuser.uid,
-                    bikeID: _sqlDataRows[index]['bike_id'],
+                    bikeID: _sqlDataRows[index]['bikeID'],
                     toUID: _sqlDataRows[index]['uid'],
               ).then((Map<String,dynamic> result) {
                 print('sqlmessage from addchannel ${result['msg']}');
 
-                // If we got true, then we added the channel successfully, where channel_id will be returned in result
+                // If we got true, then we added the channel successfully, where channelID will be returned in result
                 if (result['status']==true) {
                     
                       // Create the channelheader and pass it on to chat widget
                       ChannelHeader channelHeader = new ChannelHeader(
-                                                channelID: result['channel_id'],
-                                                    title: _sqlDataRows[index]['frame_size'] + ' - ' + _sqlDataRows[index]['year'] + ' ' +  _sqlDataRows[index]['model'], 
+                                                channelID: result['channelID'],
+                                                    title: _sqlDataRows[index]['frameSize'] + ' - ' + _sqlDataRows[index]['year'] + ' ' +  _sqlDataRows[index]['model'], 
                                               displayName: fbuser.displayName);
 
                       Navigator.push(context, MaterialPageRoute(
@@ -306,7 +309,7 @@ void _onClickedAdd(BuildContext context) {
 
     // Call the delete bike service to delete the bike out of the SQL DB
     var payload = {
-      'bike_id':bikeID,
+      'bikeID':bikeID,
       };
 
      new WebService().run(service: 'XdeleteBike.php', jsonPayload: payload).then((sqldata){

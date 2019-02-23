@@ -14,11 +14,11 @@
 
     $sql = "SELECT * 
               FROM (
-                SELECT  channel.uid_from,
-                        channel.uid_to,
-                        channel.bike_id,
+                SELECT  channel.uidFrom,
+                        channel.uidTo,
+                        channel.bikeID,
                         channel.datetime,
-                        channel.channel_id,
+                        channel.channelID,
                         user.displayName,
                         user.imageName,
                         user.uid,
@@ -26,17 +26,17 @@
                         bike.year,
                         bike.model
                   FROM   channel
-                  JOIN   bike ON channel.bike_id = bike.bike_id
-                  JOIN   user ON channel.uid_to = user.uid
-                 WHERE   channel.uid_from ='$uid'
+                  JOIN   bike ON channel.bikeID = bike.bikeID
+                  JOIN   user ON channel.uidTo = user.uid
+                 WHERE   channel.uidFrom ='$uid'
       
                  UNION ALL
       
-                SELECT  channel.uid_from,
-                        channel.uid_to,
-                        channel.bike_id,
+                SELECT  channel.uidFrom,
+                        channel.uidTo,
+                        channel.bikeID,
                         channel.datetime,
-                        channel.channel_id,
+                        channel.channelID,
                         user.displayName,
                         user.imageName,
                         user.uid,
@@ -44,9 +44,9 @@
                         bike.year,
                         bike.model
                   FROM   channel
-                  JOIN   bike ON channel.bike_id = bike.bike_id
-                  JOIN   user ON channel.uid_from = user.uid
-                 WHERE   channel.uid_to = '$uid'
+                  JOIN   bike ON channel.bikeID = bike.bikeID
+                  JOIN   user ON channel.uidFrom = user.uid
+                 WHERE   channel.uidTo = '$uid'
                 ) channeltable
       
               ORDER BY  datetime DESC

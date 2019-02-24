@@ -1,6 +1,6 @@
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
+ // Create and Deploy Your First Cloud Functions
+ // https://firebase.google.com/docs/functions/write-firebase-functions
 
 
 /*
@@ -44,9 +44,6 @@ admin.initializeApp(functions.config().firebase);
 
 
 
-
-
-
 // Send the notification to the topic that was updated.  NOTE: only those that have subscribed
 // to the topic will recieve the notification.
 exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}').onWrite((data, context) => {
@@ -56,17 +53,17 @@ exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}
     const datavalue = data.after.val();
     const displayName = datavalue.displayName;
     const uid = datavalue.uid;
-    var websiteURL = '';
-    var photoURL = '';
+    var website = '';
+    var imageName = '';
 
     // WebsiteURL is not a required property.  If we have it, set it
-    if (datavalue.hasOwnProperty('websiteURL')) {
-        websiteURL = datavalue.websiteURL;
+    if (datavalue.hasOwnProperty('website')) {
+        website = datavalue.website;
     } 
 
     // PhotoURL is not a required property.  If we have it, set it
-    if (datavalue.hasOwnProperty('photoURL')) {
-        photoURL = datavalue.photoURL;
+    if (datavalue.hasOwnProperty('imageName')) {
+        imageName = datavalue.imageName;
     }
 
     const content = datavalue.content;
@@ -83,8 +80,8 @@ exports.sendTopicNotification = functions.database.ref('topics/{topicName}/{key}
         data: {
             'source': topicName,
             'uid': uid,
-            'websiteURL': websiteURL,
-            'photoURL': photoURL,
+            'website': website,
+            'imageName': imageName,
         }
     };
 

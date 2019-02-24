@@ -69,7 +69,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
             itemCount: notifications.length,
             itemBuilder:(BuildContext context, int index) {
               return new ListTile(
-
+        contentPadding: EdgeInsets.fromLTRB(25.0, 10.0, 20.0, 10.0) ,
             leading:  new User().getAvatar(
                           uid:notifications[index]['uid'],
                           imageName: notifications[index]['imageName'],
@@ -79,7 +79,7 @@ class _NotificationListWidgetState extends State<NotificationListWidget> {
                     ), 
 
                 title: new Text(notifications[index]['content'], style: TextStyle(fontSize: baseFont),  ),
-                subtitle: new Text(notifications[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),),
+                //subtitle: new Text(notifications[index]['displayName'],style: TextStyle(fontSize: baseFontSmaller),),
                trailing: new Text(new Tools().getDuration(utcDatetime:notifications[index]['datetime']),
                               style: TextStyle(fontSize: baseFontSmaller),   ),
                // leading: new ImageService().getImage( key: sqlDataRows[index]['uid'], image: sqlDataRows[index]['photo']),

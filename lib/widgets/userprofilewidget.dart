@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
 
 import 'package:bike_demo/constants/globals.dart';
 import 'package:bike_demo/services/webservice.dart';
@@ -8,6 +9,7 @@ import 'package:bike_demo/utils/topic.dart';
 import 'package:bike_demo/services/imageservice.dart';
 import 'package:bike_demo/utils/tools.dart';
 import 'package:bike_demo/constants/globals.dart';
+//import 'package:image_picker/image_picker.dart';
 
 class UserProfileWidget extends StatefulWidget {
 
@@ -64,7 +66,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     return Container(
       child: Column(children: <Widget>[
 
-      buildAvatar(uid: _uid, imageName: _imageName, displayName: _displayName),
+
+        new GestureDetector(
+          child:buildAvatar(uid: _uid, imageName: _imageName, displayName: _displayName),
+          onTap: ()=>updateImage(),
+
+          ),
+
+
+
+      
 
 
         ],
@@ -126,6 +137,25 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
 
   }
+
+
+  Future<void> updateImage() async {
+
+    print ('inside update image');
+
+    //File fileImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    //Image image = Image.file(fileImage);
+    
+
+    setState(() {
+      // assign values here if u want to refresh screen 
+
+    });
+
+
+  }
+
 
 
 

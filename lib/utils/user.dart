@@ -222,9 +222,6 @@ class User {
       SQLData sqlData = await new WebService().run(service: 'XselectChannels.php', jsonPayload: payload);
        if (sqlData.httpResponseCode == 200) {
             list = sqlData.rows;
-            for (var row in sqlData.rows) {
-              print(row.toString());
-            }
           // Something went wrong with the http call
         } else {
             print("Http Error: ${sqlData.toString()}");

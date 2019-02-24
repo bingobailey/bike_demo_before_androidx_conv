@@ -19,7 +19,8 @@ dependencies:
   intl: ^0.15.7   #dart package
   url_launcher: ^4.0.3   #4.0.0
   flutter_search_bar: ^2.0.7
-  http: ^0.12.0   # dart package
+  http: ^0.12.0+1  # dart package
+  #image_picker: ^0.5.0
 
   
 

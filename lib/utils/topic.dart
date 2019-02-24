@@ -58,7 +58,7 @@ class Topic {
 
       _firebaseMessaging.configure(
           onMessage: (Map<String, dynamic> message) {  // executes when the app is running
-            // print("onMessage: ${message.toString()}");
+             print("onMessage: ${message.toString()}");
 
             // // Pulling info out of the message
             // print("onMessage title = ${message['notification']['title']}");

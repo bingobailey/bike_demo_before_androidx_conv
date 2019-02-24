@@ -141,6 +141,7 @@ class FirebaseService {
     DatabaseReference ref = new FirebaseDatabase().reference().child(rootDir);
     if (ref==null) return null; // Need to ensure we have a valid ref before making the call
     DataSnapshot snapshot = await ref.once();
+    if (snapshot.value == null) return null;
     snapshot.value.forEach((k,v) {
       list.add(k); // k is the top level items.  v would be the data/items associated with each k
     });

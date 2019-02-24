@@ -12,17 +12,20 @@ void main() {
 /*
 TODO:  
 
-- After adding bike, it is not showing up on the notification list widget
-- avatar's on notificationlist widget or our of alignment
-
-- identify anwhere in app hardcoding is done with topics
-
 - Add more details about the user in the chatwidget title, maybe avatar, bike name details etc.
 
 - Continue work on userprofilewidget
    implement feature to select photo
    add units
    allow which topics to subscribe to
+
+- imagepicker module is causing app to crash
+- when not logged in, when bikelist shows it just locks up in a loop with progress indicator
+- when not logged in, accessing userprofilewidget, gets locked up in loop with progress indicator
+- Getting errors when running the app.  it seems to work but the errors should be fixed. 
+- 'bikeAdded' is hardcoded as a notification when adding a bike 
+- Are notifications working (ie listening etc )?
+- Add ability to dismiss (dismissable) / delete chats in chatlist
 
 
 - displayname is not unique, does that cause a problem ? since email is not shown
